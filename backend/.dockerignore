@@ -1,0 +1,3 @@
+node_modules/
+public/delivers/*.*
+!public/delivers/.gitkeep

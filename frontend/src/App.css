@@ -1,0 +1,38 @@
+:root {
+	--clear-color: #d84727;
+	--primary-color: #D9D9D9;
+	--secondary-color: #B5B5B5;
+	--tertiary-color: #2d3142;
+}
+
+* {
+	margin: 0;
+	padding: 0;
+	font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+	background-color: var(--tertiary-color);
+}
+
+button, input[type="submit"] {
+	cursor: pointer;
+}
+
+button:hover, input[type="submit"]:hover {
+	filter: brightness(0.925);
+}
+
+.connecting {
+	color: var(--primary-color);
+	filter: opacity(0.075);
+	text-align: center;
+}
+
+.screen-centered {
+	height: 100vh;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+}

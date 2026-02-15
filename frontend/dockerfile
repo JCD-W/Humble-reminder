@@ -1,0 +1,16 @@
+FROM node:lts-alpine AS frontend
+
+ENV PORT=4000
+
+WORKDIR /src
+
+COPY package.json /src/package.json
+COPY package-lock.json /src/package-lock.json
+RUN npm ci
+COPY . /src/
+
+CMD ["npm", "start"]
+
+FROM frontend AS frontend-test
+
+CMD ["npm", "test"]

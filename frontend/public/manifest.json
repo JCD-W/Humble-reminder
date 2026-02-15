@@ -1,0 +1,8 @@
+{
+	"short_name": "Humble Reminder",
+	"name": "A simple kanban-style task organizer",
+	"start_url": ".",
+	"display": "standalone",
+	"theme_color": "#000000",
+	"background_color": "#D9D9D9"
+}
