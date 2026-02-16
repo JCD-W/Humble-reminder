@@ -41,6 +41,9 @@ export default class boardRoutes {
 		if (!req.body.title && !req.body.description && !req.body.state)
 			return res.status(304).send({message: "Nothing changed"})
 
+		if (req.body.state && !["active", "archived", "deleted"].includes(req.body.state))
+			return res.status(400).send({message: "Invalid board state"})
+
 		const boardId = Buffer.from(req.params.id, "hex")
 		const board = await this.boardController.getBoardById(boardId)
 		if (!board)
