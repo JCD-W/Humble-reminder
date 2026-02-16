@@ -4,8 +4,9 @@ import Router from "express"
 import { encryptPass } from "../utils/encryption.ts"
 import userController from "../db/controllers/userController.ts"
 import { validateString } from "../utils/validate.ts"
-import { signToken } from "../utils/jwt.ts"
+import { signToken, validateToken } from "../utils/jwt.ts"
 import { loginRequired } from "../middleware/jwtHandling.ts"
+import { sign } from "node:crypto"
 
 export default class authRoutes {
 	routes = Router()
@@ -16,7 +17,7 @@ export default class authRoutes {
 
 		this.routes.post("/login", this.login)
 		this.routes.put("/", loginRequired, this.changePass)
-		this.routes.get("/refresh", loginRequired, this.refresh)
+		this.routes.get("/refresh", this.refresh)
 		this.routes.get("/check", loginRequired, this.checkToken)
 	}
 
@@ -50,16 +51,24 @@ export default class authRoutes {
 	}
 
 	refresh = (req: Request, res: Response) => {
-		const tokenData = {
-			user_id: req.user.user_id,
-			user_name: req.user.user_name
+		const sessionToken = req.cookies["session-token"]
+		
+		if (!sessionToken)
+			return res.status(403).send({message: "You need to login first"})
+		
+		const tokenData = validateToken(sessionToken)
+		const userData = {
+			user_name: tokenData.user_name,
+			user_id: tokenData.user_id
 		}
-		const sessionToken = signToken(tokenData)
-		const refreshToken = signToken(tokenData, "10h")
+
+		const newSessionToken = signToken(userData)
+		const newRefreshToken = signToken(userData, "10h")
+
 
 		return res.status(200)
-			.cookie("session-token", sessionToken)
-			.cookie("refresh-token", refreshToken)
+			.cookie("session-token", newSessionToken)
+			.cookie("refresh-token", newRefreshToken)
 			.send({message: "Token refreshed"})
 	}
 
