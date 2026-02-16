@@ -91,6 +91,9 @@ export default class boardRoutes {
 	}
 
 	getBoards = async (req: Request, res: Response) => {
-		return res.status(200).send({})
+		const amount = await this.boardController.getAmountUserBoards(req.user.id)
+		return res.status(200).send({
+			amount
+		})
 	}
 }

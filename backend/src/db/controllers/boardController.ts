@@ -53,7 +53,7 @@ export default class boardController {
 	}
 
 	async createDefaults (userId: Buffer) {
-		if ((await this.getUserBoards(userId)).length < 1) {
+		if ((await this.getAmountUserBoards(userId)) < 1) {
 			console.log("Creating example board...")
 			await this.create("Example board", "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse pellentesque suscipit lectus, sit amet elementum metus pulvinar quis. Aenean efficitur pulvinar ligula, a pharetra nisl bibendum eget. Curabitur facilisis mattis lacus sit amet tempus. Quisque arcu urna, scelerisque ut turpis id, porta varius neque. Fusce sagittis rhoncus rhoncus. Nulla vitae blandit diam. Nunc elementum vel orci vitae sollicitudin. Etiam eu consequat orci, ut fringilla tortor. Duis eu tortor eu sem maximus aliquam sapien.", userId)
 		}
@@ -66,5 +66,10 @@ export default class boardController {
 	async getUserBoards (userId: Buffer) {
 		const res = await this.db.query("SELECT b.board_id, b.board_title, b.board_desc, b.board_state, b.board_creation, b.board_recent FROM board b JOIN user_has_board uhc ON b.board_id = uhc.board_id WHERE uhc.user_id = ? ORDER BY b.board_recent DESC", [userId])
 		return res
+	}
+
+	async getAmountUserBoards (userId: Buffer) {
+		const [res] = await this.db.query("SELECT COUNT(b.board_id) as amount FROM board b JOIN user_has_board uhc ON b.board_id = uhc.board_id WHERE uhc.user_id = ?", [userId])
+		return res.amount
 	}
 }
