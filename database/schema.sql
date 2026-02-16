@@ -4,7 +4,7 @@
 CREATE TABLE IF NOT EXISTS board (
 	board_id BINARY(16) PRIMARY KEY NOT NULL DEFAULT (UUID_TO_BIN(UUID())),
 	board_title VARCHAR(45) NOT NULL,
-	board_desc VARCHAR(128),
+	board_desc VARCHAR(512),
 	board_state ENUM("active", "archived", "deleted") NOT NULL DEFAULT "active",
 	board_creation DATETIME NOT NULL DEFAULT NOW(),
 	board_recent DATETIME NOT NULL DEFAULT NOW()
@@ -27,7 +27,7 @@ CREATE TABLE IF NOT EXISTS board_column (
 CREATE TABLE IF NOT EXISTS task (
 	task_id INT UNSIGNED PRIMARY KEY NOT NULL AUTO_INCREMENT,
 	task_name VARCHAR(32) NOT NULL,
-	task_desc VARCHAR(128),
+	task_desc VARCHAR(512) NOT NULL,
 	task_state ENUM("active", "archived", "deleted") NOT NULL DEFAULT "active",
 	task_type ENUM("normal", "deliver_url", "deliver_file") NOT NULL DEFAULT "normal",
 	task_deliver VARCHAR(256),
@@ -53,6 +53,7 @@ CREATE TABLE IF NOT EXISTS board_has_column (
 CREATE TABLE IF NOT EXISTS column_has_task (
 	column_id INT UNSIGNED NOT NULL,
 	task_id INT UNSIGNED NOT NULL,
+	task_position INT NOT NULL,
 	FOREIGN KEY (column_id) REFERENCES board_column(column_id),
 	FOREIGN KEY (task_id) REFERENCES task(task_id)
 );
