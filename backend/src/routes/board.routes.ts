@@ -91,8 +91,20 @@ export default class boardRoutes {
 	}
 
 	getBoards = async (req: Request, res: Response) => {
+		const page = req.query.page ?? 0
 		const amount = await this.boardController.getAmountUserBoards(req.user.id)
+
+		const boards = (await this.boardController.getUserBoards(req.user.id, page * 9)).map((board: any) => ({
+			id: board.board_id.toString("hex"),
+			title: board.board_title,
+			description: board.board_desc,
+			state: board.board_state,
+			creation: board.board_creation,
+			recent: board.board_recent
+		}))
+
 		return res.status(200).send({
+			boards,
 			amount
 		})
 	}
