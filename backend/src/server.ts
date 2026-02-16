@@ -14,7 +14,7 @@ import db from "./db/connection.ts"
 import userController from "./db/controllers/userController.ts"
 import themeController from "./db/controllers/themeController.ts"
 
-import { handleJwt } from "./middleware/jwtHandling.ts"
+import { handleJwt, loginRequired } from "./middleware/jwtHandling.ts"
 import errorHandling from "./middleware/errorHandling.ts"
 import boardController from "./db/controllers/boardController.ts"
 import columnController from "./db/controllers/columnController.ts"
@@ -57,7 +57,7 @@ export default class server {
 
 		this.myAuthRoutes = new authRoutes(this.myUserController)
 		this.myInternalRoutes = new internalRoutes()
-		this.myBoardRoutes = new boardRoutes()
+		this.myBoardRoutes = new boardRoutes(this.myBoardController)
 		this.myArchiveRoutes = new archiveRoutes()
 		this.myColumnRoutes = new columnRoutes()
 		this.myTaskRoutes = new taskRoutes()
@@ -73,8 +73,8 @@ export default class server {
 
 		this.sv.use("/", this.myInternalRoutes.routes)
 		this.sv.use("/auth", this.myAuthRoutes.routes)
-		this.sv.use("/board", this.myBoardRoutes.routes)
-		this.sv.use("/archive", this.myArchiveRoutes.routes)
+		this.sv.use("/board", loginRequired, this.myBoardRoutes.routes)
+		this.sv.use("/archive", loginRequired, this.myArchiveRoutes.routes)
 		this.sv.use("/:board/column", this.myColumnRoutes.routes)
 		this.sv.use("/:board/task", this.myTaskRoutes.routes)
 		this.sv.use("/theme", this.myThemeRoutes.routes)
