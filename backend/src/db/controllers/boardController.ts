@@ -14,7 +14,7 @@ export default class boardController {
 	}
 
 	/* This whole process could had been made into a trigger, but I made it this way so it is easier to change if needed */
-	async createBoard (title: string, desc: string, userId: Buffer) : Promise<Buffer | string> {
+	async create (title: string, desc: string, userId: Buffer) : Promise<Buffer | string> {
 		const id = await this.db.getUUID()
 		await this.db.query("INSERT INTO board (board_id, board_title, board_desc) VALUES (?, ?, ?)", [id, title, desc])
 		await this.db.query("INSERT INTO user_has_board (board_id, user_id) VALUES (?, ?)", [id, userId])
@@ -32,15 +32,35 @@ export default class boardController {
 		return id
 	}
 
+	async getBoardById (boardId: Buffer) {
+		const [board] = await this.db.query("SELECT board_title, board_desc, board_state, board_creation, board_recent FROM board WHERE board_id = ?", [boardId])
+		return board
+	}
+
+	async update (boardId: Buffer, newData: Map<string, any>) {
+		const fields = Object.keys(newData)
+		let changes = ""
+		let values = [boardId]
+
+		for (let field of fields) {
+			if (newData[field]) {
+				changes += `${field} = ? `
+				values.unshift(newData[field])
+			}
+		}
+
+		await this.db.query(`UPDATE board SET ${changes} WHERE board_id = ?`, values)
+	}
+
 	async createDefaults (userId: Buffer) {
 		if ((await this.getUserBoards(userId)).length < 1) {
 			console.log("Creating example board...")
-			await this.createBoard("Example board", "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse pellentesque suscipit lectus, sit amet elementum metus pulvinar quis. Aenean efficitur pulvinar ligula, a pharetra nisl bibendum eget. Curabitur facilisis mattis lacus sit amet tempus. Quisque arcu urna, scelerisque ut turpis id, porta varius neque. Fusce sagittis rhoncus rhoncus. Nulla vitae blandit diam. Nunc elementum vel orci vitae sollicitudin. Etiam eu consequat orci, ut fringilla tortor. Duis eu tortor eu sem maximus aliquam sapien.", userId)
+			await this.create("Example board", "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse pellentesque suscipit lectus, sit amet elementum metus pulvinar quis. Aenean efficitur pulvinar ligula, a pharetra nisl bibendum eget. Curabitur facilisis mattis lacus sit amet tempus. Quisque arcu urna, scelerisque ut turpis id, porta varius neque. Fusce sagittis rhoncus rhoncus. Nulla vitae blandit diam. Nunc elementum vel orci vitae sollicitudin. Etiam eu consequat orci, ut fringilla tortor. Duis eu tortor eu sem maximus aliquam sapien.", userId)
 		}
 	}
 
 	async getUserBoards (userId: Buffer) {
-		const res = await this.db.query("SELECT b.board_id, b.board_title, b.board_desc, b.board_state, b.board_creation, b.board_recent FROM board b JOIN user_has_board uhc ON b.board_id = uhc.board_id WHERE uhc.user_id = ? ORDER BY b.board_recent", [userId])
+		const res = await this.db.query("SELECT b.board_id, b.board_title, b.board_desc, b.board_state, b.board_creation, b.board_recent FROM board b JOIN user_has_board uhc ON b.board_id = uhc.board_id WHERE uhc.user_id = ? ORDER BY b.board_recent DESC", [userId])
 		return res
 	}
 }

@@ -51,12 +51,15 @@ export default class authRoutes {
 	}
 
 	refresh = (req: Request, res: Response) => {
-		const sessionToken = req.cookies["session-token"]
+		const sessionToken = req.cookies["refresh-token"]
 		
 		if (!sessionToken)
 			return res.status(403).send({message: "You need to login first"})
 		
 		const tokenData = validateToken(sessionToken)
+		if (!tokenData)
+			return res.status(403).send({message: "Token expired"})
+
 		const userData = {
 			user_name: tokenData.user_name,
 			user_id: tokenData.user_id

@@ -10,13 +10,13 @@ export default class boardRoutes {
 	constructor (bc: boardController) {
 		this.boardController = bc
 
-		this.routes.post("/:id", this.createBoard)
+		this.routes.post("/", this.create)
 		this.routes.put("/:id", this.updateBoard)
 		this.routes.delete("/:id", this.deleteBoard)
 		this.routes.get("/:id", this.getBoard)
 	}
 
-	createBoard = async (req: Request, res: Response) => {
+	create = async (req: Request, res: Response) => {
 		const title = req.body.title
 		const desc = req.body.description
 
@@ -26,15 +26,32 @@ export default class boardRoutes {
 			})
 		}
 
-		const boardId = await this.boardController.createBoard(title, desc, req.user.id)
+		const boardId = await this.boardController.create(title, desc, req.user.id)
 
 		return res.status(200).send({
-			message: `New ${title} board created`,
+			message: `New "${title}" board created`,
 			board: boardId.toString("hex")
 		})
 	}
 
 	updateBoard = async (req: Request, res: Response) => {
+		if (!req.params.id)
+			return res.status(400).send({message: "Board not specified"})
+
+		if (!req.body.title && !req.body.description && !req.body.state)
+			return res.status(304).send({message: "Nothing changed"})
+
+		const boardId = Buffer.from(req.params.id, "hex")
+		const board = await this.boardController.getBoardById(boardId)
+		if (!board)
+			return res.status(404).send({message: "Board not found"})
+
+		await this.boardController.update(boardId, {
+			"board_title": req.body.title,
+			"board_desc": req.body.description,
+			"board_state": req.body.state
+		})
+
 		res.status(200).send({
 			message: "Board updated"
 		})
