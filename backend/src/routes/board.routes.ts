@@ -78,7 +78,7 @@ export default class boardRoutes {
 
 		/* Specifies if the board is being requested not as part of a list but 
 		   opening it, then updating the date of the last time it was opened */
-		if (req.body.open)
+		if (req.query.open)
 			await this.boardController.updateRecentDate(boardId)
 
 		return res.status(200).send({
