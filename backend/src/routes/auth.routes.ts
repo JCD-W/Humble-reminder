@@ -70,9 +70,9 @@ export default class authRoutes {
 		})
 	}
 
-	// The proper way to handle this would been sending a token to an email address
-	// and then have the token being received by another endpoint, however since this
-	// project was not made with working emails in mind is left this way.
+	/* The proper way to handle this would been sending a token to an email address
+	   and then have the token being received by another endpoint, however since this
+	   project was not made with working emails in mind is left this way. */
 	changePass = (req: Request, res: Response) => {
 		const password = req.body.password
 		if (!password)

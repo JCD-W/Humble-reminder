@@ -1,0 +1,46 @@
+import db from "../connection.ts"
+import type columnController from "./columnController.ts"
+import type taskController from "./taskController.ts"
+
+export default class boardController {
+	db: db
+	columnController: columnController
+	taskController: taskController
+
+	constructor (con: db, cc: columnController, tc: taskController) {
+		this.db = con
+		this.columnController = cc
+		this.taskController = tc
+	}
+
+	/* This whole process could had been made into a trigger, but I made it this way so it is easier to change if needed */
+	async createBoard (title: string, desc: string, userId: Buffer) : Promise<Buffer | string> {
+		const id = await this.db.getUUID()
+		await this.db.query("INSERT INTO board (board_id, board_title, board_desc) VALUES (?, ?, ?)", [id, title, desc])
+		await this.db.query("INSERT INTO user_has_board (board_id, user_id) VALUES (?, ?)", [id, userId])
+
+		const backlogId = await this.columnController.createColumn("Backlog", id, 1)
+		await this.columnController.createColumn("In process", id, 2)
+		await this.columnController.createColumn("Done", id, 3)
+
+		await this.taskController.createTask(
+			"Finish this board", 
+			"Create new tasks, move them around, modify the columns and write an actual description.", 
+			backlogId, 
+			1
+		)
+		return id
+	}
+
+	async createDefaults (userId: Buffer) {
+		if ((await this.getUserBoards(userId)).length < 1) {
+			console.log("Creating example board...")
+			await this.createBoard("Example board", "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse pellentesque suscipit lectus, sit amet elementum metus pulvinar quis. Aenean efficitur pulvinar ligula, a pharetra nisl bibendum eget. Curabitur facilisis mattis lacus sit amet tempus. Quisque arcu urna, scelerisque ut turpis id, porta varius neque. Fusce sagittis rhoncus rhoncus. Nulla vitae blandit diam. Nunc elementum vel orci vitae sollicitudin. Etiam eu consequat orci, ut fringilla tortor. Duis eu tortor eu sem maximus aliquam sapien.", userId)
+		}
+	}
+
+	async getUserBoards (userId: Buffer) {
+		const res = await this.db.query("SELECT b.board_id, b.board_title, b.board_desc, b.board_state, b.board_creation, b.board_recent FROM board b JOIN user_has_board uhc ON b.board_id = uhc.board_id WHERE uhc.user_id = ? ORDER BY b.board_recent", [userId])
+		return res
+	}
+}

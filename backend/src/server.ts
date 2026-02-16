@@ -16,6 +16,9 @@ import themeController from "./db/controllers/themeController.ts"
 
 import { handleJwt } from "./middleware/jwtHandling.ts"
 import errorHandling from "./middleware/errorHandling.ts"
+import boardController from "./db/controllers/boardController.ts"
+import columnController from "./db/controllers/columnController.ts"
+import taskController from "./db/controllers/taskController.ts"
 
 const SERVER_PORT = process.env.SERVER_PORT || 3000
 const FRONTEND_URL = process.env.FRONTEND_URL || "*"
@@ -34,6 +37,9 @@ export default class server {
 
 	myUserController: userController
 	myThemeController: themeController
+	myBoardController: boardController
+	myColumnController: columnController
+	myTaskController: taskController
 
 	constructor () {
 		this.myDB = new db()
@@ -41,6 +47,13 @@ export default class server {
 
 		this.myUserController = new userController(this.myDB)
 		this.myThemeController = new themeController(this.myDB)
+		this.myColumnController = new columnController(this.myDB)
+		this.myTaskController = new taskController(this.myDB)
+		this.myBoardController = new boardController(
+			this.myDB, 
+			this.myColumnController,
+			this.myTaskController
+		)
 
 		this.myAuthRoutes = new authRoutes(this.myUserController)
 		this.myInternalRoutes = new internalRoutes()
@@ -79,8 +92,11 @@ export default class server {
 	}
 
 	async createDefaults () {
-		await this.myUserController.createDefaults()
-		await this.myThemeController.createDefaults()
+		const userId = await this.myUserController.createDefaults()
+		if (userId) {
+			await this.myThemeController.createDefaults()
+			await this.myBoardController.createDefaults(userId)
+		}
 	}
 
 	close () {

@@ -13,21 +13,23 @@ export default class userController {
 		if (res.length < 1)
 			return null
 		else
-			return res[0]
+			return {...res[0], user_name: name}
 	}
 
-	async createUser (name: string, pass: string) {
-		await this.db.query("INSERT INTO user (user_name, user_pass) VALUES (?, ?)", [name, encryptPass(pass)])
+	async createUser (name: string, pass: string): Promise<Buffer> {
+		const id = await this.db.getUUID()
+		await this.db.query("INSERT INTO user (user_id, user_name, user_pass) VALUES (?, ?, ?)", [id, name, encryptPass(pass)])
+		return id
 	}
 
 	async changePassword (id: Buffer, pass: string) {
 		await this.db.query("UPDATE user SET user_pass = ? WHERE user_id = ?", [encryptPass(pass), id])
 	}
 
-	async createDefaults () {
+	async createDefaults (): Promise<Buffer | undefined> {
 		if (await this.getUserByName("Default") == null) {
 			console.log("Creating default user...")
-			this.createUser("Default", "12345678*")
+			return await this.createUser("Default", "12345678*")
 		}
 	}
 }

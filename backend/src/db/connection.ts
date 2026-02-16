@@ -9,11 +9,16 @@ const DATABASE_NAME = process.env.DATABASE_NAME || "humble_reminder_db"
 export default class db {
 	con: unknown | mysql.Connection
 
-	async query (query: string, values: Array<any>) {
-		const [result] = await this.con.query(query, values)
+	async query (query: string, values: Array<any> = []) {
+		const [result] = await this.con.execute(query, values)
 		return result
 	}
 
+	async getUUID (): Promise<Buffer> {
+		const res = await this.con.query("SELECT UUID_TO_BIN(UUID()) AS id")
+		return res[0][0].id
+	}
+	
 	async connect () {
 		return new Promise(async (resolve) => {
 			console.log(`Connecting to the database "${DATABASE_NAME}" (${DATABASE_USER})...`)
