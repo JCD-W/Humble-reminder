@@ -14,6 +14,7 @@ export default class boardRoutes {
 		this.routes.put("/:id", this.updateBoard)
 		this.routes.delete("/:id", this.deleteBoard)
 		this.routes.get("/:id", this.getBoard)
+		this.routes.get("/", this.getBoards)
 	}
 
 	create = async (req: Request, res: Response) => {
@@ -55,7 +56,7 @@ export default class boardRoutes {
 			"board_state": req.body.state
 		})
 
-		res.status(200).send({
+		return res.status(200).send({
 			message: "Board updated"
 		})
 	}
@@ -66,12 +67,30 @@ export default class boardRoutes {
 		})
 	}
 
-	getBoard = (req: Request, res: Response) => {
-		res.status(200).send({
-			id: 0,
-			title: "",
-			description: "",
-			creation: null
+	getBoard = async (req: Request, res: Response) => {
+		if (!req.params.id)
+			return res.status(400).send({message: "Board not specified"})
+
+		const boardId = Buffer.from(req.params.id, "hex")
+		const board = await this.boardController.getBoardById(boardId)
+		if (!board)
+			return res.status(404).send({message: "Board not found"})
+
+		/* Specifies if the board is being requested not as part of a list but 
+		   opening it, then updating the date of the last time it was opened */
+		if (req.body.open)
+			await this.boardController.updateRecentDate(boardId)
+
+		return res.status(200).send({
+			title: board.board_title,
+			description: board.board_desc,
+			state: board.state,
+			creation: board.board_creation,
+			recent: board.board_recent
 		})
+	}
+
+	getBoards = async (req: Request, res: Response) => {
+		return res.status(200).send({})
 	}
 }

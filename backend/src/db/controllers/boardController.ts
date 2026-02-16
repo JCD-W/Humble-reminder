@@ -59,6 +59,10 @@ export default class boardController {
 		}
 	}
 
+	async updateRecentDate (boardId: Buffer) {
+		await this.db.query("UPDATE board SET board_recent = ? WHERE board_id = ?", [new Date(), boardId])
+	}
+
 	async getUserBoards (userId: Buffer) {
 		const res = await this.db.query("SELECT b.board_id, b.board_title, b.board_desc, b.board_state, b.board_creation, b.board_recent FROM board b JOIN user_has_board uhc ON b.board_id = uhc.board_id WHERE uhc.user_id = ? ORDER BY b.board_recent DESC", [userId])
 		return res
