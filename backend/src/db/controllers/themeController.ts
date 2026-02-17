@@ -39,4 +39,14 @@ export default class themeController {
 			// https://coolors.co/palette/2d3142-bfc0c0-ffffff-ef8354-4f5d75
 		}
 	}
+
+	async getThemeAmount () {
+		const [res] = await this.db.query("SELECT COUNT(theme_id) AS amount FROM theme")
+		return res.amount
+	}
+
+	async getThemes (offset: number = 0, limit: number = 20) {
+		const res = await this.db.query(`SELECT theme_id AS id, clear_color AS clear, primary_color AS "primary", secondary_color AS secondary, tertiary_color AS tertiary FROM theme LIMIT ? OFFSET ?`, [limit.toString(), offset.toString()])
+		return res
+	}
 }

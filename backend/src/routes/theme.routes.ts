@@ -94,9 +94,13 @@ export default class themeRoutes {
 	}
 
 	getThemes = async (req: Request, res: Response) => {
-		res.status(200).send({
-			amount: 0
+		const page = (req.query.page ?? 0) * 20
+		const amount = await this.themeController.getThemeAmount()
+		const themes = await this.themeController.getThemes(page)
+
+		return res.status(200).send({
+			amount,
+			themes
 		})
 	}
 }
-
