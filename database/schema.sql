@@ -12,7 +12,7 @@ CREATE TABLE IF NOT EXISTS board (
 
 CREATE TABLE IF NOT EXISTS theme (
 	theme_id INT UNSIGNED PRIMARY KEY NOT NULL AUTO_INCREMENT,
-	text_color VARCHAR(9) NOT NULL,
+	clear_color VARCHAR(9) NOT NULL,
 	primary_color VARCHAR(9) NOT NULL,
 	secondary_color VARCHAR(9) NOT NULL,
 	tertiary_color VARCHAR(9) NOT NULL

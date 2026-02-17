@@ -61,7 +61,7 @@ export default class server {
 		this.myArchiveRoutes = new archiveRoutes()
 		this.myColumnRoutes = new columnRoutes()
 		this.myTaskRoutes = new taskRoutes()
-		this.myThemeRoutes = new themeRoutes()
+		this.myThemeRoutes = new themeRoutes(this.myThemeController)
 
 		this.sv.use(express.json())
 		this.sv.use(cookieParser())
@@ -77,7 +77,7 @@ export default class server {
 		this.sv.use("/archive", loginRequired, this.myArchiveRoutes.routes)
 		this.sv.use("/:board/column", this.myColumnRoutes.routes)
 		this.sv.use("/:board/task", this.myTaskRoutes.routes)
-		this.sv.use("/theme", this.myThemeRoutes.routes)
+		this.sv.use("/theme", loginRequired, this.myThemeRoutes.routes)
 
 		this.sv.use(errorHandling)
 	}
