@@ -67,9 +67,15 @@ export default class themeRoutes {
 	}
 
 	getTheme = async (req: Request, res: Response) => {
-		res.status(200).send({
-			id: 0
-		})
+		const themeId: number = parseInt(req.params.id)
+		if (!req.params.id)
+			return res.status(400).send({message: "No theme provided"})
+		
+		const theme = await this.themeController.getThemeById(themeId)
+		if (!theme)
+			return res.status(404).send({message: "Theme not found"})
+
+		return res.status(200).send(theme)
 	}
 
 	getThemes = async (req: Request, res: Response) => {

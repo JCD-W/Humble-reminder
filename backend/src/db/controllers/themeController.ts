@@ -13,10 +13,10 @@ export default class themeController {
 			return null
 		} else {
 			return {
-				textColor: res.clear_color,
-				primaryColor: res.primaryColor,
-				secondaryColor: res.secondary_color,
-				tertiaryColor: res.tertiary_color
+				clear: res[0].clear_color,
+				primary: res[0].primary_color,
+				secondary: res[0].secondary_color,
+				tertiary: res[0].tertiary_color
 			}
 		}
 	}
