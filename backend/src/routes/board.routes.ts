@@ -62,7 +62,22 @@ export default class boardRoutes {
 	}
 
 	deleteBoard = async (req: Request, res: Response) => {
-		res.status(200).send({
+		if (!req.params.id)
+			return res.status(400).send({message: "Board not specified"})
+
+		const boardId = Buffer.from(req.params.id, "hex")
+		const board = await this.boardController.getBoardById(boardId)
+		if (!board)
+			return res.status(404).send({message: "Board not found"})
+
+		if (board.board_state != "active")
+			return res.status(400).send({message: "The board is already deleted/archived"})
+
+		await this.boardController.update(boardId, {
+			"board_state": "archived"
+		})
+
+		return res.status(200).send({
 			message: "Board deleted"
 		})
 	}
