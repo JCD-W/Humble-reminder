@@ -85,7 +85,7 @@ export default class server {
 		this.sv.use("/auth", this.myAuthRoutes.routes)
 		this.sv.use("/board", loginRequired, this.myBoardRoutes.routes)
 		this.sv.use("/archive", loginRequired, this.myArchiveRoutes.routes)
-		this.sv.use("/column", this.myColumnRoutes.routes)
+		this.sv.use("/column", loginRequired, this.myColumnRoutes.routes)
 		this.sv.use("/task", this.myTaskRoutes.routes)
 		this.sv.use("/theme", loginRequired, this.myThemeRoutes.routes)
 

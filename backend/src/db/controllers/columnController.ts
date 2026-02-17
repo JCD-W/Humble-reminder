@@ -19,6 +19,13 @@ export default class columnController {
 
 	async getColumns (boardId: Buffer) {
 		const columns = await this.db.query(`SELECT c.column_id AS id, c.column_title AS title, c.column_state AS state, bhc.column_position AS "order" FROM board_column c JOIN board_has_column bhc ON bhc.column_id = c.column_id WHERE bhc.board_id = ? ORDER BY bhc.column_position ASC`, [boardId])
-		return columns
+		let res: object[] = []
+		for (let column of columns) {
+			res.push({
+				...column,
+				task: await this.taskController.getColumnTasks(column.id)
+			})
+		}
+		return res
 	}
 }

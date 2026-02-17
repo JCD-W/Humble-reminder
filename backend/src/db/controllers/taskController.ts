@@ -15,6 +15,11 @@ export default class taskController {
 	}
 
 	async getColumnTasks (columnId: number) {
-		
+		return await this.db.query(
+			"SELECT t.task_id AS id, t.task_name AS name, t.task_desc AS description, t.task_state AS state,"+
+			"t.task_type AS type, t.task_deliver AS deliver_url, t.task_deadline AS deadline, t.task_creation AS creation,"+
+			"t.task_delivered AS delivery_date FROM task t JOIN column_has_task cht ON cht.task_id = t.task_id "+
+			"WHERE cht.column_id = ? ORDER BY cht.task_position ASC", [columnId]
+		)
 	}
 }
