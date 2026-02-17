@@ -61,7 +61,22 @@ export default class themeRoutes {
 	}
 
 	setBoardTheme = async (req: Request, res: Response) => {
-		res.status(200).send({
+		if (!req.params.board)
+			return res.status(400).send({message: "No board provided"})
+		const themeId: number = parseInt(req.body.theme)
+		const boardId = Buffer.from(req.params.board, "hex")
+		
+		const theme = await this.themeController.getThemeById(themeId)
+		if (!theme)
+			return res.status(404).send({message: "Theme not found"})
+
+		const board = await this.boardController.getBoardById(boardId)
+		if (!board)
+			return res.status(404).send({message: "Board not found"})
+
+		await this.boardController.setTheme(boardId, themeId)
+
+		return res.status(200).send({
 			message: "Board theme changed"
 		})
 	}
