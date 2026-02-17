@@ -50,6 +50,9 @@ export default class boardRoutes {
 		if (!board)
 			return res.status(404).send({message: "Board not found"})
 
+		if (board.board_state != "active")
+			return res.status(400).send({message: "The board is deleted/archived"})
+
 		await this.boardController.update(boardId, {
 			"board_title": req.body.title,
 			"board_desc": req.body.description,

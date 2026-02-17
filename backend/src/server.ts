@@ -61,7 +61,10 @@ export default class server {
 		this.myArchiveRoutes = new archiveRoutes()
 		this.myColumnRoutes = new columnRoutes()
 		this.myTaskRoutes = new taskRoutes()
-		this.myThemeRoutes = new themeRoutes(this.myThemeController)
+		this.myThemeRoutes = new themeRoutes(
+			this.myThemeController,
+			this.myBoardController
+		)
 
 		this.sv.use(express.json())
 		this.sv.use(cookieParser())

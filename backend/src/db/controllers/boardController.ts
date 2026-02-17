@@ -18,6 +18,7 @@ export default class boardController {
 		const id = await this.db.getUUID()
 		await this.db.query("INSERT INTO board (board_id, board_title, board_desc) VALUES (?, ?, ?)", [id, title, desc])
 		await this.db.query("INSERT INTO user_has_board (board_id, user_id) VALUES (?, ?)", [id, userId])
+		await this.db.query("INSERT INTO board_has_theme (board_id, theme_id) VALUES (?, ?)", [id, 1])
 
 		const backlogId = await this.columnController.createColumn("Backlog", id, 1)
 		await this.columnController.createColumn("In process", id, 2)
@@ -71,5 +72,9 @@ export default class boardController {
 	async getAmountUserBoards (userId: Buffer) {
 		const [res] = await this.db.query("SELECT COUNT(b.board_id) as amount FROM board b JOIN user_has_board uhc ON b.board_id = uhc.board_id WHERE uhc.user_id = ?", [userId])
 		return res.amount
+	}
+
+	async setTheme (boardId: Buffer, themeId: number) {
+		await this.db.query("UPDATE board_has_theme SET theme_id = ? WHERE board_id = ?", [themeId, boardId])
 	}
 }

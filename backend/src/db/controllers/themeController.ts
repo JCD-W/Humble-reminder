@@ -22,10 +22,11 @@ export default class themeController {
 	}
 
 	async createTheme (clear: string, primary: string, secondary: string, tertiary: string) {
-		await this.db.query(
-			"INSERT INTO theme (theme_id, clear_color, primary_color, secondary_color, tertiary_color) VALUES (?, ?, ?, ?, ?)", 
-			[1, clear, primary, secondary, tertiary]
+		const res = await this.db.query(
+			"INSERT INTO theme (clear_color, primary_color, secondary_color, tertiary_color) VALUES (?, ?, ?, ?)", 
+			[clear, primary, secondary, tertiary]
 		)
+		return res.insertId
 	}
 
 	async createDefaults () {
