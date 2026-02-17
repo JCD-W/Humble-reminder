@@ -1,44 +1,67 @@
 import type {Request, Response} from "express"
 import Router from "express"
+import type columnController from "../db/controllers/columnController.ts"
+import type boardController from "../db/controllers/boardController.ts"
 
 export default class columnRoutes {
 	routes = Router()
+	columnController: columnController
+	boardController: boardController
 
-	constructor () {
-		this.routes.post("/create", this.createColumn)
+	constructor (cc: columnController, bc: boardController) {
+		this.columnController = cc
+		this.boardController = bc
+
+		this.routes.post("/:board", this.create)
 		this.routes.put("/:id", this.updateColumn)
 		this.routes.delete("/:id", this.deleteColumn)
-		this.routes.get("/:id", this.getColumn)
-		this.routes.get("/", this.getBoardColumns)
+		this.routes.get("/:board", this.getBoardColumns)
 	}
 
-	createColumn (req: Request, res: Response) {
-		res.status(200).send({
-			message: `Column created`
+	create = async (req: Request, res: Response) => {
+		if (!req.params.board)
+			return res.status(400).send({message: "Board not specified"})
+		const title = req.body.title
+		const position = req.body.position
+		const boardId = Buffer.from(req.params.board, "hex")
+		if (!title || !position)
+			return res.status(400).send({message: "Title or position required"})
+
+		const board = await this.boardController.getBoardById(boardId)
+		if (!board)
+			return res.status(404).send({message: "Board not found"})
+
+		const columnId = await this.columnController.create(title, boardId, position)
+
+		return res.status(200).send({
+			message: `Column "${title}" created`,
+			column: columnId
 		})
 	}
 
-	updateColumn (req: Request, res: Response) {
-		res.status(200).send({
+	updateColumn = async (req: Request, res: Response) => {
+		return res.status(200).send({
 			message: `Column updated`
 		})
 	}
 
-	getColumn (req: Request, res: Response) {
-		res.status(200).send({
-			id: 0
-		})
-	}
-
-	deleteColumn (req: Request, res: Response) {
-		res.status(200).send({
+	deleteColumn = async (req: Request, res: Response) => {
+		return res.status(200).send({
 			message: `Column deleted`
 		})
 	}
 
-	getBoardColumns (req: Request, res: Response) {
-		res.status(200).send({
-			amount: 0
-		})
+	getBoardColumns = async (req: Request, res: Response) => {
+		if (!req.params.board)
+			return res.status(400).send({message: "Board not specified"})
+		const boardId = Buffer.from(req.params.board, "hex")
+
+		const board = await this.boardController.getBoardById(boardId)
+		if (!board)
+			return res.status(404).send({message: "Board not found"})
+
+		const columns = await this.columnController.getColumns(boardId)
+
+		return res.status(200).send(columns)
 	}
 }

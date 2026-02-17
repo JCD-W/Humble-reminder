@@ -5,16 +5,15 @@ export default class taskRoutes {
 	routes = Router()
 
 	constructor () {
-		this.routes.post("/create", this.createTask)
+		this.routes.post("/create", this.create)
 		this.routes.post("/deliver/:id", this.deliver)
 		this.routes.get("/:id", this.getTask)
-		this.routes.get("/:column", this.getColumnTasks)
 		this.routes.put("/:id", this.updateTask)
 		this.routes.put("/switch/:id", this.switchTaskColumn)
 		this.routes.delete("/:id", this.deleteTask)
 	}
 
-	createTask (req: Request, res: Response) {
+	create (req: Request, res: Response) {
 		res.status(200).send({
 			message: `New task created`
 		})
@@ -41,12 +40,6 @@ export default class taskRoutes {
 	deliver (req: Request, res: Response) {
 		res.status(200).send({
 			message: `Task delivered`
-		})
-	}
-
-	getColumnTasks (req: Request, res: Response) {
-		res.status(200).send({
-			amount: 0
 		})
 	}
 

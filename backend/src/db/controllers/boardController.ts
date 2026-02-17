@@ -23,15 +23,14 @@ export default class boardController {
 		await this.db.query("INSERT INTO user_has_board (board_id, user_id) VALUES (?, ?)", [id, userId])
 		await this.db.query("INSERT INTO board_has_theme (board_id, theme_id) VALUES (?, ?)", [id, 1])
 
-		const backlogId = await this.columnController.createColumn("Backlog", id, 1)
-		await this.columnController.createColumn("In process", id, 2)
-		await this.columnController.createColumn("Done", id, 3)
+		const backlogId = await this.columnController.create("Backlog", id, 1)
+		await this.columnController.create("In process", id, 2)
+		await this.columnController.create("Done", id, 3)
 
-		await this.taskController.createTask(
+		await this.taskController.create(
 			"Finish this board", 
 			"Create new tasks, move them around, modify the columns and write an actual description.", 
-			backlogId, 
-			1
+			backlogId, 1
 		)
 		return id
 	}
