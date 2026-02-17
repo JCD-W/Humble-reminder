@@ -52,7 +52,8 @@ export default class server {
 		this.myBoardController = new boardController(
 			this.myDB, 
 			this.myColumnController,
-			this.myTaskController
+			this.myTaskController,
+			this.myThemeController
 		)
 
 		this.myAuthRoutes = new authRoutes(this.myUserController)

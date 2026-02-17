@@ -99,12 +99,15 @@ export default class boardRoutes {
 		if (req.query.open)
 			await this.boardController.updateRecentDate(boardId)
 
+		const theme = await this.boardController.getTheme(boardId)
+
 		return res.status(200).send({
 			title: board.board_title,
 			description: board.board_desc,
 			state: board.state,
 			creation: board.board_creation,
-			recent: board.board_recent
+			recent: board.board_recent,
+			theme
 		})
 	}
 

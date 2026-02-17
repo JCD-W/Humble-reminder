@@ -1,16 +1,19 @@
 import db from "../connection.ts"
 import type columnController from "./columnController.ts"
 import type taskController from "./taskController.ts"
+import type themeController from "./themeController.ts"
 
 export default class boardController {
 	db: db
 	columnController: columnController
 	taskController: taskController
+	themeController: themeController
 
-	constructor (con: db, cc: columnController, tc: taskController) {
+	constructor (con: db, cc: columnController, tc: taskController, thc: themeController) {
 		this.db = con
 		this.columnController = cc
 		this.taskController = tc
+		this.themeController = thc
 	}
 
 	/* This whole process could had been made into a trigger, but I made it this way so it is easier to change if needed */
@@ -76,5 +79,14 @@ export default class boardController {
 
 	async setTheme (boardId: Buffer, themeId: number) {
 		await this.db.query("UPDATE board_has_theme SET theme_id = ? WHERE board_id = ?", [themeId, boardId])
+	}
+
+	async getTheme (boardId: Buffer) {
+		const [{themeId}] = await this.db.query("SELECT theme_id as themeId FROM board_has_theme WHERE board_id = ?", [boardId])
+		const theme = await this.themeController.getThemeById(themeId)
+		return {
+			...theme,
+			id: themeId
+		}
 	}
 }
