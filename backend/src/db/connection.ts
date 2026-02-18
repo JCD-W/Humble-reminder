@@ -18,6 +18,21 @@ export default class db {
 		const res = await this.con.query("SELECT UUID_TO_BIN(UUID()) AS id")
 		return res[0][0].id
 	}
+
+	async update (table: string, newData: Map<string, any>, id: any, idName: string) {
+		const fields = Object.keys(newData)
+		let changes = ""
+		let values = [id]
+
+		for (let field of fields) {
+			if (newData[field]) {
+				changes += `${field} = ? `
+				values.unshift(newData[field])
+			}
+		}
+
+		await this.query(`UPDATE ${table} SET ${changes} WHERE ${idName} = ?`, values)
+	}
 	
 	async connect () {
 		return new Promise(async (resolve) => {

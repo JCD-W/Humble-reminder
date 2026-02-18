@@ -41,18 +41,7 @@ export default class boardController {
 	}
 
 	async update (boardId: Buffer, newData: Map<string, any>) {
-		const fields = Object.keys(newData)
-		let changes = ""
-		let values = [boardId]
-
-		for (let field of fields) {
-			if (newData[field]) {
-				changes += `${field} = ? `
-				values.unshift(newData[field])
-			}
-		}
-
-		await this.db.query(`UPDATE board SET ${changes} WHERE board_id = ?`, values)
+		await this.db.update("board", newData, boardId, "board_id")
 	}
 
 	async createDefaults (userId: Buffer) {

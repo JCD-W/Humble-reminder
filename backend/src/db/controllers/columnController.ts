@@ -28,4 +28,13 @@ export default class columnController {
 		}
 		return res
 	}
+
+	async getColumnById (columnId: number) {
+		const [column] = await this.db.query(`SELECT column_id AS id, column_title AS title, column_state AS state FROM board_column WHERE column_id = ?`, [columnId])
+		return column
+	}
+
+	async update (columnId: number, newData: Map<string, any>) {
+		await this.db.update("board_column", newData, columnId, "column_id")
+	}
 }
