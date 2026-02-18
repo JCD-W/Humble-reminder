@@ -37,4 +37,9 @@ export default class columnController {
 	async update (columnId: number, newData: Map<string, any>) {
 		await this.db.update("board_column", newData, columnId, "column_id")
 	}
+
+	async move (columnId: number, boardId: Buffer, position: number) {
+		await this.db.query("UPDATE board_has_column SET column_position = column_position + 1 WHERE column_position >= ? AND board_id = ?", [position, boardId])
+		await this.db.query("UPDATE board_has_column SET column_position = ? WHERE board_id = ? AND column_id = ?", [position, boardId, columnId])
+	}
 }

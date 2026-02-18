@@ -100,6 +100,25 @@ export default class columnRoutes {
 	}
 
 	move = async (req: Request, res: Response) => {
+		if (!req.body.position)
+			return res.status(400).send({message: "New position not specified"})
+		if (!req.params.board)
+			return res.status(400).send({message: "Board not specified"})
+		if (!req.params.id)
+			return res.status(400).send({message: "Column not specified"})	
+
+		const boardId = Buffer.from(req.params.board, "hex")
+		const board = await this.boardController.getBoardById(boardId)
+		if (!board)
+			return res.status(404).send({message: "Board not found"})
+
+		const columnId = parseInt(req.params.id)
+		const column = this.columnController.getColumnById(columnId)
+		if (!column)
+			return res.status(404).send({message: "Column not found"})
+
+		await this.columnController.move(columnId, boardId, req.body.position)
+
 		return res.status(200).send({
 			message: "Column moved"
 		})
