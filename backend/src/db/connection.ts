@@ -25,7 +25,7 @@ export default class db {
 		let values = [id]
 
 		for (let field of fields) {
-			if (newData[field]) {
+			if (newData[field] !== undefined) {
 				changes += `${field} = ? `
 				values.unshift(newData[field])
 			}

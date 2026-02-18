@@ -136,8 +136,12 @@ export default class taskRoutes {
 				if (!req.file)
 					return res.status(400).send({message: "No file provided"})
 
-				if (task.deliver_url)
-					unlinkSync(`public/delivers/${task.deliver_url}`)
+				try {
+					if (task.deliver_url)
+						unlinkSync(`public/delivers/${task.deliver_url}`)
+				} catch (err) {
+					console.log(`Failed to delete the delivered file of the task ${taskId}`)
+				}
 				
 				await this.taskController.update(taskId, {
 					task_deliver: req.file.filename
@@ -184,5 +188,31 @@ export default class taskRoutes {
 		})
 	}
 
-	deleteDeliver = async (req: Request, res: Response) => {}
+	deleteDeliver = async (req: Request, res: Response) => {
+		if (!req.params.id)
+			return res.status(400).send({message: "Task not specified"})
+		const taskId = parseInt(req.params.id)
+		const task = await this.taskController.getTaskById(taskId)
+		if (!task)
+			return res.status(404).send({message: "Task not found"})
+
+		if (task.state != "active")
+			return res.status(400).send({message: `The task is ${task.state}`})
+
+		if (!task.deliver_url)
+			return res.status(400).send({message: "The task doesn't have anything delivered"})
+
+		if (task.type === "deliver_file") {
+			try {
+				unlinkSync(`public/delivers/${task.deliver_url}`)
+			} catch (err) {
+				console.log(`Failed to delete the delivered file of the task ${taskId}`)
+			}
+		}
+		await this.taskController.update(taskId, {
+			task_deliver: null
+		})
+
+		return res.status(200).send({message: "delivery deleted"})
+	}
 }
