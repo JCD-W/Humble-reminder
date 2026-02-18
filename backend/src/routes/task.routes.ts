@@ -4,6 +4,7 @@ import Router from "express"
 import type boardController from "../db/controllers/boardController.ts"
 import type taskController from "../db/controllers/taskController.ts"
 import type columnController from "../db/controllers/columnController.ts"
+import { unlinkSync } from "fs"
 
 export default class taskRoutes {
 	routes = Router()
@@ -18,10 +19,12 @@ export default class taskRoutes {
 
 		this.routes.post("/create/:board/:column/", this.create)
 		this.routes.post("/deliver/:id", this.deliver)
+		this.routes.put("/deliver/:id", this.deliver)
 		this.routes.put("/:id", this.update)
 		this.routes.put("/move/:id", this.move)
 		this.routes.put("/:board/:id/move", this.switchTaskColumn)
 		this.routes.delete("/:id", this.delete)
+		this.routes.delete("/deliver/:id", this.deleteDeliver)
 	}
 
 	create = async (req: Request, res: Response) => {
@@ -132,6 +135,10 @@ export default class taskRoutes {
 			case "deliver_file":
 				if (!req.file)
 					return res.status(400).send({message: "No file provided"})
+
+				if (task.deliver_url)
+					unlinkSync(`public/delivers/${task.deliver_url}`)
+				
 				await this.taskController.update(taskId, {
 					task_deliver: req.file.filename
 				}) 
@@ -176,4 +183,6 @@ export default class taskRoutes {
 			message: `Column changed`
 		})
 	}
+
+	deleteDeliver = async (req: Request, res: Response) => {}
 }
