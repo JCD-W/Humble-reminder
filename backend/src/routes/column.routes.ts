@@ -68,6 +68,18 @@ export default class columnRoutes {
 	}
 
 	deleteColumn = async (req: Request, res: Response) => {
+		if (!req.params.id)
+			return res.status(400).send({message: "Column not specified"})		
+		const columnId = parseInt(req.params.id)
+
+		const column = this.columnController.getColumnById(columnId)
+		if (!column)
+			return res.status(404).send({message: "Column not found"})
+
+		await this.columnController.update(columnId, {
+			column_state: "archived"
+		})
+
 		return res.status(200).send({
 			message: `Column deleted`
 		})
