@@ -1,6 +1,6 @@
 # Backend
 backend/node_modules
-backend/public/delivers/*.*
+backend/public/delivers/
 
 !backend/public/delivers/.gitkeep
 

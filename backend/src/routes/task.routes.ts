@@ -130,6 +130,11 @@ export default class taskRoutes {
 				})
 				break
 			case "deliver_file":
+				if (!req.file)
+					return res.status(400).send({message: "No file provided"})
+				await this.taskController.update(taskId, {
+					task_deliver: req.file.filename
+				}) 
 				break
 			default:
 				return res.status(400).send({message: "This task doesn't expect a deliver"})

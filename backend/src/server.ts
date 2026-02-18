@@ -1,6 +1,7 @@
 import express from "express"
 import cors from "cors"
 import cookieParser from "cookie-parser"
+import multer from "multer"
 
 import internalRoutes from "./routes/internal.routes.ts"
 import authRoutes from "./routes/auth.routes.ts"
@@ -22,6 +23,7 @@ import taskController from "./db/controllers/taskController.ts"
 
 const SERVER_PORT = process.env.SERVER_PORT || 3000
 const FRONTEND_URL = process.env.FRONTEND_URL || "*"
+const MAX_FILESIZE = process.env.MAX_FILESIZE || 314572800 // 30mb
 
 export default class server {
 	myDB: db
@@ -44,6 +46,10 @@ export default class server {
 	constructor () {
 		this.myDB = new db()
 		this.sv = express()
+		this.multer = multer({
+			dest: "public/delivers",
+			limits: MAX_FILESIZE
+		})
 
 		this.myUserController = new userController(this.myDB)
 		this.myThemeController = new themeController(this.myDB)
@@ -90,7 +96,7 @@ export default class server {
 		this.sv.use("/board", loginRequired, this.myBoardRoutes.routes)
 		this.sv.use("/archive", loginRequired, this.myArchiveRoutes.routes)
 		this.sv.use("/column", loginRequired, this.myColumnRoutes.routes)
-		this.sv.use("/task", loginRequired, this.myTaskRoutes.routes)
+		this.sv.use("/task", loginRequired, this.multer.single("file"), this.myTaskRoutes.routes)
 		this.sv.use("/theme", loginRequired, this.myThemeRoutes.routes)
 
 		this.sv.use(errorHandling)
