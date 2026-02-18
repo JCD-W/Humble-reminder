@@ -67,7 +67,11 @@ export default class server {
 			this.myColumnController,
 			this.myBoardController
 		)
-		this.myTaskRoutes = new taskRoutes()
+		this.myTaskRoutes = new taskRoutes(
+			this.myBoardController,
+			this.myTaskController,
+			this.myColumnController
+		)
 		this.myThemeRoutes = new themeRoutes(
 			this.myThemeController,
 			this.myBoardController
@@ -86,7 +90,7 @@ export default class server {
 		this.sv.use("/board", loginRequired, this.myBoardRoutes.routes)
 		this.sv.use("/archive", loginRequired, this.myArchiveRoutes.routes)
 		this.sv.use("/column", loginRequired, this.myColumnRoutes.routes)
-		this.sv.use("/task", this.myTaskRoutes.routes)
+		this.sv.use("/task", loginRequired, this.myTaskRoutes.routes)
 		this.sv.use("/theme", loginRequired, this.myThemeRoutes.routes)
 
 		this.sv.use(errorHandling)
