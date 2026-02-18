@@ -18,9 +18,10 @@ export default class taskRoutes {
 
 		this.routes.post("/:board/:column/", this.create)
 		this.routes.post("/deliver/:id", this.deliver)
-		this.routes.put("/:id", this.updateTask)
+		this.routes.put("/:id", this.update)
+		this.routes.put("/:id/move", this.move)
 		this.routes.put("/:board/:id/move", this.switchTaskColumn)
-		this.routes.delete("/:id", this.deleteTask)
+		this.routes.delete("/:id", this.delete)
 	}
 
 	create = async (req: Request, res: Response) => {
@@ -67,13 +68,32 @@ export default class taskRoutes {
 		})
 	}
 
-	updateTask = (req: Request, res: Response) => {
-		res.status(200).send({
+	update = async (req: Request, res: Response) => {
+		if (!req.params.id)
+			return res.status(400).send({message: "Task not specified"})
+
+		const { name, desc, type, deadline } = req.body
+		if (!name && !desc && !type && !deadline)
+			return res.status(304).send({message: "Nothing changed"})
+
+		const taskId = parseInt(req.params.id)
+		const task = await this.taskController.getTaskById(taskId)
+		if (!task)
+			return res.status(404).send({message: "Task not found"})
+
+		this.taskController.update(taskId, {
+			task_name: name,
+			task_desc: desc,
+			task_type: type,
+			task_deadline: deadline
+		})
+
+		return res.status(200).send({
 			message: `Task updated`
 		})
 	}
 
-	deleteTask = (req: Request, res: Response) => {
+	delete = (req: Request, res: Response) => {
 		res.status(200).send({
 			message: `Task deleted`
 		})
@@ -83,6 +103,9 @@ export default class taskRoutes {
 		res.status(200).send({
 			message: `Task delivered`
 		})
+	}
+
+	move = (req: Request, res: Response) => {
 	}
 
 	switchTaskColumn = async (req: Request, res: Response) =>  {

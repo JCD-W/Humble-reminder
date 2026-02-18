@@ -39,11 +39,8 @@ export default class boardRoutes {
 		if (!req.params.id)
 			return res.status(400).send({message: "Board not specified"})
 
-		if (!req.body.title && !req.body.description && !req.body.state)
+		if (!req.body.title && !req.body.description)
 			return res.status(304).send({message: "Nothing changed"})
-
-		if (req.body.state && !["active", "archived", "deleted"].includes(req.body.state))
-			return res.status(400).send({message: "Invalid board state"})
 
 		const boardId = Buffer.from(req.params.id, "hex")
 		const board = await this.boardController.getBoardById(boardId)
@@ -56,7 +53,6 @@ export default class boardRoutes {
 		await this.boardController.update(boardId, {
 			"board_title": req.body.title,
 			"board_desc": req.body.description,
-			"board_state": req.body.state
 		})
 
 		return res.status(200).send({

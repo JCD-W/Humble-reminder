@@ -13,9 +13,9 @@ export default class columnRoutes {
 		this.boardController = bc
 
 		this.routes.post("/:board", this.create)
-		this.routes.put("/:id", this.updateColumn)
+		this.routes.put("/:id", this.update)
 		this.routes.put("/move/:board/:id", this.move)
-		this.routes.delete("/:id", this.deleteColumn)
+		this.routes.delete("/:id", this.delete)
 		this.routes.get("/:board", this.getBoardColumns)
 	}
 
@@ -40,18 +40,14 @@ export default class columnRoutes {
 		})
 	}
 
-	updateColumn = async (req: Request, res: Response) => {
+	update = async (req: Request, res: Response) => {
 		if (!req.params.id)
 			return res.status(400).send({message: "Column not specified"})		
 		const columnId = parseInt(req.params.id)
-		const title = req.body.title
-		const state = req.body.state
+		const { title } = req.body
 
-		if (!title && !state)
+		if (!title)
 			return res.status(304).send({message: "Nothing changed"})
-
-		if (state && ["active", "archived", "deleted"].includes(state))
-			return res.status(400).send({message: "Invalid board state"})
 
 		const column = this.columnController.getColumnById(columnId)
 		if (!column)
@@ -59,7 +55,6 @@ export default class columnRoutes {
 
 		await this.columnController.update(columnId, {
 			column_title: title,
-			column_state: state
 		})
 
 		return res.status(200).send({
@@ -67,7 +62,7 @@ export default class columnRoutes {
 		})
 	}
 
-	deleteColumn = async (req: Request, res: Response) => {
+	delete = async (req: Request, res: Response) => {
 		if (!req.params.id)
 			return res.status(400).send({message: "Column not specified"})		
 		const columnId = parseInt(req.params.id)
