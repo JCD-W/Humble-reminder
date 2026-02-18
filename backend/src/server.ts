@@ -90,6 +90,7 @@ export default class server {
 			origin: FRONTEND_URL,
 			credentials: true
 		}))
+		this.sv.use(express.static("public"))
 
 		this.sv.use("/", this.myInternalRoutes.routes)
 		this.sv.use("/auth", this.myAuthRoutes.routes)
