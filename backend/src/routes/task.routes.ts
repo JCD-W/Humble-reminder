@@ -16,10 +16,10 @@ export default class taskRoutes {
 		this.taskController = tc
 		this.columnController = cc
 
-		this.routes.post("/:board/:column/", this.create)
+		this.routes.post("/create/:board/:column/", this.create)
 		this.routes.post("/deliver/:id", this.deliver)
 		this.routes.put("/:id", this.update)
-		this.routes.put("/:id/move", this.move)
+		this.routes.put("/move/:id", this.move)
 		this.routes.put("/:board/:id/move", this.switchTaskColumn)
 		this.routes.delete("/:id", this.delete)
 	}
@@ -93,14 +93,49 @@ export default class taskRoutes {
 		})
 	}
 
-	delete = (req: Request, res: Response) => {
-		res.status(200).send({
+	delete = async (req: Request, res: Response) => {
+		if (!req.params.id)
+			return res.status(400).send({message: "Task not specified"})
+		const taskId = parseInt(req.params.id)
+		const task = await this.taskController.getTaskById(taskId)
+		if (!task)
+			return res.status(404).send({message: "Task not found"})
+
+		await this.taskController.update(taskId, {
+			task_state: "archived"
+		})
+
+		return res.status(200).send({
 			message: `Task deleted`
 		})
 	}
 
-	deliver = (req: Request, res: Response) => {
-		res.status(200).send({
+	deliver = async (req: Request, res: Response) => {
+		if (!req.params.id)
+			return res.status(400).send({message: "Task not specified"})
+		const taskId = parseInt(req.params.id)
+		const task = await this.taskController.getTaskById(taskId)
+		if (!task)
+			return res.status(404).send({message: "Task not found"})
+
+		if (task.state != "active")
+			return res.status(400).send({message: `The task is ${task.state}`})
+
+		switch (task.type) {
+			case "deliver_url":
+				if (!req.body.url)
+					return res.status(400).send({message: "Delivered URL not provided"})
+				await this.taskController.update(taskId, {
+					task_deliver: req.body.url
+				})
+				break
+			case "deliver_file":
+				break
+			default:
+				return res.status(400).send({message: "This task doesn't expect a deliver"})
+		}
+
+		return res.status(200).send({
 			message: `Task delivered`
 		})
 	}
