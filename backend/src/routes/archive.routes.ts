@@ -17,10 +17,12 @@ export default class archiveRoutes {
 
 		this.routes.get("/", this.getBoardArchives)
 		this.routes.get("/column/:board", this.getColumnArchive)
-		this.routes.get("/task/:column", this.getTaskArchive)
+		this.routes.post("/board/:id", this.restoreBoard)
 		this.routes.post("/column/:id", this.restoreColumn)
 		this.routes.post("/task/:id", this.restoreTask)
-		this.routes.delete("/:id", this.deleteArchive)
+		this.routes.delete("/board/:id", this.deleteBoardArchive)
+		this.routes.delete("/column/:id", this.deleteColumnArchive)
+		this.routes.delete("/task/:id", this.deleteTaskArchive)
 	}
 
 	getBoardArchives = async (req: Request, res: Response) => {
@@ -56,9 +58,23 @@ export default class archiveRoutes {
 		return res.status(200).send(columns)
 	}
 
-	getTaskArchive = (req: Request, res: Response) => {
-		res.status(200).send({
-			id: 0
+	restoreBoard = async (req: Request, res: Response) => {
+		if (!req.params.id)
+			return res.status(400).send({message: "Board not specified"})
+		const boardId = Buffer.from(req.params.id, "hex")
+		const board = await this.boardController.getBoardById(boardId)
+		if (!board)
+			return res.status(404).send({message: "Board not found"})
+		console.log(board)
+		if (board.board_state !== "archived")
+			return res.status(400).send({message: "The board is not archived"})
+
+		await this.boardController.update(boardId, {
+			board_state: "active"
+		})
+
+		return res.status(400).send({
+			message: "Board restored"
 		})
 	}
 
@@ -74,7 +90,19 @@ export default class archiveRoutes {
 		})
 	}
 
-	deleteArchive = (req: Request, res: Response) => {
+	deleteBoardArchive = (req: Request, res: Response) => {
+		res.status(200).send({
+			message: `Archive deleted`
+		})
+	}
+
+	deleteColumnArchive = (req: Request, res: Response) => {
+		res.status(200).send({
+			message: `Archive deleted`
+		})
+	}
+
+	deleteTaskArchive = (req: Request, res: Response) => {
 		res.status(200).send({
 			message: `Archive deleted`
 		})

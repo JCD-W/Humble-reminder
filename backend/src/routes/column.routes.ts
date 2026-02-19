@@ -110,7 +110,7 @@ export default class columnRoutes {
 		const board = await this.boardController.getBoardById(boardId)
 		if (!board)
 			return res.status(404).send({message: "Board not found"})
-		if (board.state !== "active")
+		if (board.board_state !== "active")
 			return res.status(400).send({message: `The board is ${board.state}`})
 
 		const columnId = parseInt(req.params.id)
