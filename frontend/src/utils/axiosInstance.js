@@ -2,7 +2,27 @@ import Axios from "axios"
 
 const BACKEND_URI = process.env.BACKEND_URI || "http://localhost:3000"
 
-export const axiosInstance = Axios.create({
+const axiosInstance = Axios.create({
 	baseURL: BACKEND_URI,
 	withCredentials: true
 })
+
+axiosInstance.interceptors.response.use((response) => response, 
+	async (error) => {
+		if (!error.response || error.response.status !== 403)
+			return Promise.reject(error)
+		console.log("Refreshing token")
+		try {
+			const resp = await axiosInstance.get("/auth/refresh")
+			if (resp.status === 200)
+				return axiosInstance(error.config)
+		} catch (err) {
+			console.log("Failed to refresh")
+		}
+		return Promise.reject(error)
+	}
+)
+
+export {
+	axiosInstance
+}
