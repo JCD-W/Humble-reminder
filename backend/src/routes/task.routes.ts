@@ -39,10 +39,14 @@ export default class taskRoutes {
 		const board = await this.boardController.getBoardById(boardId)
 		if (!board)
 			return res.status(404).send({message: "Board not found"})
+		if (board.state !== "active")
+			return res.status(400).send({message: `The board is ${board.state}`})
 
 		const column = await this.columnController.getColumnById(columnId)
 		if (!column)
 			return res.status(404).send({message: "Column not found"})
+		if (column.state !== "active")
+			return res.status(400).send({message: `The column is ${column}`})
 
 		const { name, description, type } = req.body
 		if (!name || !description || !type)
@@ -83,6 +87,8 @@ export default class taskRoutes {
 		const task = await this.taskController.getTaskById(taskId)
 		if (!task)
 			return res.status(404).send({message: "Task not found"})
+		if (task.state !== "active")
+			return res.status(400).send({message: `The task is ${task.state}`})
 
 		this.taskController.update(taskId, {
 			task_name: name,
@@ -103,6 +109,8 @@ export default class taskRoutes {
 		const task = await this.taskController.getTaskById(taskId)
 		if (!task)
 			return res.status(404).send({message: "Task not found"})
+		if (task.state !== "active")
+			return res.status(400).send({message: `The task is ${task.state}`})
 
 		await this.taskController.update(taskId, {
 			task_state: "archived"
@@ -120,8 +128,7 @@ export default class taskRoutes {
 		const task = await this.taskController.getTaskById(taskId)
 		if (!task)
 			return res.status(404).send({message: "Task not found"})
-
-		if (task.state != "active")
+		if (task.state !== "active")
 			return res.status(400).send({message: `The task is ${task.state}`})
 
 		switch (task.type) {
@@ -174,12 +181,18 @@ export default class taskRoutes {
 		const board = await this.boardController.getBoardById(boardId)
 		if (!board)
 			return res.status(404).send({message: "Board not found"})
+		if (board.state !== "active")
+			return res.status(400).send({message: `The board is ${board.state}`})
 		const column = await this.columnController.getColumnById(columnId)
 		if (!column)
 			return res.status(404).send({message: "Column not found"})
+		if (column.state !== "active")
+			return res.status(400).send({message: `The column is ${column.state}`})
 		const task = await this.taskController.getTaskById(taskId)
 		if (!task)
 			return res.status(404).send({message: "Task not found"})
+		if (task.state !== "active")
+			return res.status(400).send({message: `The task is ${task.state}`})
 
 		await this.taskController.moveTaskColumn(taskId, task.column, columnId, task.position)
 
@@ -196,7 +209,7 @@ export default class taskRoutes {
 		if (!task)
 			return res.status(404).send({message: "Task not found"})
 
-		if (task.state != "active")
+		if (task.state !== "active")
 			return res.status(400).send({message: `The task is ${task.state}`})
 
 		if (!task.deliver_url)
