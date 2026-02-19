@@ -55,13 +55,13 @@ export default class boardController {
 		await this.db.query("UPDATE board SET board_recent = ? WHERE board_id = ?", [new Date(), boardId])
 	}
 
-	async getUserBoards (userId: Buffer, offset: number = 0, limit: number = 9) {
-		const res = await this.db.query("SELECT b.board_id, b.board_title, b.board_desc, b.board_state, b.board_creation, b.board_recent FROM board b JOIN user_has_board uhc ON b.board_id = uhc.board_id WHERE uhc.user_id = ? ORDER BY b.board_recent DESC LIMIT ? OFFSET ?", [userId, limit.toString(), offset.toString()])
+	async getUserBoards (userId: Buffer, offset: number = 0, state: string = "active", limit: number = 9) {
+		const res = await this.db.query("SELECT b.board_id, b.board_title, b.board_desc, b.board_state, b.board_creation, b.board_recent FROM board b JOIN user_has_board uhc ON b.board_id = uhc.board_id WHERE uhc.user_id = ? AND b.board_state = ? ORDER BY b.board_recent DESC LIMIT ? OFFSET ?", [userId, state, limit.toString(), offset.toString()])
 		return res
 	}
 
-	async getAmountUserBoards (userId: Buffer) {
-		const [res] = await this.db.query("SELECT COUNT(b.board_id) as amount FROM board b JOIN user_has_board uhc ON b.board_id = uhc.board_id WHERE uhc.user_id = ?", [userId])
+	async getAmountUserBoards (userId: Buffer, state: string = "active") {
+		const [res] = await this.db.query("SELECT COUNT(b.board_id) as amount FROM board b JOIN user_has_board uhc ON b.board_id = uhc.board_id WHERE uhc.user_id = ? AND b.board_state = ?", [userId, state])
 		return res.amount
 	}
 

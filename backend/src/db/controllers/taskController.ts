@@ -14,13 +14,13 @@ export default class taskController {
 		return res.insertId
 	}
 
-	async getColumnTasks (columnId: number) {
+	async getColumnTasks (columnId: number, state: string = "active") {
 		return await this.db.query(
 			"SELECT t.task_id AS id, t.task_name AS name, t.task_desc AS description, t.task_state AS state,"+
 			"t.task_type AS type, t.task_deliver AS deliver_url, t.task_deadline AS deadline, t.task_creation AS creation,"+
 			"t.task_delivered AS delivery_date, cht.task_position AS position FROM task t "+
-			"JOIN column_has_task cht ON cht.task_id = t.task_id WHERE cht.column_id = ? ORDER BY cht.task_position ASC",
-			[columnId]
+			"JOIN column_has_task cht ON cht.task_id = t.task_id WHERE cht.column_id = ? AND t.task_state = ? ORDER BY cht.task_position ASC",
+			[columnId, state]
 		)
 	}
 

@@ -49,9 +49,11 @@ export default class columnRoutes {
 		if (!title)
 			return res.status(304).send({message: "Nothing changed"})
 
-		const column = this.columnController.getColumnById(columnId)
+		const column = await this.columnController.getColumnById(columnId)
 		if (!column)
 			return res.status(404).send({message: "Column not found"})
+		if (column.state !== "active")
+			return res.status(400).send({message: `The column is ${column.state}`})
 
 		await this.columnController.update(columnId, {
 			column_title: title,
@@ -67,9 +69,11 @@ export default class columnRoutes {
 			return res.status(400).send({message: "Column not specified"})		
 		const columnId = parseInt(req.params.id)
 
-		const column = this.columnController.getColumnById(columnId)
+		const column = await this.columnController.getColumnById(columnId)
 		if (!column)
 			return res.status(404).send({message: "Column not found"})
+		if (column.state !== "active")
+			return res.status(400).send({message: `The column is ${column.state}`})
 
 		await this.columnController.update(columnId, {
 			column_state: "archived"
@@ -106,11 +110,15 @@ export default class columnRoutes {
 		const board = await this.boardController.getBoardById(boardId)
 		if (!board)
 			return res.status(404).send({message: "Board not found"})
+		if (board.board_state !== "active")
+			return res.status(400).send({message: `The board is ${board.state}`})
 
 		const columnId = parseInt(req.params.id)
-		const column = this.columnController.getColumnById(columnId)
+		const column = await this.columnController.getColumnById(columnId)
 		if (!column)
 			return res.status(404).send({message: "Column not found"})
+		if (column.state !== "active")
+			return res.status(400).send({message: `The column is ${column.state}`})
 
 		await this.columnController.move(columnId, boardId, req.body.position)
 
