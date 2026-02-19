@@ -40,6 +40,11 @@ export default class taskController {
 		await this.db.query("UPDATE column_has_task SET task_position = task_position - 1 WHERE column_id = ? AND task_position >= ?", [oldColumn, position])
 	}
 
+	async moveTask (taskId: number, columnId: number, position: number) {
+		await this.db.query("UPDATE column_has_task SET task_position = task_position + 1 WHERE task_position >= ? AND column_id = ?", [position, columnId])
+		await this.db.query("UPDATE column_has_task SET task_position = ? WHERE task_id = ?", [position, taskId])
+	}
+
 	async update (taskId: number, newData: Map<string, any>) {
 		await this.db.update("task", newData, taskId, "task_id")
 	}

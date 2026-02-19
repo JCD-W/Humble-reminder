@@ -156,7 +156,24 @@ export default class taskRoutes {
 		})
 	}
 
-	move = (req: Request, res: Response) => {
+	move = async (req: Request, res: Response) => {
+		if (!req.params.id)
+			return res.status(400).send({message: "No task specified"})
+		if (!req.body.position)
+			return res.status(400).send({message: "Position not specified"})
+		const taskId = parseInt(req.params.id)
+		
+		const task = await this.taskController.getTaskById(taskId)
+		if (!task)
+			return res.status(404).send({message: "Task not found"})
+		if (task.state !== "active")
+			return res.status(400).send({message: `The task is ${task.state}`})
+
+		await this.taskController.moveTask(taskId, task.column, parseInt(req.body.position))
+
+		return res.status(200).send({
+			message: `Task position changed`
+		})
 	}
 
 	switchTaskColumn = async (req: Request, res: Response) =>  {
@@ -180,6 +197,8 @@ export default class taskRoutes {
 		const task = await this.taskController.getTaskById(taskId)
 		if (!task)
 			return res.status(404).send({message: "Task not found"})
+		if (task.state !== "active")
+			return res.status(400).send({message: `The task is ${task.state}`})
 
 		await this.taskController.moveTaskColumn(taskId, task.column, columnId, task.position)
 
