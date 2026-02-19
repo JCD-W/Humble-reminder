@@ -68,7 +68,6 @@ export default class server {
 		this.myAuthRoutes = new authRoutes(this.myUserController)
 		this.myInternalRoutes = new internalRoutes()
 		this.myBoardRoutes = new boardRoutes(this.myBoardController)
-		this.myArchiveRoutes = new archiveRoutes()
 		this.myColumnRoutes = new columnRoutes(
 			this.myColumnController,
 			this.myBoardController
@@ -81,6 +80,11 @@ export default class server {
 		this.myThemeRoutes = new themeRoutes(
 			this.myThemeController,
 			this.myBoardController
+		)
+		this.myArchiveRoutes = new archiveRoutes(
+			this.myBoardController,
+			this.myColumnController,
+			this.myTaskController
 		)
 
 		this.sv.use(express.json())
