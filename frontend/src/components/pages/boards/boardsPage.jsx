@@ -1,6 +1,10 @@
+import HrHeader from "../../layout/header"
+
 const BoardsPage = () => {
 	return (
-		<h1>Boards</h1>
+		<>
+			<HrHeader title={"Boards"}/>
+		</>
 	)
 }
 

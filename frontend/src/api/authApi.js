@@ -1,6 +1,5 @@
 import { axiosInstance } from "../utils/axiosInstance"
 
-// /
 const checkConnection = async () => {
 	try {
 		const resp = await axiosInstance.get("/")
@@ -11,7 +10,6 @@ const checkConnection = async () => {
 	}
 }
 
-// /auth/check
 const checkLogin = async () => {
 	try {
 		const resp = await axiosInstance.get("/auth/check")
@@ -22,7 +20,6 @@ const checkLogin = async () => {
 	}
 }
 
-// /auth/login
 const login = async (name, pass) => {
 	return await axiosInstance.post("/auth/login", {
 		name,
