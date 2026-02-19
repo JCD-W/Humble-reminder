@@ -42,6 +42,26 @@ export default class archiveRoutes {
 		})
 	}
 
+	getColumnArchive = async (req: Request, res: Response) => {
+		if (!req.params.board)
+			return res.status(400).send({message: "Board not specified"})
+		const boardId = Buffer.from(req.params.board, "hex")
+
+		const board = await this.boardController.getBoardById(boardId)
+		if (!board)
+			return res.status(404).send({message: "Board not found"})
+
+		const columns = await this.columnController.getColumns(boardId, "archived")
+
+		return res.status(200).send(columns)
+	}
+
+	getTaskArchive = (req: Request, res: Response) => {
+		res.status(200).send({
+			id: 0
+		})
+	}
+
 	restoreColumn = (req: Request, res: Response) => {
 		res.status(200).send({
 			message: `Column restored`
@@ -51,18 +71,6 @@ export default class archiveRoutes {
 	restoreTask = (req: Request, res: Response) => {
 		res.status(200).send({
 			message: `Task restored`
-		})
-	}
-
-	getColumnArchive = (req: Request, res: Response) => {
-		res.status(200).send({
-			id: 0
-		})
-	}
-
-	getTaskArchive = (req: Request, res: Response) => {
-		res.status(200).send({
-			id: 0
 		})
 	}
 
