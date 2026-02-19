@@ -65,7 +65,7 @@ export default class archiveRoutes {
 		const board = await this.boardController.getBoardById(boardId)
 		if (!board)
 			return res.status(404).send({message: "Board not found"})
-		console.log(board)
+		
 		if (board.board_state !== "archived")
 			return res.status(400).send({message: "The board is not archived"})
 
@@ -78,13 +78,39 @@ export default class archiveRoutes {
 		})
 	}
 
-	restoreColumn = (req: Request, res: Response) => {
-		res.status(200).send({
+	restoreColumn = async (req: Request, res: Response) => {
+		if (!req.params.id)
+			return res.status(400).send({message: "Column not specified"})		
+		const columnId = parseInt(req.params.id)
+		const column = await this.columnController.getColumnById(columnId)
+		if (!column)
+			return res.status(404).send({message: "Column not found"})
+		if (column.state !== "archived")
+			return res.status(400).send({message: `The column is not archived`})
+
+		await this.columnController.update(columnId, {
+			column_state: "active"
+		})
+
+		return res.status(200).send({
 			message: `Column restored`
 		})
 	}
 
-	restoreTask = (req: Request, res: Response) => {
+	restoreTask = async (req: Request, res: Response) => {
+		if (!req.params.id)
+			return res.status(400).send({message: "Task not specified"})
+		const taskId = parseInt(req.params.id)
+		const task = await this.taskController.getTaskById(taskId)
+		if (!task)
+			return res.status(404).send({message: "Task not found"})
+		if (task.state !== "archived")
+			return res.status(400).send({message: `The task is not archived`})
+
+		await this.taskController.update(taskId, {
+			task_state: "active"
+		})
+
 		res.status(200).send({
 			message: `Task restored`
 		})
