@@ -116,20 +116,53 @@ export default class archiveRoutes {
 		})
 	}
 
-	deleteBoardArchive = (req: Request, res: Response) => {
-		res.status(200).send({
-			message: `Archive deleted`
+	deleteBoardArchive = async (req: Request, res: Response) => {
+		if (!req.params.id)
+			return res.status(400).send({message: "Board not specified"})
+		const boardId = Buffer.from(req.params.id, "hex")
+		const board = await this.boardController.getBoardById(boardId)
+		if (!board)
+			return res.status(404).send({message: "Board not found"})
+		
+		await this.boardController.update(boardId, {
+			board_state: "deleted"
+		})
+
+		return res.status(200).send({
+			message: `Board deleted`
 		})
 	}
 
-	deleteColumnArchive = (req: Request, res: Response) => {
-		res.status(200).send({
-			message: `Archive deleted`
+	deleteColumnArchive = async (req: Request, res: Response) => {
+		if (!req.params.id)
+			return res.status(400).send({message: "Column not specified"})		
+		const columnId = parseInt(req.params.id)
+		const column = await this.columnController.getColumnById(columnId)
+		if (!column)
+			return res.status(404).send({message: "Column not found"})
+
+		await this.columnController.update(columnId, {
+			column_state: "deleted"
+		})
+
+		return res.status(200).send({
+			message: `Column deleted`
 		})
 	}
 
-	deleteTaskArchive = (req: Request, res: Response) => {
-		res.status(200).send({
+	deleteTaskArchive = async (req: Request, res: Response) => {
+		if (!req.params.id)
+			return res.status(400).send({message: "Task not specified"})
+		const taskId = parseInt(req.params.id)
+		const task = await this.taskController.getTaskById(taskId)
+		if (!task)
+			return res.status(404).send({message: "Task not found"})
+
+		await this.taskController.update(taskId, {
+			task_state: "deleted"
+		})
+
+		return res.status(200).send({
 			message: `Archive deleted`
 		})
 	}
