@@ -13,37 +13,37 @@ export default class archiveRoutes {
 		this.routes.delete("/:id", this.deleteArchive)
 	}
 
-	getArchives (req: Request, res: Response) {
+	getArchives = async (req: Request, res: Response) => {
 		res.status(200).send({
 			amount: 0
 		})
 	}
 
-	restoreColumn (req: Request, res: Response) {
+	restoreColumn = (req: Request, res: Response) => {
 		res.status(200).send({
 			message: `Column restored`
 		})
 	}
 
-	restoreTask (req: Request, res: Response) {
+	restoreTask = (req: Request, res: Response) => {
 		res.status(200).send({
 			message: `Task restored`
 		})
 	}
 
-	getColumnArchive (req: Request, res: Response) {
+	getColumnArchive = (req: Request, res: Response) => {
 		res.status(200).send({
 			id: 0
 		})
 	}
 
-	getTaskArchive (req: Request, res: Response) {
+	getTaskArchive = (req: Request, res: Response) => {
 		res.status(200).send({
 			id: 0
 		})
 	}
 
-	deleteArchive (req: Request, res: Response) {
+	deleteArchive = (req: Request, res: Response) => {
 		res.status(200).send({
 			message: `Archive deleted`
 		})
