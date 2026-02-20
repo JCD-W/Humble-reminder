@@ -3,10 +3,17 @@ import "./header.css"
 
 import { FaArchive, FaRegUser } from "react-icons/fa"
 import { FaBars } from "react-icons/fa"
+import { useNavigate } from "react-router-dom"
 
 const HrHeader = ({ title }) => {
+	const navigate = useNavigate()
+
 	const [showMenu, setShowMenu] = useState(false)
 	const [showUserMenu, setShowUserMenu] = useState(false)
+
+	const changePassword = () => {
+		navigate("/change-pass")
+	}
 
 	return (
 		<header className="hr-header">
@@ -31,7 +38,10 @@ const HrHeader = ({ title }) => {
 					
 					{showUserMenu && (
 						<div className={`hr-submenu`}>
-							<button className="hr-header-submenu-button hr-header-menu-button">
+							<button 
+								className="hr-header-submenu-button hr-header-menu-button"
+								onClick={() => changePassword()}
+							>
 								<span className="hr-header-label">Change password</span>
 							</button>
 							<button className="hr-header-submenu-button hr-header-menu-button">

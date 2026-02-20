@@ -9,6 +9,7 @@ import { checkConnection, checkLogin } from "./api/authApi"
 import BoardPage from "./components/pages/boards/boardPage"
 import UnauthorizedPage from "./components/pages/errors/unauthorizedPage"
 import { MessageProvider } from "./context/messageContext"
+import PageNotFound from "./components/pages/errors/pageNotFound"
 
 const App = () =>  {
 	let [finishedChecking, setFinishedChecking] = useState(false)
@@ -40,6 +41,7 @@ const App = () =>  {
 						<Route path="/boards" element={<BoardsPage/>}/>
 						<Route path="/board/:id" element={<BoardPage/>}/>
 						<Route path="/unauthorized" element={<UnauthorizedPage/>}/>
+						<Route path="*" element={<PageNotFound/>}/>
 					</Routes>
 				</BrowserRouter>
 			</MessageProvider>
