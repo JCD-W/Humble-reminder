@@ -21,19 +21,24 @@ const HrHeader = ({ title }) => {
 				<div className={`hr-header-button-menu ${showMenu ? 
 					"hr-header-show-menu" : "hr-header-hide-menu"
 				}`}>
-					<button className="hr-header-button hr-header-menu-button">
+					<button 
+						className="hr-header-button hr-header-menu-button"
+						onClick={() => setShowUserMenu(!showUserMenu)}
+					>
 						<FaRegUser/>
 						<span className="hr-header-mobile hr-header-label">Session</span>
 					</button>
 					
-					<div className={`hr-submenu ${!showUserMenu && ("hr-header-hide-menu")}`}>
-						<button>
-							<span>Change password</span>
-						</button>
-						<button>
-							<span>Close session</span>
-						</button>
-					</div>
+					{showUserMenu && (
+						<div className={`hr-submenu`}>
+							<button className="hr-header-submenu-button hr-header-menu-button">
+								<span className="hr-header-label">Change password</span>
+							</button>
+							<button className="hr-header-submenu-button hr-header-menu-button">
+								<span className="hr-header-label">Close session</span>
+							</button>
+						</div>
+					)}
 
 					<button className="hr-header-button hr-header-menu-button">
 						<FaArchive/>
