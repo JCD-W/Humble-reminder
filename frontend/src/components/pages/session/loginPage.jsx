@@ -9,11 +9,11 @@ const LoginPage = () => {
 	const navigate = useNavigate()
 	const { showMessage, ERROR_MESSAGE } = useContext(MessageContext)
 
-	const handeLogin = async (data) => {
+	const handeLogin = async ({ password }) => {
 		try {
 			await login(
 				"Default",
-				data.password
+				password
 			)
 			navigate("/boards")
 		} catch (err) {

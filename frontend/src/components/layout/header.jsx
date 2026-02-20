@@ -1,18 +1,25 @@
-import { useState } from "react"
+import { useContext, useState } from "react"
 import "./header.css"
 
 import { FaArchive, FaRegUser } from "react-icons/fa"
 import { FaBars } from "react-icons/fa"
 import { useNavigate } from "react-router-dom"
+import { SessionContext } from "../../context/sessionContext"
 
 const HrHeader = ({ title }) => {
 	const navigate = useNavigate()
+	const { logOff } = useContext(SessionContext)
 
 	const [showMenu, setShowMenu] = useState(false)
 	const [showUserMenu, setShowUserMenu] = useState(false)
 
 	const changePassword = () => {
 		navigate("/change-pass")
+	}
+
+	const closeSession = () => {
+		logOff()
+		navigate("/")
 	}
 
 	return (
@@ -44,7 +51,10 @@ const HrHeader = ({ title }) => {
 							>
 								<span className="hr-header-label">Change password</span>
 							</button>
-							<button className="hr-header-submenu-button hr-header-menu-button">
+							<button 
+								className="hr-header-submenu-button hr-header-menu-button"
+								onClick={() => closeSession()}
+							>
 								<span className="hr-header-label">Close session</span>
 							</button>
 						</div>
