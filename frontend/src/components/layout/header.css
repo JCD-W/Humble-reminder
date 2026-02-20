@@ -7,17 +7,6 @@
 	}
 }
 
-@keyframes menu-hide {
-	0% {
-		transform: translateX(0%);
-		display: flex;
-	}
-	100% {
-		transform: translateX(80%);
-		display: flex;
-	}
-}
-
 .hr-header {
 	background-color: var(--primary-color);
 	padding: 15px;
@@ -66,7 +55,8 @@
 		top: 7.5%;
 		background-color: var(--primary-color);
 		box-shadow: var(--tertiary-color) 0px 0px 5px;
-		width: 75%;
+		width: 100%;
+		height: 100%;
 		flex-direction: column;
 	}
 
@@ -78,8 +68,6 @@
 
 	.hr-header-hide-menu {
 		display: none;
-		animation-name: menu-hide;
-		animation-duration: 0.2s;
 	}
 
 	.hr-header-button {
@@ -91,6 +79,8 @@
 	.hr-header-menu-button {
 		width: 100%;
 		padding: 10px;
+		border-radius: 0px;
+		border-bottom: 1px solid var(--tertiary-color);
 	}
 
 	.hr-header-label {
