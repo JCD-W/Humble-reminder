@@ -13,14 +13,10 @@ import { MessageProvider } from "./context/messageContext"
 const App = () =>  {
 	let [finishedChecking, setFinishedChecking] = useState(false)
 	let [hasConnection, setHasConnection] = useState(false)
-	let [logged, setLogged] = useState(false)
 
 	const checks = async () => {
 		const connected = await checkConnection()
 		setHasConnection(connected)
-		if (connected) {
-			setLogged(await checkLogin())
-		}
 		setFinishedChecking(true)
 	}
 
@@ -37,13 +33,11 @@ const App = () =>  {
 					<Routes>
 						<Route path="/" element={					
 							hasConnection ?
-								logged ?
-									<BoardsPage/>
-								:
-									<LoginPage/>
+								<LoginPage/>
 							:
 								<LostConnectionPage/>
 						}/>
+						<Route path="/boards" element={<BoardsPage/>}/>
 						<Route path="/board/:id" element={<BoardPage/>}/>
 						<Route path="/unauthorized" element={<UnauthorizedPage/>}/>
 					</Routes>

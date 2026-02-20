@@ -1,5 +1,5 @@
-import { useContext } from "react"
-import { login } from "../../../api/authApi"
+import { useContext, useState } from "react"
+import { login, refreshToken } from "../../../api/authApi"
 import HrForm from "../../ui/hrForm/hrForm"
 import HrStickyNote from "../../ui/hrStickyNote/hrStickyNote"
 import { MessageContext } from "../../../context/messageContext"
@@ -15,11 +15,23 @@ const LoginPage = () => {
 				"Default",
 				data.password
 			)
-			navigate(0)
+			navigate("/boards")
 		} catch (err) {
 			showMessage(err.response.data.message, ERROR_MESSAGE)
 		}
 	}
+	
+	const checkIfLogged = async () => {
+		try {
+			const result = await refreshToken()
+			if (result.status == 200)
+				navigate("/boards")
+		} catch (err) {}
+	}
+
+	useState(() => {
+		checkIfLogged()
+	}, [])
 
 	return (
 		<>

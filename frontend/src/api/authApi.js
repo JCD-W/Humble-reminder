@@ -27,8 +27,13 @@ const login = async (name, pass) => {
 	})
 }
 
+const refreshToken = async () => {
+	return await axiosInstance.get("/auth/refresh")
+}
+
 export {
 	checkConnection,
 	login,
-	checkLogin
+	checkLogin,
+	refreshToken
 }

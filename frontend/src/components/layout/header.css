@@ -43,6 +43,10 @@
 	display: block;
 }
 
+.hr-header-hide-menu {
+	display: none;
+}
+
 @media only screen and (max-width: 600px) {
 	.hr-header-mobile {
 		display: block;
@@ -64,10 +68,6 @@
 		display: flex;
 		animation-name: menu-showup;
 		animation-duration: 0.2s;
-	}
-
-	.hr-header-hide-menu {
-		display: none;
 	}
 
 	.hr-header-button {

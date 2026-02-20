@@ -1,4 +1,5 @@
 import Axios from "axios"
+import { refreshToken } from "../api/authApi"
 
 const BACKEND_URI = process.env.BACKEND_URI || "http://localhost:3000"
 
@@ -13,7 +14,7 @@ axiosInstance.interceptors.response.use((response) => response,
 			return Promise.reject(error)
 		console.log("Refreshing token")
 		try {
-			const resp = await axiosInstance.get("/auth/refresh")
+			const resp = await refreshToken()
 			if (resp.status === 200)
 				return axiosInstance(error.config)
 		} catch (err) {

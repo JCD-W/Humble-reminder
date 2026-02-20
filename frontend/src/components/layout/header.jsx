@@ -6,6 +6,7 @@ import { FaBars } from "react-icons/fa"
 
 const HrHeader = ({ title }) => {
 	const [showMenu, setShowMenu] = useState(false)
+	const [showUserMenu, setShowUserMenu] = useState(false)
 
 	return (
 		<header className="hr-header">
@@ -24,6 +25,16 @@ const HrHeader = ({ title }) => {
 						<FaRegUser/>
 						<span className="hr-header-mobile hr-header-label">Session</span>
 					</button>
+					
+					<div className={`hr-submenu ${!showUserMenu && ("hr-header-hide-menu")}`}>
+						<button>
+							<span>Change password</span>
+						</button>
+						<button>
+							<span>Close session</span>
+						</button>
+					</div>
+
 					<button className="hr-header-button hr-header-menu-button">
 						<FaArchive/>
 						<span className="hr-header-mobile hr-header-label">Archive</span>
