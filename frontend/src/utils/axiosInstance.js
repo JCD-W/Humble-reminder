@@ -9,7 +9,7 @@ const axiosInstance = Axios.create({
 
 axiosInstance.interceptors.response.use((response) => response, 
 	async (error) => {
-		if (!error.response || error.response.status !== 403)
+		if (!error.response || error.response.status !== 403 || error.response.data.message !== "You need to login first")
 			return Promise.reject(error)
 		console.log("Refreshing token")
 		try {
