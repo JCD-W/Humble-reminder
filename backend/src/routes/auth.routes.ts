@@ -16,7 +16,7 @@ export default class authRoutes {
 		this.userController = uc
 
 		this.routes.post("/login", this.login)
-		this.routes.put("/", loginRequired, this.changePass)
+		this.routes.put("/password", loginRequired, this.changePass)
 		this.routes.get("/refresh", this.refresh)
 		this.routes.get("/check", this.checkToken)
 	}

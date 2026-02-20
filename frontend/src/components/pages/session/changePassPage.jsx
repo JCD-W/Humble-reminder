@@ -2,14 +2,26 @@ import { useNavigate } from "react-router-dom"
 import HrForm from "../../ui/hrForm/hrForm"
 import { useContext } from "react"
 import { MessageContext } from "../../../context/messageContext"
+import { changePassword } from "../../../api/authApi"
+import { SessionContext } from "../../../context/sessionContext"
 
 const ChangePassPage = () => {
 	const navigate = useNavigate()
-	const { showMessage, ERROR_MESSAGE } = useContext(MessageContext)
+	const { showMessage, NORMAL_MESSAGE } = useContext(MessageContext)
+	const { logOff } = useContext(SessionContext)
 
-	const handlePasswordChange = ({ newPassword, repeatedPassword }) => {
+	const handlePasswordChange = async ({ newPassword, repeatedPassword }) => {
 		if (newPassword != repeatedPassword)
-			showMessage("Passwords don't match", ERROR_MESSAGE)
+			return showMessage("Passwords don't match")
+
+		try {
+			await changePassword(newPassword)
+			await logOff()
+			navigate("/")
+			showMessage("Password changed, you can log in again.", NORMAL_MESSAGE)
+		} catch (err) {
+			showMessage(err.response.data.message)
+		}
 	}
 
 	return (

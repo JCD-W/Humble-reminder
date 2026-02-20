@@ -11,7 +11,7 @@ const MessageProvider = ({ children }) => {
 	const [type, setType] = useState(NORMAL_MESSAGE)
 	const [showMessageModal, setShowMessageModal] = useState(false)
 	
-	const showMessage = (message, type = NORMAL_MESSAGE) => {
+	const showMessage = (message, type = ERROR_MESSAGE) => {
 		setMessage(message)
 		setType(type)
 		setShowMessageModal(true)

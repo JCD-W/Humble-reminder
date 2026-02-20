@@ -31,9 +31,16 @@ const refreshToken = async () => {
 	return await axiosInstance.get("/auth/refresh")
 }
 
+const changePassword = async (password) => {
+	return await axiosInstance.put("/auth/password", {
+		password
+	})
+}
+
 export {
 	checkConnection,
 	login,
 	checkLogin,
-	refreshToken
+	refreshToken,
+	changePassword
 }

@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom"
 
 const LoginPage = () => {
 	const navigate = useNavigate()
-	const { showMessage, ERROR_MESSAGE } = useContext(MessageContext)
+	const { showMessage } = useContext(MessageContext)
 
 	const handeLogin = async ({ password }) => {
 		try {
@@ -17,7 +17,7 @@ const LoginPage = () => {
 			)
 			navigate("/boards")
 		} catch (err) {
-			showMessage(err.response.data.message, ERROR_MESSAGE)
+			showMessage(err.response.data.message)
 		}
 	}
 	
