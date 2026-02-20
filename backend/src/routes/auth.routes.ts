@@ -18,7 +18,7 @@ export default class authRoutes {
 		this.routes.post("/login", this.login)
 		this.routes.put("/", loginRequired, this.changePass)
 		this.routes.get("/refresh", this.refresh)
-		this.routes.get("/check", loginRequired, this.checkToken)
+		this.routes.get("/check", this.checkToken)
 	}
 
 	login = async (req: Request, res: Response) => {
@@ -77,8 +77,11 @@ export default class authRoutes {
 
 	// Endpoint for development reasons
 	checkToken = (req: Request, res: Response) => {
+		if (!req.user)
+			return res.status(403).send({message: "Token invalid / Not found"})
+	
 		return res.status(200).send({
-			message: "The token is valid!"
+			message: "The token is valid"
 		})
 	}
 
