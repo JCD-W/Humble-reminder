@@ -1,0 +1,50 @@
+.board-container {
+	background-color: var(--primary-color);
+	border-radius: 7px;
+	padding: 15px;
+	width: 30%;
+	height: fit-content;
+	margin: 0.5rem;
+	color: var(--tertiary-color);
+}
+
+.board-header-container {
+	display: flex;
+	padding: 10px;
+	padding-top: 0px;
+	border-bottom: 2px solid var(--secondary-color);
+	align-items: center;
+}
+
+.board-title {
+	font-weight: bold;
+	font-size: 20px;
+	color: var(--clear-color);
+}
+
+.board-date {
+	margin-left: auto;
+	text-align: right;
+	font-weight: bold;
+	display: block;
+}
+
+.board-options-button {
+	background-color: transparent;
+	border: none;
+	border-radius: 7px;
+	margin-left: 10px;
+}
+
+.board-description-box {
+	margin-top: 7px;
+	margin-bottom: 5px;
+}
+
+@media only screen and (max-width: 600px) {
+	.board-container {
+		width: 92.5%;
+		margin: 0;
+		margin-bottom: 1rem;
+	}
+}

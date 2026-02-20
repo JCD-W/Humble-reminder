@@ -115,7 +115,13 @@ export default class boardRoutes {
 			description: board.board_desc,
 			state: board.board_state,
 			creation: board.board_creation,
-			recent: board.board_recent
+			recent: board.board_recent,
+			theme: {
+				clear: board.clear_color,
+				primary: board.primary_color,
+				secondary: board.secondary_color,
+				tertiary: board.tertiary_color
+			}
 		}))
 
 		return res.status(200).send({

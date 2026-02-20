@@ -1,3 +1,5 @@
+import { axiosInstance } from "../utils/axiosInstance"
+
 const createBoard = async () => {
 	//
 }
@@ -14,8 +16,9 @@ const getBoard = async () => {
 	//
 }
 
-const getBoards = async () => {
-	//
+const getBoards = async (page = 0) => {
+	const resp = await axiosInstance.get(`/board/?page=${page}`)
+	return resp.data
 }
 
 export {
