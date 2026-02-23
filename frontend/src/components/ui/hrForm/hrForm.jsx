@@ -2,7 +2,7 @@ import "./hrForm.css"
 
 import { useForm } from "react-hook-form"
 
-const HrForm = ({ title, fields, buttons, onSubmit = ()=>{} }) => {
+const HrForm = ({ title, fields, buttons, onSubmit = ()=>{}, onClose }) => {
 	const {
 		register, handleSubmit,
 		formState: { errors }
@@ -26,19 +26,36 @@ const HrForm = ({ title, fields, buttons, onSubmit = ()=>{} }) => {
 					return (
 						<div className="form-field" key={field.name}>
 							<label className="form-label">{field.label}</label>
-							<input
-								className="form-input" 
-								name={field.name}
-								type={field.type}
-								{...register(field.name, options)}	
-							/>
+							{
+								field.type === "textarea" ?
+									<textarea
+										className="form-input form-textarea"
+									></textarea>
+								:
+									<input
+										className="form-input" 
+										name={field.name}
+										type={field.type}
+										{...register(field.name, options)}	
+									/>
+							}
 							{Object.keys(errors).includes(field.name) &&
 								<span className="form-error">{errors[field.name].message}</span>
 							}
 						</div>
 					)
 				})}
-				{buttons ?? <input type="submit" value={"SUBMIT"}/>}
+				{buttons ?? 
+					<div className={onClose ? "spaced": "centered"}>
+						{onClose && 
+							<buttons
+								className="form-submit"
+								onClick={onClose}
+							>CANCEL</buttons>
+						}
+						<input className="form-submit" type="submit" value={"SUBMIT"}/>
+					</div>
+				}
 			</form>
 		</>
 	)
