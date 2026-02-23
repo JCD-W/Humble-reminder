@@ -34,11 +34,44 @@
 	border: none;
 	border-radius: 7px;
 	margin-left: 10px;
+	color: var(--tertiary-color);
 }
 
 .board-description-box {
 	margin-top: 7px;
 	margin-bottom: 5px;
+}
+
+.board-options-container {
+	display: flex;
+	flex-direction: column;
+	background-color: var(--primary-color);
+	box-shadow: var(--tertiary-color) 0px 0px 5px;
+	border-radius: 7px;
+	position: relative;
+	top: 39px;
+	right: 15%;
+	width: 25%;
+	margin: -12.5%;
+}
+
+.board-menu-options-button {
+	border-radius: 0px;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	color: var(--tertiary-color);
+	background-color: transparent;
+	padding: 7.5px;
+	font-size: 14px;
+	font-weight: bold;
+	border: none;
+	border-bottom: 1px solid var(--tertiary-color);
+}
+
+.board-menu-options-button:last-child {
+	border: none;
+	border-bottom: none;
 }
 
 @media only screen and (max-width: 600px) {

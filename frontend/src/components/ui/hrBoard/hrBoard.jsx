@@ -1,11 +1,14 @@
+import { useState } from "react"
 import "./hrBoard.css"
 
-import { FaBars, FaEllipsisV } from "react-icons/fa"
+import { FaEllipsisV } from "react-icons/fa"
+import HrBoardOptions from "./hrBoardOptions"
 
 const HrBoard = ({ data }) => {
+	const [showOptions, setShowOptions] = useState(false)
+
 	const creationDate = new Date(data.creation)
 	const lastViewedDate = new Date(data.recent)
-	console.log(data)
 
 	return (
 		<div 
@@ -20,9 +23,13 @@ const HrBoard = ({ data }) => {
 			<div className="board-header-container">
 				<span className="board-title">{data.title}</span>
 				<span className="board-date">{creationDate.toLocaleDateString()}</span>
-				<button className="board-options-button">
+				<button
+					className="board-options-button"
+					onClick={() => setShowOptions(!showOptions)}	
+				>
 					<FaEllipsisV size={18}/>
 				</button>
+				{showOptions && <HrBoardOptions data={data}/>}
 			</div>
 			<p className="board-description-box">{data.description}</p>
 			<span className="board-date">Last viewed {lastViewedDate.toLocaleString()}</span>
