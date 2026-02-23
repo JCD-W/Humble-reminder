@@ -109,7 +109,7 @@ export default class boardRoutes {
 		const page = req.query.page ?? 0
 		const amount = await this.boardController.getAmountUserBoards(req.user.id)
 
-		const boards = (await this.boardController.getUserBoards(req.user.id, page * 9)).map((board: any) => ({
+		const boards = (await this.boardController.getUserBoards(req.user.id, page * 8)).map((board: any) => ({
 			id: board.board_id.toString("hex"),
 			title: board.board_title,
 			description: board.board_desc,

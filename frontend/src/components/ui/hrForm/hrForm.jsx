@@ -36,7 +36,6 @@ const HrForm = ({ title, fields, buttons, onSubmit = ()=>{}, onClose }) => {
 									<>
 										<textarea
 											className="form-input form-textarea"
-											maxLength={field.maxLength ?? 512}
 											{...register(field.name, options)}	
 										></textarea>
 									</>

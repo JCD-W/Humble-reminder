@@ -12,6 +12,8 @@
 .message-modal {
 	position: absolute;
 	padding: 10px;
+	padding-left: 20px;
+	padding-right: 20px;
 	border-radius: 7px;
 	left: 50%;
     transform: translate(-50%, -50%);
@@ -20,6 +22,7 @@
 	align-items: center;
 	align-content: center;
 	top: 25%;
+	z-index: 2000;
 }
 
 .message-normal, .message-normal * {
