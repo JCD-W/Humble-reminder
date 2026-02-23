@@ -7,6 +7,7 @@ import HrHeader from "../../layout/header"
 import { getBoards } from "../../../api/boardApi"
 import { MessageContext } from "../../../context/messageContext"
 import HrBoard from "../../ui/hrBoard/hrBoard"
+import HrAddBoard from "../../ui/hrAddBoard/hrAddBoard"
 
 const BoardsPage = () => {
 	const navigator = useNavigate()
@@ -38,6 +39,7 @@ const BoardsPage = () => {
 				{boards.map((board) => 
 					<HrBoard data={board}/>
 				)}
+				<HrAddBoard/>
 			</main>
 		</>
 	)

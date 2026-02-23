@@ -1,0 +1,9 @@
+.add-board-container {
+	width: 30%;
+	display: block;
+	margin: 0.5rem;
+	border-radius: 7px;
+	border: 7px solid var(--secondary-color);
+	color: var(--secondary-color);
+	background-color: transparent;
+}
