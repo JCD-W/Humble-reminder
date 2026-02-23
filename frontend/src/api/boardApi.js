@@ -1,7 +1,10 @@
 import { axiosInstance } from "../utils/axiosInstance"
 
-const createBoard = async () => {
-	//
+const createBoard = async (title, description) => {
+	const resp = await axiosInstance.post("/board/", {
+		title, description
+	})
+	return resp.data.board
 }
 
 const updateBoard = async () => {

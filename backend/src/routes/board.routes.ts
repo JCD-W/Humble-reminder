@@ -21,9 +21,9 @@ export default class boardRoutes {
 		const title = req.body.title
 		const desc = req.body.description
 
-		if (!title || !desc) {
+		if (!title) {
 			return res.status(400).send({
-				message: "Board title or description needed"
+				message: "Board title required"
 			})
 		}
 

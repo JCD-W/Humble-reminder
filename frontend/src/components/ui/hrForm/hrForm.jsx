@@ -23,14 +23,23 @@ const HrForm = ({ title, fields, buttons, onSubmit = ()=>{}, onClose }) => {
 							value: field.regex,
 							message: `${field.label} invalid`
 						}
+					if (field.maxLength)
+						options.maxLength = {
+							value: field.maxLength,
+							message: `${field.label} too long`
+						}
 					return (
 						<div className="form-field" key={field.name}>
 							<label className="form-label">{field.label}</label>
 							{
 								field.type === "textarea" ?
-									<textarea
-										className="form-input form-textarea"
-									></textarea>
+									<>
+										<textarea
+											className="form-input form-textarea"
+											maxLength={field.maxLength ?? 512}
+											{...register(field.name, options)}	
+										></textarea>
+									</>
 								:
 									<input
 										className="form-input" 
@@ -48,10 +57,10 @@ const HrForm = ({ title, fields, buttons, onSubmit = ()=>{}, onClose }) => {
 				{buttons ?? 
 					<div className={onClose ? "spaced": "centered"}>
 						{onClose && 
-							<buttons
+							<button
 								className="form-submit"
 								onClick={onClose}
-							>CANCEL</buttons>
+							>CANCEL</button>
 						}
 						<input className="form-submit" type="submit" value={"SUBMIT"}/>
 					</div>

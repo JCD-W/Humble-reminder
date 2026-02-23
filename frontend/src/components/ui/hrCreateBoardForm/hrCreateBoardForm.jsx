@@ -10,6 +10,7 @@ const HrCreateBoardForm = ({ onClose }) => {
 				<HrForm
 					onClose={onClose}
 					title={"Create new board"}
+					onSubmit={() => {}}
 					fields={[
 						{
 							name:"name",
@@ -20,7 +21,8 @@ const HrCreateBoardForm = ({ onClose }) => {
 						{
 							name: "description",
 							label: "Description",
-							type: "textarea"
+							type: "textarea",
+							maxLength: 512
 						}
 					]}
 				/>
