@@ -6,14 +6,16 @@ import { useContext } from "react"
 import { ERROR_MESSAGE, MessageContext, NORMAL_MESSAGE } from "../../../context/messageContext"
 import { deleteBoard } from "../../../api/boardApi"
 
-const HrBoardOptions = ({data}) => {
+const HrBoardOptions = ({ data, refreshFunc, hideFunc }) => {
 	const { showQuestion, showMessage } = useContext(MessageContext)
 
 	const archive = () => {
+		hideFunc()
 		showQuestion(`Are you sure of archiving the board "${data.title}"?`, async () => {
 			try {
 				await deleteBoard(data.id)
 				showMessage("Board archived", NORMAL_MESSAGE)
+				refreshFunc()
 			} catch (err) {
 				showMessage(err.response.data.message, ERROR_MESSAGE)
 			}

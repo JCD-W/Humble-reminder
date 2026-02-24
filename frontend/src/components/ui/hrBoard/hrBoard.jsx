@@ -4,7 +4,7 @@ import "./hrBoard.css"
 import { FaEllipsisV } from "react-icons/fa"
 import HrBoardOptions from "./hrBoardOptions"
 
-const HrBoard = ({ data }) => {
+const HrBoard = ({ data, refreshFunc }) => {
 	const [showOptions, setShowOptions] = useState(false)
 
 	const creationDate = new Date(data.creation)
@@ -29,7 +29,13 @@ const HrBoard = ({ data }) => {
 				>
 					<FaEllipsisV size={18}/>
 				</button>
-				{showOptions && <HrBoardOptions data={data}/>}
+				{showOptions && 
+					<HrBoardOptions
+						data={data}
+						refreshFunc={refreshFunc}
+						hideFunc={() => setShowOptions(false)}
+					/>
+				}
 			</div>
 			<p className="board-description-box">{data.description}</p>
 			<span className="board-date">Last viewed {lastViewedDate.toLocaleString()}</span>

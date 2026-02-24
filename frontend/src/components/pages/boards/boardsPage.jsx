@@ -22,7 +22,7 @@ const BoardsPage = () => {
 		return Math.ceil(boardQuanity / 8)
 	}
 
-	const requestBoards = async (currentPage) => {
+	const requestBoards = async (currentPage = page) => {
 		try {
 			const resp = await getBoards(currentPage)
 			setBoardQuantity(resp.amount)
@@ -54,7 +54,10 @@ const BoardsPage = () => {
 			/>
 			<main className="boards-container">
 				{boards.map((board) => 
-					<HrBoard data={board}/>
+					<HrBoard
+						data={board}
+						refreshFunc={() => requestBoards()}
+					/>
 				)}
 				<HrAddBoard/>
 			</main>
