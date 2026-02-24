@@ -11,8 +11,8 @@ const updateBoard = async () => {
 	//
 }
 
-const deleteBoard = async () => {
-	//
+const deleteBoard = async (boardId) => {
+	await axiosInstance.delete(`/board/${boardId}`)
 }
 
 const getBoard = async () => {
@@ -20,7 +20,6 @@ const getBoard = async () => {
 }
 
 const getBoards = async (page = 0) => {
-	console.log(page)
 	const resp = await axiosInstance.get(`/board/?page=${page}`)
 	return resp.data
 }

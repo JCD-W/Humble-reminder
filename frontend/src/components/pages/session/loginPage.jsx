@@ -2,7 +2,7 @@ import { useContext, useState } from "react"
 import { login, refreshToken } from "../../../api/authApi"
 import HrForm from "../../ui/hrForm/hrForm"
 import HrStickyNote from "../../ui/hrStickyNote/hrStickyNote"
-import { MessageContext } from "../../../context/messageContext"
+import { ERROR_MESSAGE, MessageContext } from "../../../context/messageContext"
 import { useNavigate } from "react-router-dom"
 
 const LoginPage = () => {
@@ -17,7 +17,7 @@ const LoginPage = () => {
 			)
 			navigate("/boards")
 		} catch (err) {
-			showMessage(err.response.data.message)
+			showMessage(err.response.data.message, ERROR_MESSAGE)
 		}
 	}
 	

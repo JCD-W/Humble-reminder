@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom"
 
 import HrHeader from "../../layout/header"
 import { getBoards } from "../../../api/boardApi"
-import { MessageContext } from "../../../context/messageContext"
+import { ERROR_MESSAGE, MessageContext } from "../../../context/messageContext"
 import HrBoard from "../../ui/hrBoard/hrBoard"
 import HrAddBoard from "../../ui/hrAddBoard/hrAddBoard"
 import HrPageNavigation from "../../ui/hrPageNavigation/HrPageNavigation"
@@ -28,7 +28,7 @@ const BoardsPage = () => {
 			setBoardQuantity(resp.amount)
 			setBoards(resp.boards)
 		} catch (err) {
-			showMessage(err.response.data.message)
+			showMessage(err.response.data.message, ERROR_MESSAGE)
 			navigator("/")
 		}
 	}

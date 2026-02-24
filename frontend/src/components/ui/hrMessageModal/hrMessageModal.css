@@ -17,6 +17,7 @@
 	border-radius: 7px;
 	left: 50%;
     transform: translate(-50%, -50%);
+	box-shadow: var(--tertiary-color) 0px 0px 5px;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -46,6 +47,8 @@
 }
 
 .message-modal-button {
+	margin-left: 10px;
+	margin-right: 10px;
 	margin-top: 7px;
 	padding: 4px;
 	font-size: 18px;
@@ -62,6 +65,11 @@
 .show-modal {
 	animation-name: showup;
 	animation-duration: 0.2s;
+}
+
+.message-modal-buttons {
+	display: flex;
+	flex-direction: row;
 }
 
 @media only screen and (max-width: 600px) {

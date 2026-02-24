@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom"
 import HrForm from "../hrForm/hrForm"
 import { useContext } from "react"
-import { MessageContext } from "../../../context/messageContext"
+import { ERROR_MESSAGE, MessageContext } from "../../../context/messageContext"
 import { createBoard } from "../../../api/boardApi"
 
 const HrCreateBoardForm = ({ onClose }) => {
@@ -13,7 +13,7 @@ const HrCreateBoardForm = ({ onClose }) => {
 			const boardId = await createBoard(name, description)
 			navigate(`/board/${boardId}`)
 		} catch (err) {
-			showMessage(err.response.data.message)
+			showMessage(err.response.data.message, ERROR_MESSAGE)
 		}
 	}
 

@@ -2,7 +2,7 @@
 	background-color: var(--primary-color);
 	border-radius: 7px;
 	padding: 15px;
-	width: 30%;
+	width: 28%;
 	height: fit-content;
 	margin: 0.5rem;
 	color: var(--tertiary-color);
@@ -51,8 +51,8 @@
 	position: relative;
 	top: 39px;
 	right: 15%;
-	width: 25%;
-	margin: -12.5%;
+	width: 30%;
+	margin: -15%;
 }
 
 .board-menu-options-button {
