@@ -1,4 +1,4 @@
-import { FaPen, FaTrash } from "react-icons/fa"
+import { FaPen, FaArchive } from "react-icons/fa"
 import "./hrBoard.css"
 
 const HrBoardOptions = ({data}) => {
@@ -9,8 +9,8 @@ const HrBoardOptions = ({data}) => {
 				<FaPen/>
 			</button>
 			<button className="board-menu-options-button">
-				<label>Delete</label>
-				<FaTrash/>
+				<label>Archive</label>
+				<FaArchive/>
 			</button>
 		</div>
 	)
