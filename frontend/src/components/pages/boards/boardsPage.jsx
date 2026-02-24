@@ -8,6 +8,7 @@ import { getBoards } from "../../../api/boardApi"
 import { MessageContext } from "../../../context/messageContext"
 import HrBoard from "../../ui/hrBoard/hrBoard"
 import HrAddBoard from "../../ui/hrAddBoard/hrAddBoard"
+import HrPageNavigation from "../../ui/hrPageNavigation/HrPageNavigation"
 
 const BoardsPage = () => {
 	const navigator = useNavigate()
@@ -17,9 +18,13 @@ const BoardsPage = () => {
 	const [boardQuanity, setBoardQuantity] = useState(0)
 	const [boards, setBoards] = useState([])
 
-	const requestBoards = async () => {
+	const calculatePages = () => {
+		return Math.ceil(boardQuanity / 8)
+	}
+
+	const requestBoards = async (currentPage) => {
 		try {
-			const resp = await getBoards(page)
+			const resp = await getBoards(currentPage)
 			setBoardQuantity(resp.amount)
 			setBoards(resp.boards)
 		} catch (err) {
@@ -28,19 +33,37 @@ const BoardsPage = () => {
 		}
 	}
 
+	// It was done this way because the useState wasn't triggering
+	const changePage = (newPage) => {
+		setPage(newPage)
+		requestBoards(newPage)
+	}
+
 	useState(() => {
-		requestBoards()
+		requestBoards(page)
 	}, [page])
 
 	return (
 		<>
 			<HrHeader title={"Boards"}/>
+			<HrPageNavigation 
+				isForMobile
+				page={page + 1}
+				pages={calculatePages()}
+				onPageChange={changePage}
+			/>
 			<main className="boards-container">
 				{boards.map((board) => 
 					<HrBoard data={board}/>
 				)}
 				<HrAddBoard/>
 			</main>
+			<HrPageNavigation
+				isForDesktop
+				page={page + 1}
+				pages={calculatePages()}
+				onPageChange={changePage}
+			/>
 		</>
 	)
 }

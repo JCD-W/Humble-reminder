@@ -1,0 +1,39 @@
+.page-navigation-container {
+	display: flex;
+	flex-direction: row;
+	width: 100%;
+	align-items: center;
+	justify-content: center;
+	padding: 10px;
+	color: var(--clear-color);
+	font-size: 22px;
+}
+
+.page-navigation-button {
+	background-color: transparent;
+	color: var(--clear-color);
+	border: none
+}
+
+.page-navigation {
+	margin-left: 32px;
+	margin-right: 32px;
+}
+
+.page-navigation-mobile {
+	display: none;
+}
+
+.page-navigation-desktop {
+	display: flex;
+}
+
+@media only screen and (max-width: 600px) {
+	.page-navigation-mobile {
+		display: flex;
+	}
+
+	.page-navigation-desktop {
+		display: none;
+	}
+}

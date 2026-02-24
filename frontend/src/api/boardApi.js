@@ -20,6 +20,7 @@ const getBoard = async () => {
 }
 
 const getBoards = async (page = 0) => {
+	console.log(page)
 	const resp = await axiosInstance.get(`/board/?page=${page}`)
 	return resp.data
 }

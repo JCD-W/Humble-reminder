@@ -1,5 +1,6 @@
 .add-board-container {
-	width: 30%;
+	width: 32%;
+	padding: 10px;
 	display: block;
 	margin: 0.5rem;
 	border-radius: 7px;
@@ -7,4 +8,10 @@
 	color: var(--secondary-color);
 	max-height: 36vh;
 	background-color: transparent;
+}
+
+@media only screen and (max-width: 600px) {
+	.add-board-container {
+		width: 95%;
+	}
 }

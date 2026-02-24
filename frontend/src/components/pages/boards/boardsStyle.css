@@ -3,7 +3,13 @@
 	flex-wrap: wrap;
 	padding: 1.5rem;
 	overflow-y: auto;
-	max-height: 87vh;
+}
+
+@media only screen and (min-width: 600px) {
+	.boards-container {
+		max-height: 79.5vh;
+		min-height: 79.5vh;
+	}
 }
 
 @media only screen and (max-width: 600px) {
