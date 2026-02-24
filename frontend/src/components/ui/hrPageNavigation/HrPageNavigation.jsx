@@ -14,7 +14,7 @@ const HrPageNavigation = ({ pages=0, page=0, isForMobile, isForDesktop, onPageCh
 	}
 
 	return (
-		<footer className={`page-navigation-container ${isForMobile && "page-navigation-mobile"} ${isForDesktop && "page-navigation-desktop"}`}>
+		<div className={`page-navigation-container ${isForMobile && "page-navigation-mobile"} ${isForDesktop && "page-navigation-desktop"}`}>
 			<button
 				className="page-navigation-button"
 				onClick={() => previous()}
@@ -28,7 +28,7 @@ const HrPageNavigation = ({ pages=0, page=0, isForMobile, isForDesktop, onPageCh
 			>
 				<FaAngleRight size={24}/>
 			</button>
-		</footer>
+		</div>
 	)
 }
 
