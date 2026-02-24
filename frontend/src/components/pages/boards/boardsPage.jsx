@@ -52,14 +52,18 @@ const BoardsPage = () => {
 				pages={calculatePages()}
 				onPageChange={changePage}
 			/>
-			<main className="boards-container">
-				{boards.map((board) => 
-					<HrBoard
-						data={board}
-						refreshFunc={() => requestBoards()}
-					/>
-				)}
-				<HrAddBoard/>
+			<main className="screen-centered" style={{
+				height: "84vh"
+			}}>
+				<div className="boards-container">
+					{boards.map((board) => 
+						<HrBoard
+							data={board}
+							refreshFunc={() => requestBoards()}
+						/>
+					)}
+					<HrAddBoard/>
+				</div>
 			</main>
 			<HrPageNavigation
 				isForDesktop

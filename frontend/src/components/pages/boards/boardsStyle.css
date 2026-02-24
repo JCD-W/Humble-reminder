@@ -3,7 +3,7 @@
 	flex-wrap: wrap;
 	padding: 1.5rem;
 	overflow-y: auto;
-	justify-content: center;
+	justify-content: flex-start;
 	align-content: flex-start;
 }
 
