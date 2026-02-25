@@ -117,6 +117,7 @@ export default class boardRoutes {
 			creation: board.board_creation,
 			recent: board.board_recent,
 			theme: {
+				id: board.theme_id,
 				clear: board.clear_color,
 				primary: board.primary_color,
 				secondary: board.secondary_color,

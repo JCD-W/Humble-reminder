@@ -58,7 +58,7 @@ export default class boardController {
 	async getUserBoards (userId: Buffer, offset: number = 0, state: string = "active", limit: number = 8) {
 		const res = await this.db.query(
 			"SELECT b.board_id, b.board_title, b.board_desc, b.board_state, b.board_creation, b.board_recent, t.clear_color, "+
-			"t.primary_color, t.secondary_color, t.tertiary_color FROM board b JOIN user_has_board uhc ON b.board_id = uhc.board_id "+
+			"t.primary_color, t.secondary_color, t.tertiary_color, bht.theme_id AS theme_id FROM board b JOIN user_has_board uhc ON b.board_id = uhc.board_id "+
 			"JOIN board_has_theme bht ON bht.board_id = b.board_id JOIN theme t ON t.theme_id = bht.theme_id "+
 			"WHERE uhc.user_id = ? AND b.board_state = ? ORDER BY b.board_recent DESC LIMIT ? OFFSET ?", 
 			[userId, state, limit.toString(), offset.toString()]

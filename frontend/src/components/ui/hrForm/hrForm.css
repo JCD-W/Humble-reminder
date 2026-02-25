@@ -63,6 +63,15 @@
 	flex-direction: row;
 }
 
+.form-button {
+	padding: 10px;
+	background-color: var(--primary-color);
+	color: var(--tertiary-color);
+	font-size: 15px;
+	border-radius: 7px;
+	border: 2px solid var(--secondary-color);
+}
+
 @media only screen and (max-width: 600px) {
 	.form-title {
 		font-size: 44px;
@@ -81,7 +90,7 @@
 	}
 	
 	.form-input {
-		font-size: 24px;
+		font-size: 18px;
 	}
 	
 	.form-error {
