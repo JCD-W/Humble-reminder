@@ -8,6 +8,12 @@
 	min-width: 95vw;
 }
 
+.no-boards {
+	color: var(--clear-color);
+	font-size: 40px;
+	padding: 20px;
+}
+
 @media only screen and (min-width: 600px) {
 	.boards-container {
 		max-height: 79.5vh;

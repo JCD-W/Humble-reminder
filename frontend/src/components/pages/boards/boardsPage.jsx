@@ -11,9 +11,9 @@ import HrAddBoard from "../../ui/hrAddBoard/hrAddBoard"
 import HrPageNavigation from "../../ui/hrPageNavigation/HrPageNavigation"
 
 const BoardsPage = () => {
-	const navigator = useNavigate()
+	const navigate = useNavigate()
 	const { showMessage } = useContext(MessageContext)
-	const [params] = useSearchParams()
+	const [params, setParams] = useSearchParams()
 
 	const [page, setPage] = useState(0)
 	const [boardQuanity, setBoardQuantity] = useState(0)
@@ -34,7 +34,7 @@ const BoardsPage = () => {
 			}
 		} catch (err) {
 			showMessage(err.response.data.message, ERROR_MESSAGE)
-			navigator("/")
+			navigate("/")
 		}
 	}
 
@@ -42,10 +42,14 @@ const BoardsPage = () => {
 	const changePage = (newPage) => {
 		setPage(newPage)
 		requestBoards(newPage)
+		setParams({
+			page: newPage + 1
+		})
 	}
 
 	useState(() => {
-		requestBoards(params.get("page") - 1 || page)
+		const paramPage = params.get("page")
+		requestBoards(paramPage ? paramPage - 1 : page)
 	}, [page, params.get("page")])
 
 	return (
@@ -60,15 +64,22 @@ const BoardsPage = () => {
 			<main className="screen-centered" style={{
 				height: "84vh"
 			}}>
-				<div className="boards-container">
-					{boards.map((board) => 
-						<HrBoard
-							data={board}
-							refreshFunc={() => requestBoards()}
-						/>
-					)}
-					<HrAddBoard/>
-				</div>
+				{boards.length < 1 ?
+					<>
+						<h2 className="no-boards">There are no boards so far.</h2>
+						<HrAddBoard/>
+					</>
+				:
+					<div className="boards-container">
+						{boards.map((board) => 
+							<HrBoard
+								data={board}
+								refreshFunc={() => requestBoards()}
+							/>
+						)}
+						<HrAddBoard/>
+					</div>
+				}
 			</main>
 			<HrPageNavigation
 				isForDesktop
