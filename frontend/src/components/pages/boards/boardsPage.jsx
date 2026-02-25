@@ -1,7 +1,7 @@
 import "./boardsStyle.css"
 
 import { useContext, useState } from "react"
-import { useNavigate } from "react-router-dom"
+import { useNavigate, useSearchParams } from "react-router-dom"
 
 import HrHeader from "../../layout/header"
 import { getBoards } from "../../../api/boardApi"
@@ -13,6 +13,7 @@ import HrPageNavigation from "../../ui/hrPageNavigation/HrPageNavigation"
 const BoardsPage = () => {
 	const navigator = useNavigate()
 	const { showMessage } = useContext(MessageContext)
+	const [params] = useSearchParams()
 
 	const [page, setPage] = useState(0)
 	const [boardQuanity, setBoardQuantity] = useState(0)
@@ -44,8 +45,8 @@ const BoardsPage = () => {
 	}
 
 	useState(() => {
-		requestBoards(page)
-	}, [page])
+		requestBoards(params.get("page") - 1 || page)
+	}, [page, params.get("page")])
 
 	return (
 		<>
