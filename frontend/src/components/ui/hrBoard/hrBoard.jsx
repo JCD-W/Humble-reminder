@@ -1,14 +1,31 @@
-import { useState } from "react"
+import { useContext, useState } from "react"
 import "./hrBoard.css"
 
 import { FaEllipsisV } from "react-icons/fa"
 import HrBoardOptions from "./hrBoardOptions"
+import { ERROR_MESSAGE, MessageContext, NORMAL_MESSAGE } from "../../../context/messageContext"
+import { deleteBoard } from "../../../api/boardApi"
 
 const HrBoard = ({ data, refreshFunc }) => {
+	const { showQuestion, showMessage } = useContext(MessageContext)
+	
 	const [showOptions, setShowOptions] = useState(false)
 
 	const creationDate = new Date(data.creation)
 	const lastViewedDate = new Date(data.recent)
+
+	const archive = () => {
+		setShowOptions(false)
+		showQuestion(`Are you sure of archiving the board "${data.title}"?`, async () => {
+			try {
+				await deleteBoard(data.id)
+				showMessage("Board archived", NORMAL_MESSAGE)
+				refreshFunc()
+			} catch (err) {
+				showMessage(err.response.data.message, ERROR_MESSAGE)
+			}
+		})
+	}
 
 	return (
 		<div 
@@ -31,9 +48,8 @@ const HrBoard = ({ data, refreshFunc }) => {
 				</button>
 				{showOptions && 
 					<HrBoardOptions
-						data={data}
-						refreshFunc={refreshFunc}
-						hideFunc={() => setShowOptions(false)}
+						onArchive={archive}
+						onEdit={() => {}}
 					/>
 				}
 			</div>

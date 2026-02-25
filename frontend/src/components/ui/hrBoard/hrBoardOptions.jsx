@@ -1,35 +1,22 @@
 import "./hrBoard.css"
 
 import { FaPen, FaArchive } from "react-icons/fa"
-import { useContext } from "react"
 
-import { ERROR_MESSAGE, MessageContext, NORMAL_MESSAGE } from "../../../context/messageContext"
-import { deleteBoard } from "../../../api/boardApi"
-
-const HrBoardOptions = ({ data, refreshFunc, hideFunc }) => {
-	const { showQuestion, showMessage } = useContext(MessageContext)
-
-	const archive = () => {
-		hideFunc()
-		showQuestion(`Are you sure of archiving the board "${data.title}"?`, async () => {
-			try {
-				await deleteBoard(data.id)
-				showMessage("Board archived", NORMAL_MESSAGE)
-				refreshFunc()
-			} catch (err) {
-				showMessage(err.response.data.message, ERROR_MESSAGE)
-			}
-		})
-	}
-
+const HrBoardOptions = ({ onArchive, onEdit }) => {
 	return (
 		<div className="board-options-container">
-			<button className="board-menu-options-button">
+			<button
+				className="board-menu-options-button"
+				onClick={onEdit}
+			>
 				<label>Edit</label>
 				<FaPen/>
 			</button>
-			<button className="board-menu-options-button">
-				<label onClick={archive}>Archive</label>
+			<button
+				className="board-menu-options-button"
+				onClick={onArchive}
+			>
+				<label>Archive</label>
 				<FaArchive/>
 			</button>
 		</div>

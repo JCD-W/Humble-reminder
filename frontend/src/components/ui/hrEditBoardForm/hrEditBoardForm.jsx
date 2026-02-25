@@ -6,18 +6,9 @@ import { useContext } from "react"
 import { ERROR_MESSAGE, MessageContext } from "../../../context/messageContext"
 import { createBoard } from "../../../api/boardApi"
 
-const HrCreateBoardForm = ({ onClose }) => {
+const HrEditBoardForm = ({ onClose }) => {
 	const { showMessage } = useContext(MessageContext)
 	const navigate = useNavigate()
-
-	const create = async ({ name, description }) => {
-		try {
-			const boardId = await createBoard(name, description)
-			navigate(`/board/${boardId}`)
-		} catch (err) {
-			showMessage(err.response.data.message, ERROR_MESSAGE)
-		}
-	}
 
 	return (
 		<>
@@ -49,4 +40,4 @@ const HrCreateBoardForm = ({ onClose }) => {
 	)
 }
 
-export default HrCreateBoardForm
+export default HrEditBoardForm
