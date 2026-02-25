@@ -1,8 +1,20 @@
-import HrForm from "../hrForm/hrForm"
+import { useContext } from "react"
 
-const HrEditBoardForm = ({ onClose, data }) => {
-	const edit = async ({ name, description }) => {
-		
+import HrForm from "../hrForm/hrForm"
+import { ERROR_MESSAGE, MessageContext } from "../../../context/messageContext"
+import { updateBoard } from "../../../api/boardApi"
+
+const HrEditBoardForm = ({ onClose, data, refreshFunc }) => {
+	const { showMessage } = useContext(MessageContext)
+
+	const edit = async ({ title, description }) => {
+		try {
+			await updateBoard(data.id, title, description)
+			refreshFunc()
+			onClose()
+		} catch (err) {
+			showMessage(err.response.data.message, ERROR_MESSAGE)
+		}
 	}
 
 	return (
@@ -17,10 +29,10 @@ const HrEditBoardForm = ({ onClose, data }) => {
 					onSubmit={edit}
 					fields={[
 						{
-							name:"name",
-							label: "Name",
+							name:"title",
+							label: "Title",
 							type: "text",
-							required: "Board name required",
+							required: "Board title required",
 							default: data.title
 						},
 						{

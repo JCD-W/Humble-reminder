@@ -67,6 +67,7 @@ const HrBoard = ({ data, refreshFunc }) => {
 			{showEditForm && <HrEditBoardForm
 				onClose={() => setShowEditForm(false)}
 				data={data}
+				refreshFunc={refreshFunc}
 			/>}
 		</>
 	)

@@ -7,8 +7,11 @@ const createBoard = async (title, description) => {
 	return resp.data.board
 }
 
-const updateBoard = async () => {
-	//
+const updateBoard = async (boardId, title, description) => {
+	await axiosInstance.put(`/board/${boardId}`, {
+		title,
+		description
+	})
 }
 
 const deleteBoard = async (boardId) => {

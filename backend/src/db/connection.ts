@@ -24,9 +24,10 @@ export default class db {
 		let changes = ""
 		let values = [id]
 
-		for (let field of fields) {
+		for (let i = 0; i < fields.length; i++) {
+			const field = fields[i]
 			if (newData[field] !== undefined) {
-				changes += `${field} = ? `
+				changes += `${field} = ?${i + 1 == fields.length ? "" : ","} `
 				values.unshift(newData[field])
 			}
 		}
