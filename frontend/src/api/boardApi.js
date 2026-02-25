@@ -19,7 +19,8 @@ const deleteBoard = async (boardId) => {
 }
 
 const getBoard = async (boardId) => {
-	await axiosInstance.get(`/board/${boardId}`)
+	const resp = await axiosInstance.get(`/board/${boardId}`)
+	return resp.data
 }
 
 const getBoards = async (page = 0) => {

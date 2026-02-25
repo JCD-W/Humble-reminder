@@ -23,13 +23,13 @@ const BoardsPage = () => {
 		return Math.ceil(totalQuantity / 8)
 	}
 
-	const requestBoards = async (currentPage = page) => {
+	const fetchBoards = async (currentPage = page) => {
 		try {
 			const resp = await getBoards(currentPage)
 			setBoardQuantity(resp.amount)
 			setBoards(resp.boards)
 			if (page >= calculatePages(resp.amount)) {
-				requestBoards(page - 1)
+				fetchBoards(page - 1)
 				setPage(page - 1)
 			}
 		} catch (err) {
@@ -41,7 +41,7 @@ const BoardsPage = () => {
 	// It was done this way because the useState wasn't triggering
 	const changePage = (newPage) => {
 		setPage(newPage)
-		requestBoards(newPage)
+		fetchBoards(newPage)
 		setParams({
 			page: newPage + 1
 		})
@@ -49,7 +49,7 @@ const BoardsPage = () => {
 
 	useState(() => {
 		const paramPage = params.get("page")
-		requestBoards(paramPage ? paramPage - 1 : page)
+		fetchBoards(paramPage ? paramPage - 1 : page)
 	}, [page, params.get("page")])
 
 	return (
@@ -74,7 +74,7 @@ const BoardsPage = () => {
 						{boards.map((board) => 
 							<HrBoard
 								data={board}
-								refreshFunc={() => requestBoards()}
+								refreshFunc={() => fetchBoards()}
 							/>
 						)}
 						<HrAddBoard/>

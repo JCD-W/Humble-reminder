@@ -20,6 +20,12 @@
 	font-weight: bold;
 	font-size: 20px;
 	color: var(--clear-color);
+	text-decoration: none;
+	cursor: pointer;
+}
+
+.board-title:hover {
+	text-decoration: underline;
 }
 
 .board-date {

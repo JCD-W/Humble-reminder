@@ -6,8 +6,11 @@ import HrBoardOptions from "./hrBoardOptions"
 import { ERROR_MESSAGE, MessageContext, NORMAL_MESSAGE } from "../../../context/messageContext"
 import { deleteBoard } from "../../../api/boardApi"
 import HrEditBoardForm from "../hrEditBoardForm/hrEditBoardForm"
+import { Link, useNavigate } from "react-router-dom"
 
 const HrBoard = ({ data, refreshFunc }) => {
+	const navigate = useNavigate()
+
 	const { showQuestion, showMessage } = useContext(MessageContext)
 	
 	const [showOptions, setShowOptions] = useState(false)
@@ -46,7 +49,10 @@ const HrBoard = ({ data, refreshFunc }) => {
 				}}
 			>
 				<div className="board-header-container">
-					<span className="board-title">{data.title}</span>
+					<Link
+						className="board-title"
+						to={`/board/${data.id}`}
+					>{data.title}</Link>
 					<span className="board-date">{creationDate.toLocaleDateString()}</span>
 					<button
 						className="board-options-button"
