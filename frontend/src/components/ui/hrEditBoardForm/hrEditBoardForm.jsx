@@ -1,14 +1,9 @@
 import HrForm from "../hrForm/hrForm"
 
-import { useNavigate } from "react-router-dom"
-import { useContext } from "react"
-
-import { ERROR_MESSAGE, MessageContext } from "../../../context/messageContext"
-import { createBoard } from "../../../api/boardApi"
-
-const HrEditBoardForm = ({ onClose }) => {
-	const { showMessage } = useContext(MessageContext)
-	const navigate = useNavigate()
+const HrEditBoardForm = ({ onClose, data }) => {
+	const edit = async ({ name, description }) => {
+		
+	}
 
 	return (
 		<>
@@ -18,20 +13,22 @@ const HrEditBoardForm = ({ onClose }) => {
 			>
 				<HrForm
 					onClose={onClose}
-					title={"Create new board"}
-					onSubmit={create}
+					title={"Edit board"}
+					onSubmit={edit}
 					fields={[
 						{
 							name:"name",
 							label: "Name",
 							type: "text",
 							required: "Board name required",
+							default: data.title
 						},
 						{
 							name: "description",
 							label: "Description",
 							type: "textarea",
-							maxLength: 512
+							maxLength: 512,
+							default: data.description
 						}
 					]}
 				/>

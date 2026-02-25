@@ -6,7 +6,14 @@ const HrForm = ({ title, fields, buttons, onSubmit = ()=>{}, onClose }) => {
 	const {
 		register, handleSubmit,
 		formState: { errors }
-	} = useForm()
+	} = useForm({
+		defaultValues: fields
+			.filter((field) => field.default)
+			.reduce((acc, field) => {
+				acc[field.name] = field.default
+				return acc
+			}, {})
+	})
 
 	return (
 		<>

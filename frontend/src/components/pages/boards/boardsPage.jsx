@@ -18,8 +18,8 @@ const BoardsPage = () => {
 	const [boardQuanity, setBoardQuantity] = useState(0)
 	const [boards, setBoards] = useState([])
 
-	const calculatePages = () => {
-		return Math.ceil(boardQuanity / 8)
+	const calculatePages = (totalQuantity=boardQuanity) => {
+		return Math.ceil(totalQuantity / 8)
 	}
 
 	const requestBoards = async (currentPage = page) => {
@@ -27,6 +27,10 @@ const BoardsPage = () => {
 			const resp = await getBoards(currentPage)
 			setBoardQuantity(resp.amount)
 			setBoards(resp.boards)
+			if (page >= calculatePages(resp.amount)) {
+				requestBoards(page - 1)
+				setPage(page - 1)
+			}
 		} catch (err) {
 			showMessage(err.response.data.message, ERROR_MESSAGE)
 			navigator("/")
