@@ -48,6 +48,9 @@
 .theme-picked {
 	border: 3px solid var(--clear-color);
 	border-radius: 10px;
+}
+
+.theme {
 	margin: 5px;
 	width: 29%;
 }

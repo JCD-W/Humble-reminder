@@ -5,18 +5,20 @@ import { useState } from "react"
 import HrThemeSample from "../hrThemeSample/hrThemeSample"
 import { HexColorPicker } from "react-colorful"
 
-const HrThemeForm = () => {
-	const [clearColor, setClearColor] = useState("d84727")
-	const [primaryColor, setPrimaryColor] = useState("D9D9D9")
-	const [secondaryColor, setSecondaryColor] = useState("B5B5B5")
-	const [tertiaryColor, setTertiaryColor] = useState("2d3142")
+const HrThemeForm = ({ onChange }) => {
+	const [theme, setTheme] = useState({
+		clear: "d84727",
+		primary: "D9D9D9",
+		secondary: "B5B5B5",
+		tertiary: "2d3142"
+	})
 
-	const HrColorPicker = ({ color, onChange }) => {
+	const HrColorPicker = ({ color, onColorChange }) => {
 		return (
 			<div className="theme-color-container">
 				<HexColorPicker
 					color={color}
-					onChange={onChange}
+					onChange={onColorChange}
 					style={{
 						width: "100%",
 						height: "87%",
@@ -32,31 +34,35 @@ const HrThemeForm = () => {
 		)
 	}
 
+	const changeColor = (key, color) => {
+		setTheme({
+			...theme,
+			[key]: color
+		})
+		onChange({
+			...theme,
+			[key]: color
+		})
+	}
+
 	return (
 		<div className="theme-colors-container">
-			<HrThemeSample
-				theme={{
-					clear: clearColor,
-					primary: primaryColor,
-					secondary: secondaryColor,
-					tertiary: tertiaryColor
-				}}
+			<HrThemeSample theme={theme}/>
+			<HrColorPicker
+				color={theme.clear}
+				onColorChange={(color) => changeColor("clear", color.slice(1))}
 			/>
 			<HrColorPicker
-				color={clearColor}
-				onChange={(color) => setClearColor(color.slice(1))}
+				color={theme.primary}
+				onColorChange={(color) => changeColor("primary", color.slice(1))}
 			/>
 			<HrColorPicker
-				color={primaryColor}
-				onChange={(color) => setPrimaryColor(color.slice(1))}
+				color={theme.secondary}
+				onColorChange={(color) => changeColor("secondary", color.slice(1))}
 			/>
 			<HrColorPicker
-				color={secondaryColor}
-				onChange={(color) => setSecondaryColor(color.slice(1))}
-			/>
-			<HrColorPicker
-				color={tertiaryColor}
-				onChange={(color) => setTertiaryColor(color.slice(1))}
+				color={theme.tertiary}
+				onColorChange={(color) => changeColor("tertiary", color.slice(1))}
 			/>
 		</div>
 	)

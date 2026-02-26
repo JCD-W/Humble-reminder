@@ -1,7 +1,6 @@
 import "./hrThemeSample.css"
 
 const HrThemeSample = ({ theme }) => {
-	console.log(theme)
 	return (
 		<div 
 			className="sample-container"
