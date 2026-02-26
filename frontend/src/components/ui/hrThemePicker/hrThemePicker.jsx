@@ -2,7 +2,7 @@ import "./hrThemePicker.css"
 
 import { useContext, useState } from "react"
 
-import { asignTheme, createTheme, getThemes } from "../../../api/themeApi"
+import { assignTheme, createTheme, getThemes } from "../../../api/themeApi"
 import HrThemeSample from "./hrThemeSample/hrThemeSample"
 import { FaPlusCircle } from "react-icons/fa"
 import HrThemeForm from "./hrThemeForm/hrThemeForm"
@@ -40,7 +40,7 @@ const HrThemePicker = ({ board, onClose, refreshFunc }) => {
 
 	const pickTheme = async () => {
 		try {
-			await asignTheme(board.id, currentThemeId)
+			await assignTheme(board.id, currentThemeId)
 			showMessage("Theme changed", NORMAL_MESSAGE)
 			refreshFunc()
 		} catch (err) {
