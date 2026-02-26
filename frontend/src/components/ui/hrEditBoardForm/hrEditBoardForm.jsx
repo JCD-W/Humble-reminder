@@ -1,11 +1,14 @@
-import { useContext } from "react"
+import { useContext, useState } from "react"
 
 import HrForm from "../hrForm/hrForm"
 import { ERROR_MESSAGE, MessageContext } from "../../../context/messageContext"
 import { updateBoard } from "../../../api/boardApi"
+import HrThemePicker from "../hrThemePicker/hrThemePicker"
 
 const HrEditBoardForm = ({ onClose, data, refreshFunc }) => {
 	const { showMessage } = useContext(MessageContext)
+
+	const [showColorPicker, setShowColorPicker] = useState(false)
 
 	const edit = async ({ title, description }) => {
 		try {
@@ -17,12 +20,14 @@ const HrEditBoardForm = ({ onClose, data, refreshFunc }) => {
 		}
 	}
 
+	const pickColor = () => {
+		setShowColorPicker(true)
+	}
+
 	return (
 		<>
 			<div className="background-modal screen-centered"></div>
-			<div 
-				className="screen-centered absolute-centered"
-			>
+			<div className="screen-centered absolute-centered">
 				<HrForm
 					onClose={onClose}
 					title={"Edit board"}
@@ -41,10 +46,25 @@ const HrEditBoardForm = ({ onClose, data, refreshFunc }) => {
 							type: "textarea",
 							maxLength: 512,
 							default: data.description
+						},
+						{
+							label: "Theme",
+							type: "button",
+							text: "Pick theme",
+							onClick: () => pickColor()
 						}
 					]}
 				/>
 			</div>
+			{showColorPicker && <HrThemePicker
+				board={data}
+				onClose={() => setShowColorPicker(false)}
+				refreshFunc={() => {
+					setShowColorPicker(false)
+					onClose()
+					refreshFunc()
+				}}
+			/>}
 		</>
 	)
 }

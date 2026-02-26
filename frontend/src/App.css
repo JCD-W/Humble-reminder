@@ -60,6 +60,13 @@ button:hover, input[type="submit"]:hover {
 	width: 100%;
 }
 
+.flying {
+	position: absolute;
+	transform: translate(-50%, -50%);
+	top: 50%;
+	left: 50%;
+}
+
 .background-modal {
 	width: 100%;
 	position: absolute;
@@ -67,4 +74,14 @@ button:hover, input[type="submit"]:hover {
 	left: 0px;
 	filter: opacity(0.95);
 	background-color: var(--tertiary-color);
+}
+
+.hide {
+	display: none;
+}
+
+.hide-input {
+	width: 0px;
+	height: 0px;
+	filter: opacity(0);
 }

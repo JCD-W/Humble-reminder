@@ -9,6 +9,7 @@ import { ERROR_MESSAGE, MessageContext } from "../../../context/messageContext"
 import HrBoard from "../../ui/hrBoard/hrBoard"
 import HrAddBoard from "../../ui/hrAddBoard/hrAddBoard"
 import HrPageNavigation from "../../ui/hrPageNavigation/HrPageNavigation"
+import { checkConnection } from "../../../api/authApi"
 
 const BoardsPage = () => {
 	const navigate = useNavigate()
@@ -23,7 +24,9 @@ const BoardsPage = () => {
 		return Math.ceil(totalQuantity / 8)
 	}
 
-	const fetchBoards = async (currentPage = page) => {
+	const requestBoards = async (currentPage = page) => {
+		if (!(await checkConnection()))
+			return navigate("/")
 		try {
 			const resp = await getBoards(currentPage)
 			setBoardQuantity(resp.amount)
@@ -33,6 +36,8 @@ const BoardsPage = () => {
 				setPage(page - 1)
 			}
 		} catch (err) {
+			if (!err.response.data)
+				return
 			showMessage(err.response.data.message, ERROR_MESSAGE)
 			navigate("/")
 		}

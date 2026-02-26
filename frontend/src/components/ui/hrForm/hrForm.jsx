@@ -40,12 +40,16 @@ const HrForm = ({ title, fields, buttons, onSubmit = ()=>{}, onClose }) => {
 							<label className="form-label">{field.label}</label>
 							{
 								field.type === "textarea" ?
-									<>
-										<textarea
-											className="form-input form-textarea"
-											{...register(field.name, options)}	
-										></textarea>
-									</>
+									<textarea
+										className="form-input form-textarea"
+										{...register(field.name, options)}	
+									></textarea>
+								: field.type === "button" ?
+									<button
+										type="button"
+										className="form-button"
+										onClick={() => field.onClick()}
+									>{field.text}</button>
 								:
 									<input
 										className="form-input" 
