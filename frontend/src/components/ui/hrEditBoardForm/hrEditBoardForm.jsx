@@ -59,6 +59,11 @@ const HrEditBoardForm = ({ onClose, data, refreshFunc }) => {
 			{showColorPicker && <HrThemePicker
 				board={data}
 				onClose={() => setShowColorPicker(false)}
+				refreshFunc={() => {
+					setShowColorPicker(false)
+					onClose()
+					refreshFunc()
+				}}
 			/>}
 		</>
 	)

@@ -8,7 +8,7 @@ import { FaPlusCircle } from "react-icons/fa"
 import HrThemeForm from "./hrThemeForm/hrThemeForm"
 import { ERROR_MESSAGE, MessageContext, NORMAL_MESSAGE } from "../../../context/messageContext"
 
-const HrThemePicker = ({ board, onClose }) => {
+const HrThemePicker = ({ board, onClose, refreshFunc }) => {
 	const { showMessage } = useContext(MessageContext)
 
 	const [themes, setThemes] = useState([])
@@ -27,6 +27,7 @@ const HrThemePicker = ({ board, onClose }) => {
 		try {
 			await createTheme(newTheme.clear, newTheme.primary, newTheme.secondary, newTheme.tertiary, board.id)
 			showMessage("Theme created", NORMAL_MESSAGE)
+			refreshFunc()
 		} catch (err) {
 			if (!err.response) {
 				console.log(err)
