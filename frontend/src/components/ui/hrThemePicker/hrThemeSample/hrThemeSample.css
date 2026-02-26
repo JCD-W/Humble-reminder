@@ -8,6 +8,7 @@
 }
 
 .sample-title {
+	color: var(--clear-color);
 	text-align: center;
 	font-weight: bold;
 }

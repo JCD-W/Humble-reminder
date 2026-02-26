@@ -75,3 +75,13 @@ button:hover, input[type="submit"]:hover {
 	filter: opacity(0.95);
 	background-color: var(--tertiary-color);
 }
+
+.hide {
+	display: none;
+}
+
+.hide-input {
+	width: 0px;
+	height: 0px;
+	filter: opacity(0);
+}

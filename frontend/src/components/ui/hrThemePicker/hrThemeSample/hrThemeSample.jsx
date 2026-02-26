@@ -1,13 +1,14 @@
 import "./hrThemeSample.css"
 
 const HrThemeSample = ({ theme }) => {
+	console.log(theme)
 	return (
 		<div 
 			className="sample-container"
 			style={{
 				"--clear-color": "#"+theme.clear,
 				"--primary-color": "#"+theme.primary,
-				"--seconadry-color": "#"+theme.secondary,
+				"--secondary-color": "#"+theme.secondary,
 				"--tertiary-color": "#"+theme.tertiary
 			}}
 		>
