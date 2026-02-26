@@ -2,7 +2,7 @@ import "./hrThemePicker.css"
 
 import { useContext, useState } from "react"
 
-import { createTheme, getThemes } from "../../../api/themeApi"
+import { asignTheme, createTheme, getThemes } from "../../../api/themeApi"
 import HrThemeSample from "./hrThemeSample/hrThemeSample"
 import { FaPlusCircle } from "react-icons/fa"
 import HrThemeForm from "./hrThemeForm/hrThemeForm"
@@ -13,6 +13,7 @@ const HrThemePicker = ({ board, onClose, refreshFunc }) => {
 
 	const [themes, setThemes] = useState([])
 	const [newTheme, setNewTheme] = useState({})
+	const [currentThemeId, setCurrentThemeId] = useState(board.theme.id)
 	const [themeQuantity, setThemeQuantity] = useState(0)
 	const [page, setPage] = useState(0)
 	const [creatingTheme, setCreatingTheme] = useState(false)
@@ -38,7 +39,17 @@ const HrThemePicker = ({ board, onClose, refreshFunc }) => {
 	}
 
 	const pickTheme = async () => {
-
+		try {
+			await asignTheme(board.id, currentThemeId)
+			showMessage("Theme changed", NORMAL_MESSAGE)
+			refreshFunc()
+		} catch (err) {
+			if (!err.response) {
+				console.log(err)
+				return
+			}
+			showMessage(err.response.data.message, ERROR_MESSAGE)
+		}
 	}
 
 	useState(() => {
@@ -53,12 +64,15 @@ const HrThemePicker = ({ board, onClose, refreshFunc }) => {
 			:
 				<div className="theme-container">
 					{themes.map((theme) =>
-						<div className={`${theme.id == board.theme.id && "theme-picked"} theme`}>
+						<button
+							className={`${theme.id == currentThemeId ? "theme-picked" : "theme-not-picked"} theme`}
+							onClick={() => setCurrentThemeId(theme.id)}
+						>
 							<HrThemeSample
 								key={theme.id}
 								theme={theme}
 							/>
-						</div>
+						</button>
 					)}
 					<button
 						onClick={() => setCreatingTheme(true)}
@@ -75,7 +89,12 @@ const HrThemePicker = ({ board, onClose, refreshFunc }) => {
 				>CLOSE</button>
 				<button
 					className="theme-picker-button"
-					onClick={() => createTheme ? createNewTheme() : pickTheme()}
+					onClick={() => {
+						if (creatingTheme)
+							createNewTheme()
+						else
+							pickTheme()
+					}}
 				>
 					{creatingTheme ? "CREATE" : "PICK"}
 				</button>

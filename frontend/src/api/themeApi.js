@@ -15,7 +15,14 @@ const createTheme = async (clear, primary, secondary, tertiary, board=undefined)
 	})
 }
 
+const asignTheme = async (boardId, themeId) => {
+	await axiosInstance.put(`/theme/${boardId}`, {
+		theme: themeId
+	})
+}
+
 export {
 	getThemes,
-	createTheme
+	createTheme,
+	asignTheme
 }

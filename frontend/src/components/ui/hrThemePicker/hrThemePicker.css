@@ -53,6 +53,11 @@
 .theme {
 	margin: 5px;
 	width: 29%;
+	background-color: transparent;
+}
+
+.theme-not-picked {
+	border: none;
 }
 
 .create-theme-button {
