@@ -19,12 +19,13 @@ const BoardsPage = () => {
 	const [page, setPage] = useState(0)
 	const [boardQuanity, setBoardQuantity] = useState(0)
 	const [boards, setBoards] = useState([])
+	const [finishedFetching, setFinishedFetching] = useState(false)
 
 	const calculatePages = (totalQuantity=boardQuanity) => {
 		return Math.ceil(totalQuantity / 8)
 	}
 
-	const requestBoards = async (currentPage = page) => {
+	const fetchBoards = async (currentPage = page) => {
 		if (!(await checkConnection()))
 			return navigate("/")
 		try {
@@ -34,7 +35,8 @@ const BoardsPage = () => {
 			if (page >= calculatePages(resp.amount)) {
 				fetchBoards(page - 1)
 				setPage(page - 1)
-			}
+			}		
+			setFinishedFetching(true)
 		} catch (err) {
 			if (!err.response.data)
 				return
@@ -69,21 +71,24 @@ const BoardsPage = () => {
 			<main className="screen-centered" style={{
 				height: "84vh"
 			}}>
-				{boards.length < 1 ?
-					<>
-						<h2 className="no-boards">There are no boards so far.</h2>
-						<HrAddBoard/>
-					</>
+				{finishedFetching ?
+					boards.length < 1 ?
+						<>
+							<h2 className="no-boards">There are no boards so far.</h2>
+							<HrAddBoard/>
+						</>
+					:
+						<div className="boards-container">
+							{boards.map((board) => 
+								<HrBoard
+									data={board}
+									refreshFunc={() => fetchBoards()}
+								/>
+							)}
+							<HrAddBoard/>
+						</div>
 				:
-					<div className="boards-container">
-						{boards.map((board) => 
-							<HrBoard
-								data={board}
-								refreshFunc={() => fetchBoards()}
-							/>
-						)}
-						<HrAddBoard/>
-					</div>
+					<h2 className="connecting">Loading boards...</h2>
 				}
 			</main>
 			<HrPageNavigation

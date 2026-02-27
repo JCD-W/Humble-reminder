@@ -73,6 +73,14 @@
 	}
 }
 
+.hr-header-back {
+	position: absolute;
+	left: 5px;
+	background-color: transparent;
+	color: var(--clear-color);
+	border: none;
+}
+
 @media only screen and (max-width: 600px) {
 	.hr-header-mobile {
 		display: block;

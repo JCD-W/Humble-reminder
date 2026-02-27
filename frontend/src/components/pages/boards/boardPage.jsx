@@ -21,6 +21,7 @@ export default () => {
 		<>
 			<HrHeader
 				title={board.title ?? "..."}
+				back="/boards"
 			/>
 		</>
 	)

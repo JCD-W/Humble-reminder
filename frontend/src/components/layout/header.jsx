@@ -1,12 +1,12 @@
 import { useContext, useState } from "react"
 import "./header.css"
 
-import { FaArchive, FaRegUser } from "react-icons/fa"
+import { FaAngleLeft, FaArchive, FaRegUser } from "react-icons/fa"
 import { FaBars } from "react-icons/fa"
-import { useNavigate } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import { SessionContext } from "../../context/sessionContext"
 
-const HrHeader = ({ title }) => {
+const HrHeader = ({ title, back }) => {
 	const navigate = useNavigate()
 	const { logOff } = useContext(SessionContext)
 
@@ -24,6 +24,11 @@ const HrHeader = ({ title }) => {
 
 	return (
 		<header className="hr-header">
+			{back && 
+				<Link className="hr-header-back" to={back}>
+					<FaAngleLeft size={24}/>
+				</Link>
+			}
 			<h1 className="hr-header-title">{title}</h1>
 			<div className="hr-header-buttons">
 				<button 
