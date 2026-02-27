@@ -1,0 +1,34 @@
+.hr-separator {
+	display: flex;
+	align-items: center;
+	flex-direction: column;
+	height: 82vh;
+	filter: opacity(0.25);
+}
+
+.hr-vertical-separator {
+	width: 1px;
+	height: 50%;
+	border: none;
+	background-color: var(--secondary-color);
+}
+
+.hr-add-columm {
+	background-color: transparent;
+	color: var(--secondary-color);
+	border: none;
+	margin-top: 10px;
+	margin-bottom: 5px;
+}
+
+.hr-add-column-button {
+	font-size: 10px;
+}
+
+.hr-separator:hover {
+	filter: opacity(1);
+}
+
+.hr-separator:hover .hr-add-column-button {
+	font-size: 25px;
+}

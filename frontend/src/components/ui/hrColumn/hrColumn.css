@@ -1,0 +1,31 @@
+.column {
+	background-color: var(--primary-color);
+	display: flex;
+	flex-direction: column;
+	margin-left: 10px;
+	margin-right: 10px;
+	border-radius: 7px;
+	min-width: 20vw;
+	max-width: 20vw;
+}
+
+.column-header {
+	background-color: var(--secondary-color);
+	padding: 10px;
+	padding-left: 20px;
+	padding-right: 20px;
+	font-weight: bold;
+	color: var(--tertiary-color);
+	text-align: center;
+	border-top-left-radius: 7px;
+	border-top-right-radius: 7px;
+}
+
+.task-container {
+	display: flex;
+	flex-direction: column;
+	padding: 10px;
+	min-height: 75vh;
+	max-height: 75vh;
+	overflow-y: auto;
+}

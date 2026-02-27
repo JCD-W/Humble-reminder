@@ -1,0 +1,7 @@
+.task {
+	margin: 5px;
+	background-color: var(--secondary-color);
+	padding: 10px;
+	border-radius: 7px;
+	cursor: pointer;
+}
