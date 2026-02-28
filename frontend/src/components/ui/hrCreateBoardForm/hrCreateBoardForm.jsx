@@ -29,6 +29,7 @@ const HrCreateBoardForm = ({ onClose }) => {
 					onClose={onClose}
 					title={"Create new board"}
 					onSubmit={create}
+					submitText="CREATE"
 					fields={[
 						{
 							name:"name",

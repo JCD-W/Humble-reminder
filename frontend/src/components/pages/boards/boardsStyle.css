@@ -9,12 +9,14 @@
 }
 
 .column-container {
+	overflow-x: auto;
 	display: flex;
 	flex-direction: row;
 	justify-content: flex-start;
 	align-items: flex-start;
 	min-width: 95vw;
 	padding: 1.5rem;
+	height: 85vh;
 }
 
 .no-boards {

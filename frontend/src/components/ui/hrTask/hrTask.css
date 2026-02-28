@@ -4,4 +4,5 @@
 	padding: 10px;
 	border-radius: 7px;
 	cursor: pointer;
+	color: var(--tertiary-color);
 }

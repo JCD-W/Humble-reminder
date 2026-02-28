@@ -5,6 +5,14 @@ const getColumns = async (boardId) => {
 	return resp.data
 }
 
+const createColumn = async (boardId, title, position) => {
+	await axiosInstance.post(`/column/${boardId}`, {
+		title,
+		position
+	})
+}
+
 export {
-	getColumns
+	getColumns,
+	createColumn
 }

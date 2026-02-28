@@ -2,7 +2,7 @@ import "./hrForm.css"
 
 import { useForm } from "react-hook-form"
 
-const HrForm = ({ title, fields, buttons, onSubmit = ()=>{}, onClose }) => {
+const HrForm = ({ title, fields, buttons, onSubmit = ()=>{}, onClose, submitText }) => {
 	const {
 		register, handleSubmit,
 		formState: { errors }
@@ -72,7 +72,7 @@ const HrForm = ({ title, fields, buttons, onSubmit = ()=>{}, onClose }) => {
 								onClick={onClose}
 							>CANCEL</button>
 						}
-						<input className="form-submit" type="submit" value={"SUBMIT"}/>
+						<input className="form-submit" type="submit" value={submitText ?? "SUBMIT"}/>
 					</div>
 				}
 			</form>

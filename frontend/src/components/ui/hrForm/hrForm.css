@@ -2,6 +2,7 @@
 	margin: 20px;
 	font-size: 32px;
 	z-index: 1000;
+	color: var(--clear-color);
 }
 
 .form {

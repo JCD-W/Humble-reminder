@@ -4,12 +4,13 @@ import { useNavigate, useParams } from "react-router-dom"
 import { getBoard } from "../../../api/boardApi"
 import HrHeader from "../../layout/header"
 import { ERROR_MESSAGE, MessageContext } from "../../../context/messageContext"
-import { getColumns } from "../../../api/columnApi"
+import { createColumn, getColumns } from "../../../api/columnApi"
 import HrColumn from "../../ui/hrColumn/hrColumn"
 import { checkConnection } from "../../../api/authApi"
+import HrCreateColumnForm from "../../ui/hrCreateColumnForm/hrCreateColumnForm"
 import HrNewColumnButton from "../../ui/hrColumn/hrNewColumnButton/hrNewColumnButton"
 
-export default () => {
+const HrBoardPage = () => {
 	const { id } = useParams()
 	const { showMessage } = useContext(MessageContext)
 	const navigate = useNavigate()
@@ -23,7 +24,9 @@ export default () => {
 		}
 	})
 	const [finishedFetching, setFinishedFetching] = useState(false)
+	const [showCreateColumnFrom, setShowCreateColumnForm] = useState(false)
 	const [columns, setColumns] = useState([])
+	const [newColumnPosition, setNewColumnPosition] = useState(1)
 	
 	const fetchBoard = async () => {
 		if (!(await checkConnection()))
@@ -36,6 +39,16 @@ export default () => {
 			navigate("/")
 		}
 		setFinishedFetching(true)
+	}
+
+	const createNewColumn = async ({ title }) => {
+		try {
+			await createColumn(id, title, newColumnPosition)
+			await fetchBoard()
+		} catch (err) {
+			showMessage(err.response.data.message, ERROR_MESSAGE)
+		}
+		setShowCreateColumnForm(false)
 	}
 
 	useState(() => {
@@ -57,17 +70,35 @@ export default () => {
 			/>
 			{finishedFetching ?
 				<div className="column-container">
-					<HrNewColumnButton/>
+					<HrNewColumnButton
+						onClick={() => {
+							setShowCreateColumnForm(true)
+							setNewColumnPosition(1)
+						}}
+					/>
 					{columns.map((column) => 
 						<>
 							<HrColumn data={column}/>							
-							<HrNewColumnButton/>
+							<HrNewColumnButton
+								onClick={() => {
+									setShowCreateColumnForm(true)
+									setNewColumnPosition(column.order + 1)
+								}}
+							/>
 						</>
 					)}
 				</div>
 			:
 				<h2 className="connecting">Loading columns and tasks...</h2>
 			}
+			{showCreateColumnFrom && 
+				<HrCreateColumnForm 
+					onClose={() => setShowCreateColumnForm(false)}
+					onSubmit={createNewColumn}
+				/>
+			}
 		</div>
 	)
 }
+
+export default HrBoardPage
