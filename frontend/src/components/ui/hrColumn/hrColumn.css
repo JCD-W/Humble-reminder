@@ -29,3 +29,18 @@
 	max-height: 75vh;
 	overflow-y: auto;
 }
+
+.create-task-button {
+	background-color: transparent;
+	border: 3px solid var(--secondary-color);
+	color: var(--secondary-color);
+	border-radius: 7px;
+	padding: 5px;
+	margin: 5px;
+	font-size: 20px;
+}
+
+.create-task-button:hover {
+	background-color: var(--secondary-color);
+	color: var(--primary-color);
+}

@@ -4,9 +4,7 @@ const HrCreateColumnForm = ({ onClose, onSubmit }) => {
 	return (
 		<>
 			<div className="background-modal screen-centered"></div>
-			<div 
-				className="screen-centered absolute-centered"
-			>
+			<div className="screen-centered absolute-centered">
 				<HrForm
 					title={"Create new column"}
 					onClose={onClose}

@@ -2,7 +2,7 @@ import "./hrForm.css"
 
 import { useForm } from "react-hook-form"
 
-const HrForm = ({ title, fields, buttons, onSubmit = ()=>{}, onClose, submitText }) => {
+const HrForm = ({ title, fields, buttons, onSubmit = ()=>{}, onClose, submitText, customFields=<></> }) => {
 	const {
 		register, handleSubmit,
 		formState: { errors }
@@ -50,6 +50,12 @@ const HrForm = ({ title, fields, buttons, onSubmit = ()=>{}, onClose, submitText
 										className="form-button"
 										onClick={() => field.onClick()}
 									>{field.text}</button>
+								: field.type === "select" ?
+									<select className="form-select" name={field.name}>
+										{field.options.map((option) => 
+											<option value={option.value}>{option.label}</option>
+										)}
+									</select>
 								:
 									<input
 										className="form-input" 
@@ -64,12 +70,14 @@ const HrForm = ({ title, fields, buttons, onSubmit = ()=>{}, onClose, submitText
 						</div>
 					)
 				})}
+				{customFields}
 				{buttons ?? 
 					<div className={onClose ? "spaced": "centered"}>
 						{onClose && 
 							<button
 								className="form-submit"
 								onClick={onClose}
+								type="button"
 							>CANCEL</button>
 						}
 						<input className="form-submit" type="submit" value={submitText ?? "SUBMIT"}/>

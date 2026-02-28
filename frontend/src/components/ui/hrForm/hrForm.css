@@ -64,7 +64,7 @@
 	flex-direction: row;
 }
 
-.form-button {
+.form-button, .form-select {
 	padding: 10px;
 	background-color: var(--primary-color);
 	color: var(--tertiary-color);

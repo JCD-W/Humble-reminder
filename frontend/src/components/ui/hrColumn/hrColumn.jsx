@@ -1,8 +1,9 @@
 import "./hrColumn.css"
 
 import HrTask from "../hrTask/hrTask"
+import { FaPlusCircle } from "react-icons/fa"
 
-const HrColumn = ({ data }) => {
+const HrColumn = ({ data, onCreate }) => {
 	return (
 		<div className="column">
 			<div className="column-header">
@@ -12,6 +13,12 @@ const HrColumn = ({ data }) => {
 				{data.task.map((task) =>
 					<HrTask data={task}/>
 				)}
+				<button
+					className="create-task-button"
+					onClick={onCreate}
+				>
+					<FaPlusCircle/>
+				</button>
 			</div>
 		</div>
 	)

@@ -9,6 +9,7 @@ import HrColumn from "../../ui/hrColumn/hrColumn"
 import { checkConnection } from "../../../api/authApi"
 import HrCreateColumnForm from "../../ui/hrCreateColumnForm/hrCreateColumnForm"
 import HrNewColumnButton from "../../ui/hrColumn/hrNewColumnButton/hrNewColumnButton"
+import HrCreateTaskForm from "../../ui/hrCreateTaskForm/hrCreateTaskForm"
 
 const HrBoardPage = () => {
 	const { id } = useParams()
@@ -24,7 +25,8 @@ const HrBoardPage = () => {
 		}
 	})
 	const [finishedFetching, setFinishedFetching] = useState(false)
-	const [showCreateColumnFrom, setShowCreateColumnForm] = useState(false)
+	const [showCreateColumnForm, setShowCreateColumnForm] = useState(false)
+	const [showCreateTaskForm, setShowCreateTaskForm] = useState(false)
 	const [columns, setColumns] = useState([])
 	const [newColumnPosition, setNewColumnPosition] = useState(1)
 	
@@ -78,7 +80,12 @@ const HrBoardPage = () => {
 					/>
 					{columns.map((column) => 
 						<>
-							<HrColumn data={column}/>							
+							<HrColumn
+								data={column}
+								onCreate={() => {
+									setShowCreateTaskForm(true)
+								}}
+							/>							
 							<HrNewColumnButton
 								onClick={() => {
 									setShowCreateColumnForm(true)
@@ -91,10 +98,15 @@ const HrBoardPage = () => {
 			:
 				<h2 className="connecting">Loading columns and tasks...</h2>
 			}
-			{showCreateColumnFrom && 
+			{showCreateColumnForm && 
 				<HrCreateColumnForm 
 					onClose={() => setShowCreateColumnForm(false)}
 					onSubmit={createNewColumn}
+				/>
+			}
+			{showCreateTaskForm &&
+				<HrCreateTaskForm
+					onClose={() => setShowCreateTaskForm(false)}
 				/>
 			}
 		</div>
