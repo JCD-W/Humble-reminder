@@ -18,8 +18,8 @@ const deleteBoard = async (boardId) => {
 	await axiosInstance.delete(`/board/${boardId}`)
 }
 
-const getBoard = async (boardId) => {
-	const resp = await axiosInstance.get(`/board/${boardId}`)
+const getBoard = async (boardId, open=false) => {
+	const resp = await axiosInstance.get(`/board/${boardId}${open ? "?open=1" : ""}`)
 	return resp.data
 }
 

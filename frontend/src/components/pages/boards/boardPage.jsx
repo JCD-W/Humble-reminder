@@ -36,7 +36,7 @@ const HrBoardPage = () => {
 		if (!(await checkConnection()))
 			return navigate("/")
 		try {
-			setBoard(await getBoard(id))
+			setBoard(await getBoard(id, true))
 			setColumns(await getColumns(id))
 		} catch (err) {
 			showMessage(err.response.data.message, ERROR_MESSAGE)
