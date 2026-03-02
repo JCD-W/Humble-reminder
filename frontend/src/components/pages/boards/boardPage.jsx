@@ -3,13 +3,14 @@ import { useNavigate, useParams } from "react-router-dom"
 
 import { getBoard } from "../../../api/boardApi"
 import HrHeader from "../../layout/header"
-import { ERROR_MESSAGE, MessageContext } from "../../../context/messageContext"
+import { ERROR_MESSAGE, MessageContext, NORMAL_MESSAGE } from "../../../context/messageContext"
 import { createColumn, getColumns } from "../../../api/columnApi"
 import HrColumn from "../../ui/hrColumn/hrColumn"
 import { checkConnection } from "../../../api/authApi"
 import HrCreateColumnForm from "../../ui/hrCreateColumnForm/hrCreateColumnForm"
 import HrNewColumnButton from "../../ui/hrColumn/hrNewColumnButton/hrNewColumnButton"
 import HrCreateTaskForm from "../../ui/hrCreateTaskForm/hrCreateTaskForm"
+import { createTask } from "../../../api/taskApi"
 
 const HrBoardPage = () => {
 	const { id } = useParams()
@@ -29,6 +30,7 @@ const HrBoardPage = () => {
 	const [showCreateTaskForm, setShowCreateTaskForm] = useState(false)
 	const [columns, setColumns] = useState([])
 	const [newColumnPosition, setNewColumnPosition] = useState(1)
+	const [selectedColumn, setSelectedColumn] = useState(0)
 	
 	const fetchBoard = async () => {
 		if (!(await checkConnection()))
@@ -54,7 +56,20 @@ const HrBoardPage = () => {
 	}
 
 	const createNewTask = async (data) => {
-		console.log(data)
+		if (selectedColumn === 0) {
+			showMessage("The task doesn't belong to any columns", NORMAL_MESSAGE)
+			return
+		}
+
+		try {
+			await createTask(selectedColumn, id, data.name, data.description, data.deadline, data["deadline-date"], data.type)
+			setSelectedColumn(0)
+			fetchBoard()
+			showMessage("Task created", NORMAL_MESSAGE)
+		} catch (err) {
+			showMessage(err.response.data.message, ERROR_MESSAGE)
+		}
+		setShowCreateTaskForm(false)
 	}
 
 	useState(() => {
@@ -85,10 +100,12 @@ const HrBoardPage = () => {
 					{columns.map((column) => 
 						<>
 							<HrColumn
+								key={column.id}
 								data={column}
 								onCreate={() => {
 									setShowCreateTaskForm(true)
 								}}
+								selectColumnFunc={setSelectedColumn}
 							/>							
 							<HrNewColumnButton
 								onClick={() => {

@@ -19,7 +19,7 @@ export default class taskController {
 			"SELECT t.task_id AS id, t.task_name AS name, t.task_desc AS description, t.task_state AS state,"+
 			"t.task_type AS type, t.task_deliver AS deliver_url, t.task_deadline AS deadline, t.task_creation AS creation,"+
 			"t.task_delivered AS delivery_date, cht.task_position AS position FROM task t "+
-			"JOIN column_has_task cht ON cht.task_id = t.task_id WHERE cht.column_id = ? AND t.task_state = ? ORDER BY cht.task_position ASC",
+			"JOIN column_has_task cht ON cht.task_id = t.task_id WHERE cht.column_id = ? AND t.task_state = ? ORDER BY cht.task_position DESC",
 			[columnId, state]
 		)
 	}
