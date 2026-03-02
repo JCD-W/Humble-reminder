@@ -53,6 +53,10 @@ const HrBoardPage = () => {
 		setShowCreateColumnForm(false)
 	}
 
+	const createNewTask = async (data) => {
+		console.log(data)
+	}
+
 	useState(() => {
 		fetchBoard()
 	}, [])
@@ -107,6 +111,7 @@ const HrBoardPage = () => {
 			{showCreateTaskForm &&
 				<HrCreateTaskForm
 					onClose={() => setShowCreateTaskForm(false)}
+					onSubmit={createNewTask}
 				/>
 			}
 		</div>

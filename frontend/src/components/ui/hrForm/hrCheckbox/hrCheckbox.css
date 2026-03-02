@@ -1,0 +1,26 @@
+.check-container {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+}
+
+.check-input {
+	width: 0px;
+	height: 0px;
+	filter: opacity(0);
+}
+
+.check-label {
+	padding: 10px;
+	margin-right: 10px;
+	border-radius: 7px;
+	border: 2px solid var(--secondary-color);
+}
+
+.check-label-inactive {
+	background-color: var(--primary-color);
+}
+
+.check-label-active {
+	background-color: var(--clear-color);
+}

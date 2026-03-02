@@ -2,28 +2,6 @@ import "../hrForm/hrForm.css"
 
 import HrForm from "../hrForm/hrForm"
 
-/*
-	{
-		name: "type",
-		label: "Task type",
-		type: "select",
-		options: [
-			{
-				value: "normal",
-				label: "Normal"
-			},
-			{
-				value: "deliver_url",
-				label: "URL"
-			},
-			{
-				value: "deliver_file",
-				label: "File"
-			}
-		]
-	}
-*/
-
 const HrCreateTaskForm = ({ onClose, onSubmit }) => {
 	return (
 		<>
@@ -47,17 +25,39 @@ const HrCreateTaskForm = ({ onClose, onSubmit }) => {
 							type: "textarea",
 							maxLength: 512
 						},
+						{
+							name: "deadline",
+							label: "Deadline",
+							type: "check",
+							ifOn: {
+								type: "date",
+								className: "form-date",
+								name: "deadline-date"
+							},
+							ifOff: (
+								<span style={{color: "var(--tertiary-color)"}}>No deadline.</span>
+							)
+						},
+						{
+							name: "type",
+							label: "Task type",
+							type: "select",
+							options: [
+								{
+									value: "normal",
+									label: "Normal"
+								},
+								{
+									value: "deliver_url",
+									label: "URL"
+								},
+								{
+									value: "deliver_file",
+									label: "File"
+								}
+							]
+						}
 					]}
-					customFields={
-						<div className="form">
-							<label>Task type</label>
-							<select name="type">
-								<option>Normal</option>
-								<option>URL</option>
-								<option>File</option>
-							</select>
-						</div>
-					}
 				/>
 			</div>
 		</>

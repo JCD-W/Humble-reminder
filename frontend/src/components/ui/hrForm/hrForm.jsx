@@ -1,10 +1,11 @@
+import HrCheckbox from "./hrCheckbox/hrCheckbox"
 import "./hrForm.css"
 
 import { useForm } from "react-hook-form"
 
 const HrForm = ({ title, fields, buttons, onSubmit = ()=>{}, onClose, submitText, customFields=<></> }) => {
 	const {
-		register, handleSubmit,
+		register, handleSubmit, control,
 		formState: { errors }
 	} = useForm({
 		defaultValues: fields
@@ -51,11 +52,25 @@ const HrForm = ({ title, fields, buttons, onSubmit = ()=>{}, onClose, submitText
 										onClick={() => field.onClick()}
 									>{field.text}</button>
 								: field.type === "select" ?
-									<select className="form-select" name={field.name}>
+									<select
+										className="form-select"
+										name={field.name}
+										{...register(field.name, options)}
+									>
 										{field.options.map((option) => 
 											<option value={option.value}>{option.label}</option>
 										)}
 									</select>
+								: field.type === "check" ?
+									<HrCheckbox
+										name={field.name}
+										ifOn={field.ifOn}
+										ifOff={field.ifOff}
+										checked={field.checked ?? false}
+										registerFunc={register}
+										options={options}
+										control={control}
+									/>
 								:
 									<input
 										className="form-input" 
