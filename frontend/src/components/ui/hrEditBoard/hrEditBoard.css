@@ -1,0 +1,9 @@
+.configuration-button {
+	padding: 5px;
+	background-color: transparent;
+	color: var(--clear-color);
+	position: absolute;
+	right: 20px;
+	bottom: 20px;
+	border: none;
+}

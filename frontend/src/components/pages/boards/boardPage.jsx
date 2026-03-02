@@ -11,6 +11,7 @@ import HrCreateColumnForm from "../../ui/hrCreateColumnForm/hrCreateColumnForm"
 import HrNewColumnButton from "../../ui/hrColumn/hrNewColumnButton/hrNewColumnButton"
 import HrCreateTaskForm from "../../ui/hrCreateTaskForm/hrCreateTaskForm"
 import { createTask } from "../../../api/taskApi"
+import HrEditBoardButton from "../../ui/hrEditBoard/hrEditBoardButton"
 
 const HrBoardPage = () => {
 	const { id } = useParams()
@@ -131,6 +132,7 @@ const HrBoardPage = () => {
 					onSubmit={createNewTask}
 				/>
 			}
+			<HrEditBoardButton/>
 		</div>
 	)
 }
