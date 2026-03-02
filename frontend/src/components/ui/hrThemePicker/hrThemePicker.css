@@ -38,6 +38,7 @@
 	margin-top: 20px;
 	margin-bottom: 20px;
 	width: 90%;
+	max-height: 40vh;
 	display: flex;
 	flex-wrap: wrap;
 	overflow-y: auto;
@@ -52,7 +53,7 @@
 
 .theme {
 	margin: 5px;
-	width: 29%;
+	width: 31%;
 	background-color: transparent;
 }
 
@@ -64,7 +65,7 @@
 	padding: 10px;
 	border-radius: 7px;
 	margin: 5px;
-	width: 29%;
+	width: 31%;
 	border: 2px solid var(--clear-color);
 	background-color: var(--primary-color);
 	color: var(--clear-color);

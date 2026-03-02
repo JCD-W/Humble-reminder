@@ -7,6 +7,7 @@ import HrThemeSample from "./hrThemeSample/hrThemeSample"
 import { FaPlusCircle } from "react-icons/fa"
 import HrThemeForm from "./hrThemeForm/hrThemeForm"
 import { ERROR_MESSAGE, MessageContext, NORMAL_MESSAGE } from "../../../context/messageContext"
+import HrPageNavigation from "../hrPageNavigation/HrPageNavigation"
 
 const HrThemePicker = ({ board, onClose, refreshFunc }) => {
 	const { showMessage } = useContext(MessageContext)
@@ -18,8 +19,9 @@ const HrThemePicker = ({ board, onClose, refreshFunc }) => {
 	const [page, setPage] = useState(0)
 	const [creatingTheme, setCreatingTheme] = useState(false)
 
-	const fetchThemes = async () => {
-		const resp = await getThemes()
+	const fetchThemes = async (page=0) => {
+		setPage(page)
+		const resp = await getThemes(page)
 		setThemeQuantity(resp.amount)
 		setThemes(resp.themes)
 	}
@@ -52,6 +54,14 @@ const HrThemePicker = ({ board, onClose, refreshFunc }) => {
 		}
 	}
 
+	const calculatePages = (totalQuantity=themeQuantity) => {
+		return Math.ceil(totalQuantity / 20)
+	}
+
+	const changePage = (page) => {
+		fetchThemes(page)
+	}
+
 	useState(() => {
 		fetchThemes()
 	}, [])
@@ -81,6 +91,13 @@ const HrThemePicker = ({ board, onClose, refreshFunc }) => {
 						<FaPlusCircle size={30}/>
 					</button>
 				</div>
+			}
+			{themeQuantity > 20 &&
+				<HrPageNavigation
+					page={page + 1}
+					pages={calculatePages()}
+					onPageChange={changePage}
+				/>			
 			}
 			<div>
 				<button

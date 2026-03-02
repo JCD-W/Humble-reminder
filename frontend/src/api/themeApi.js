@@ -1,7 +1,7 @@
 import { axiosInstance } from "../utils/axiosInstance"
 
-const getThemes = async () => {
-	const resp = await axiosInstance.get("/theme/")
+const getThemes = async (page) => {
+	const resp = await axiosInstance.get(`/theme?page=${page}`)
 	return resp.data
 }
 
