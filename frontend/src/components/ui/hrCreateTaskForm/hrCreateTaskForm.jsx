@@ -18,6 +18,7 @@ const HrCreateTaskForm = ({ onClose, onSubmit }) => {
 							label: "Task name",
 							type: "text",
 							required: "Name required",
+							maxLength: 32
 						},
 						{
 							name: "description",
