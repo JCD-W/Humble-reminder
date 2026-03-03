@@ -12,6 +12,7 @@
 .task-expired {
 	font-weight: bold;
 	text-align: center;
+	margin-top: 5px;
 }
 
 .task-expired-container {
@@ -37,18 +38,26 @@
 }
 
 .task-data-title {
+	margin-right: auto;
 	font-weight: bold;
+	color: var(--clear-color);
 }
 
 .task-data-date {
+	font-weight: bold;
+	margin-left: 7px;
+}
+
+.task-data-date-container {
 	margin-left: auto;
 	text-align: right;
 	display: block;
+	margin-top: 10px;
 }
 
 .task-data-close {
 	margin-top: -2px;
-	margin-left: 10px;
+	margin-left: 5px;
 	background-color: var(--clear-color);
 	color: var(--primary-color);
 	border: none;
@@ -85,10 +94,11 @@
 	margin-top: 10px;
 	width: stretch;
 	padding: 5px;
-	border: 2px solid var(--secondary-color);
+	border: none;
 	border-radius: 7px;
-	background-color: var(--primary-color);
+	background-color: var(--clear-color);
 	font-weight: bold;
+	color: var(--primary-color);
 }
 
 .task-deliver-file {
@@ -107,4 +117,64 @@
 	width: 0;
 	height: 0;
 	filter: opacity(0);
+}
+
+.task-header-button {
+	border: none;
+	background-color: transparent;
+	color: var(--clear-color);
+	margin-left: 5px;
+	margin-right: 7.5px;
+}
+
+.task-data-title-editing {
+	font-weight: bold;
+	width: 75%;
+	margin-right: auto;
+	border: none;
+	background-color: transparent;
+	text-decoration: underline;
+	color: var(--clear-color);
+}
+
+.task-data-description-editing {
+	display: block;
+	padding: 5px;
+	width: stretch;
+	color: var(--tertiary-color);
+	background-color: var(--primary-color);
+	border-color: var(--secondary-color);
+	border-radius: 7px;
+}
+
+.task-data-editing-type {
+	margin-top: 10px;
+	width: stretch;
+	background-color: var(--primary-color);
+	border-color: var(--secondary-color);
+	padding: 5px;
+	border-radius: 7px;
+	color: var(--tertiary-color);
+}
+
+.task-data-edit-deadline-container {
+	margin-top: 10px;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.task-data-edit-deadline-check {
+	width: 20px;
+	height: 20px;
+	border: 1px solid var(--tertiary-color);
+	border-radius: 7px;
+}
+
+.task-edit-deadline-date {
+	background-color: var(--primary-color);
+	color: var(--tertiary-color);
+	border: 1px solid var(--secondary-color);
+	border-radius: 7px;
+	padding: 5px;
 }

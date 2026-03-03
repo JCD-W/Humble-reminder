@@ -9,6 +9,13 @@ const createTask = async (columnId, boardId, name, description, hasDeadline, dea
 	})
 }
 
+const updateTask = async (taskId, name, desc, type, deadline) => {
+	await axiosInstance.put(`/task/${taskId}`, {
+		name, desc, type, deadline
+	})
+}
+
 export {
-	createTask
+	createTask,
+	updateTask
 }

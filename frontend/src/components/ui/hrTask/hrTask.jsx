@@ -2,7 +2,7 @@ import { useState } from "react"
 import "./hrTask.css"
 import HrTaskData from "./hrTaskData/hrTaskData"
 
-const HrTask = ({ data }) => {
+const HrTask = ({ data, onRefresh }) => {
 	const [showingTask, setShowingTask] = useState(false)
 
 	const deadlineDate = new Date(data.deadline)
@@ -33,6 +33,7 @@ const HrTask = ({ data }) => {
 				<HrTaskData
 					data={data}
 					onClose={() => setShowingTask(false)}
+					onRefresh={onRefresh}
 				/>
 			}
 		</>

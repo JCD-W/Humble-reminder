@@ -113,6 +113,7 @@ const HrBoardPage = () => {
 									setShowCreateTaskForm(true)
 								}}
 								selectColumnFunc={setSelectedColumn}
+								onRefresh={() => fetchBoard()}
 							/>							
 							<HrNewColumnButton
 								onClick={() => {

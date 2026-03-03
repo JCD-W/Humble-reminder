@@ -94,7 +94,7 @@ export default class taskRoutes {
 			task_name: name,
 			task_desc: desc,
 			task_type: type,
-			task_deadline: deadline
+			task_deadline: deadline ? new Date(deadline) : null
 		})
 
 		return res.status(200).send({

@@ -3,7 +3,7 @@ import "./hrColumn.css"
 import HrTask from "../hrTask/hrTask"
 import { FaPlusCircle } from "react-icons/fa"
 
-const HrColumn = ({ data, onCreate, selectColumnFunc }) => {
+const HrColumn = ({ data, onCreate, selectColumnFunc, onRefresh }) => {
 	return (
 		<div className="column">
 			<div className="column-header">
@@ -11,7 +11,10 @@ const HrColumn = ({ data, onCreate, selectColumnFunc }) => {
 			</div>
 			<div className="task-container">
 				{data.task.map((task) =>
-					<HrTask data={task}/>
+					<HrTask
+						onRefresh={onRefresh}
+						data={task}
+					/>
 				)}
 				<button
 					className="create-task-button"
