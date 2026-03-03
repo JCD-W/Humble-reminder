@@ -1,7 +1,7 @@
 .form-title {
 	margin: 20px;
 	font-size: 32px;
-	z-index: 1000;
+	z-index: 20;
 	color: var(--clear-color);
 }
 
@@ -10,7 +10,7 @@
 	padding: 15px;
 	border-radius: 7px;
 	min-width: 20%;
-	z-index: 1000;
+	z-index: 20;
 }
 
 .form-submit {

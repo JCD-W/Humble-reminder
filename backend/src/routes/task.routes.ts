@@ -64,7 +64,7 @@ export default class taskRoutes {
 		}
 
 		let deadline = null
-		if ((type === "deliver_url" || type === "deliver_file") && req.body.deadline)
+		if (req.body.deadline)
 			deadline = req.body.deadline
 
 		const taskId = await this.taskController.create(name, description, columnId, position, type, deadline)
