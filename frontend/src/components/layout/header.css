@@ -81,6 +81,17 @@
 	border: none;
 }
 
+.hr-header-title-container {
+	border: none;
+	background-color: transparent;
+}
+
+.hr-header-title-editing {
+	border: none;
+	background-color: transparent;
+	text-decoration: underline;
+}
+
 @media only screen and (max-width: 600px) {
 	.hr-header-mobile {
 		display: block;

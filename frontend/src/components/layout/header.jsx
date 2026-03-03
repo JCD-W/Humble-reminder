@@ -6,12 +6,13 @@ import { FaBars } from "react-icons/fa"
 import { Link, useNavigate } from "react-router-dom"
 import { SessionContext } from "../../context/sessionContext"
 
-const HrHeader = ({ title, back }) => {
+const HrHeader = ({ title, back, editable, onEdit }) => {
 	const navigate = useNavigate()
 	const { logOff } = useContext(SessionContext)
 
 	const [showMenu, setShowMenu] = useState(false)
 	const [showUserMenu, setShowUserMenu] = useState(false)
+	const [editTitle, setEditTitle] = useState(false)
 
 	const changePassword = () => {
 		navigate("/change-pass")
@@ -22,6 +23,17 @@ const HrHeader = ({ title, back }) => {
 		navigate("/")
 	}
 
+	const startEditing = () => {
+		if (!editable)
+			return
+		setEditTitle(true)
+	}
+
+	const stopEditing = (text) => {
+		onEdit(text)
+		setEditTitle(false)
+	}
+
 	return (
 		<header className="hr-header">
 			{back && 
@@ -29,7 +41,20 @@ const HrHeader = ({ title, back }) => {
 					<FaAngleLeft size={24}/>
 				</Link>
 			}
-			<h1 className="hr-header-title">{title}</h1>
+			{editTitle ?
+				<input
+					className={`hr-header-title hr-header-title-editing`}
+					defaultValue={title}
+					onBlur={(e) => stopEditing(e.target.value)}
+				/>
+			:
+				<button
+					onClick={startEditing}
+					className="hr-header-title-container"
+				>
+					<h1 className="hr-header-title">{title}</h1>
+				</button>
+			}
 			<div className="hr-header-buttons">
 				<button 
 					className="hr-header-mobile hr-header-button"
