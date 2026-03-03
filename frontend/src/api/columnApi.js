@@ -12,7 +12,12 @@ const createColumn = async (boardId, title, position) => {
 	})
 }
 
+const archiveColumn = async (columnId) => {
+	await axiosInstance.delete(`/column/${columnId}`)
+}
+
 export {
 	getColumns,
-	createColumn
+	createColumn,
+	archiveColumn
 }

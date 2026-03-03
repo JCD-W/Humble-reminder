@@ -19,6 +19,8 @@
 	text-align: center;
 	border-top-left-radius: 7px;
 	border-top-right-radius: 7px;
+	display: flex;
+	flex-direction: row;
 }
 
 .task-container {
@@ -43,4 +45,15 @@
 .create-task-button:hover {
 	background-color: var(--secondary-color);
 	color: var(--primary-color);
+}
+
+.column-title {
+	width: 100%;
+	display: block;
+}
+
+.archive-column-button {
+	background-color: transparent;
+	border: none;
+	color: var(--clear-color);
 }
