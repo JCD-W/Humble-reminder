@@ -20,19 +20,20 @@ export default class db {
 	}
 
 	async update (table: string, newData: Map<string, any>, id: any, idName: string) {
-		const fields = Object.keys(newData)
+		const fields = Object.keys(newData).filter((key) => newData[key] != undefined)
 		let changes = ""
-		let values = [id]
+		let values = []
+
+		console.log(fields)
 
 		for (let i = 0; i < fields.length; i++) {
 			const field = fields[i]
-			if (newData[field] !== undefined) {
-				changes += `${field} = ?${i + 1 == fields.length ? "" : ","} `
-				values.unshift(newData[field])
-			}
+			changes += `${field} = ?${i + 1 == fields.length ? "" : ","} `
+			values.push(newData[field])
 		}
 
-		await this.query(`UPDATE ${table} SET ${changes} WHERE ${idName} = ?`, values)
+		console.log(changes, values)
+		await this.query(`UPDATE ${table} SET ${changes} WHERE ${idName} = ?`, [...values, id])
 	}
 	
 	async connect () {

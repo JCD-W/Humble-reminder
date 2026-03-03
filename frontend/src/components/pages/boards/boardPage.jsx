@@ -1,7 +1,7 @@
 import { useContext, useState } from "react"
 import { useNavigate, useParams } from "react-router-dom"
 
-import { getBoard } from "../../../api/boardApi"
+import { getBoard, updateBoard } from "../../../api/boardApi"
 import HrHeader from "../../layout/header"
 import { ERROR_MESSAGE, MessageContext, NORMAL_MESSAGE } from "../../../context/messageContext"
 import { createColumn, getColumns } from "../../../api/columnApi"
@@ -73,6 +73,11 @@ const HrBoardPage = () => {
 		setShowCreateTaskForm(false)
 	}
 
+	const changeBoardName = async (name) => {
+		await updateBoard(id, name)
+		fetchBoard()
+	}
+
 	useState(() => {
 		fetchBoard()
 	}, [])
@@ -89,6 +94,8 @@ const HrBoardPage = () => {
 			<HrHeader
 				title={board.title ?? "..."}
 				back="/boards"
+				editable={true}
+				onEdit={changeBoardName}
 			/>
 			{finishedFetching ?
 				<div className="column-container">
