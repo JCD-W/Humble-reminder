@@ -4,14 +4,15 @@ import HrTask from "../hrTask/hrTask"
 import { FaArchive, FaPlusCircle } from "react-icons/fa"
 import { useContext, useState } from "react"
 import { ERROR_MESSAGE, MessageContext, NORMAL_MESSAGE } from "../../../context/messageContext"
-import { archiveColumn } from "../../../api/columnApi"
+import { archiveColumn, updateColumn } from "../../../api/columnApi"
 
 const HrColumn = ({ data, onCreate, selectColumnFunc, onRefresh }) => {
 	const { showMessage, showQuestion } = useContext(MessageContext)
 
 	const [hoveringHeader, setHoveringHeader] = useState(false)
+	const [editingColumn, setEditingColumn] = useState(false)
 
-	const handeArchiveColumn = () => {
+	const handleArchiveColumn = () => {
 		showQuestion("Are you sure you want to archive this column?", async () => {
 			try {
 				await archiveColumn(data.id)
@@ -23,6 +24,15 @@ const HrColumn = ({ data, onCreate, selectColumnFunc, onRefresh }) => {
 		})
 	}
 
+	const handleEditColumn = async (title) => {
+		try {
+			await updateColumn(data.id, title)
+			onRefresh()
+		} catch (err) {
+			showMessage(err.response.data.message, ERROR_MESSAGE)
+		}
+	}
+
 	return (
 		<div className="column">
 			<div
@@ -30,11 +40,25 @@ const HrColumn = ({ data, onCreate, selectColumnFunc, onRefresh }) => {
 				onMouseEnter={() => setHoveringHeader(true)}
 				onMouseLeave={() => setHoveringHeader(false)}
 			>
-				<span className="column-title">{data.title}</span>
+				{editingColumn ?
+					<input
+						className="column-title" 
+						defaultValue={data.title}
+						onBlur={(e) => {
+							setEditingColumn(false)
+							handleEditColumn(e.target.value)
+						}}
+					/>
+				:
+					<span
+						className="column-title" 
+						onClick={() => setEditingColumn(true)}
+					>{data.title}</span>
+				}
 				{hoveringHeader &&
 					<button 
 						className="archive-column-button"
-						onClick={() => handeArchiveColumn()}	
+						onClick={() => handleArchiveColumn()}	
 					>
 						<FaArchive/>
 					</button>

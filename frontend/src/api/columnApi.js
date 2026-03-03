@@ -16,8 +16,15 @@ const archiveColumn = async (columnId) => {
 	await axiosInstance.delete(`/column/${columnId}`)
 }
 
+const updateColumn = async (columnId, title) => {
+	await axiosInstance.put(`/column/${columnId}`, {
+		title
+	})
+}
+
 export {
 	getColumns,
 	createColumn,
-	archiveColumn
+	archiveColumn,
+	updateColumn
 }
