@@ -35,13 +35,17 @@ export default class taskController {
 	}
 
 	async moveTaskColumn (taskId: number, oldColumn: number, newColumn: number, position: number) {
-		await this.db.query("UPDATE column_has_task SET task_position = task_position + 1 WHERE column_id = ? AND task_position >= ?", [newColumn, position])
+		const res = await this.db.query(`SELECT task_position FROM column_has_task WHERE task_id = ?`, [taskId])
+		const originalPosition = parseInt(res[0].task_position)
+		await this.db.query("UPDATE column_has_task SET task_position = task_position - 1 WHERE task_position > ? AND task_position <= ? AND column_id = ?", [originalPosition, position, newColumn])
+		await this.db.query("UPDATE column_has_task SET task_position = task_position + 1 WHERE task_position < ? AND task_position >= ? AND column_id = ?", [originalPosition, position, newColumn])
+
 		await this.db.query("UPDATE column_has_task SET column_id = ? WHERE task_id = ? AND column_id = ?", [newColumn, taskId, oldColumn])
 		await this.db.query("UPDATE column_has_task SET task_position = task_position - 1 WHERE column_id = ? AND task_position >= ?", [oldColumn, position])
 	}
 
 	async moveTask (taskId: number, columnId: number, position: number) {
-		const res = await this.db.query(`SELECT task_position FROM column_has_task WHERE column_id = ?`, [columnId])
+		const res = await this.db.query(`SELECT task_position FROM column_has_task WHERE task_id = ?`, [taskId])
 		const originalPosition = parseInt(res[0].task_position)
 		await this.db.query("UPDATE column_has_task SET task_position = task_position - 1 WHERE task_position > ? AND task_position <= ? AND column_id = ?", [originalPosition, position, columnId])
 		await this.db.query("UPDATE column_has_task SET task_position = task_position + 1 WHERE task_position < ? AND task_position >= ? AND column_id = ?", [originalPosition, position, columnId])

@@ -6,7 +6,7 @@ import { useContext, useState } from "react"
 import { ERROR_MESSAGE, MessageContext, NORMAL_MESSAGE } from "../../../context/messageContext"
 import { archiveColumn, updateColumn } from "../../../api/columnApi"
 
-const HrColumn = ({ data, onCreate, selectColumnFunc, onRefresh, onHover, onDrop }) => {
+const HrColumn = ({ data, onCreate, selectColumnFunc, onRefresh, onHover, onDrop, selectTaskFunc, onTaskDrop, onTaskHover }) => {
 	const { showMessage, showQuestion } = useContext(MessageContext)
 
 	const [hoveringHeader, setHoveringHeader] = useState(false)
@@ -45,17 +45,20 @@ const HrColumn = ({ data, onCreate, selectColumnFunc, onRefresh, onHover, onDrop
 	}
 
 	return (
-		<div className={`column ${dragging && "column-dragging"}`}>
+		<div 
+			className={`column ${dragging && "column-dragging"}`}
+			draggable={true}
+			onDragOver={() => onHover({
+				id: data.id,
+				position: data.order - 1
+			})}
+		>
 			<div
 				className="column-header" 
 				onMouseEnter={() => setHoveringHeader(true)}
 				onMouseLeave={() => setHoveringHeader(false)}
 				onDragStart={startDragging}
 				onDragEnd={stopDragging}
-				onDragOver={() => onHover({
-					id: data.id,
-					position: data.order - 1
-				})}
 				draggable={true}
 			>
 				{(hoveringHeader && !editingColumn) &&
@@ -94,6 +97,10 @@ const HrColumn = ({ data, onCreate, selectColumnFunc, onRefresh, onHover, onDrop
 					<HrTask
 						onRefresh={onRefresh}
 						data={task}
+						selectTaskFunc={selectTaskFunc}
+						onDrop={onTaskDrop}
+						onHover={onTaskHover}
+						column={data.id}
 					/>
 				)}
 				<button

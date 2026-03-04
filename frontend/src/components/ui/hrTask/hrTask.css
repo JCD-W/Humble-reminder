@@ -178,3 +178,7 @@
 	border-radius: 7px;
 	padding: 5px;
 }
+
+.task-dragging {
+	filter: brightness(1.5);
+}

@@ -10,7 +10,7 @@ import { checkConnection } from "../../../api/authApi"
 import HrCreateColumnForm from "../../ui/hrCreateColumnForm/hrCreateColumnForm"
 import HrNewColumnButton from "../../ui/hrColumn/hrNewColumnButton/hrNewColumnButton"
 import HrCreateTaskForm from "../../ui/hrCreateTaskForm/hrCreateTaskForm"
-import { createTask } from "../../../api/taskApi"
+import { createTask, moveTask, moveTaskColumn } from "../../../api/taskApi"
 
 const HrBoardPage = () => {
 	const { id } = useParams()
@@ -31,7 +31,9 @@ const HrBoardPage = () => {
 	const [columns, setColumns] = useState([])
 	const [newColumnPosition, setNewColumnPosition] = useState(1)
 	const [selectedColumn, setSelectedColumn] = useState(0)
+	const [selectedTask, setSelectedTask] = useState(0)
 	const [backColumn, setBackColumn] = useState({})
+	const [backTask, setBackTask] = useState({})
 	
 	const fetchBoard = async () => {
 		if (!(await checkConnection()))
@@ -74,12 +76,33 @@ const HrBoardPage = () => {
 	}
 
 	const handleMoveColumn = async () => {
+		if (selectedColumn === backColumn.id)
+			return
 		try {
 			await moveColumn(id, selectedColumn, backColumn.position + 1)
+			setSelectedColumn(0)
+			setBackColumn({})
+			fetchBoard()
 		} catch (err) {
 			showMessage(err.response.data.message, ERROR_MESSAGE)
 		}
-		fetchBoard()
+	}
+
+	const handleMoveTask = async () => {
+		try {
+			if (backColumn.id === selectedTask.column) {
+				await moveTask(selectedTask.task, backTask.position)
+			} else {
+				await moveTaskColumn(id, selectedTask.task, backColumn.id)
+			}
+			setSelectedColumn({})
+			setBackColumn({})
+			setBackTask({})
+			fetchBoard()
+		} catch (err) {
+			showMessage(err.response.data.message, ERROR_MESSAGE)
+		}
+		console.log(backColumn, selectedTask)
 	}
 
 	const changeBoardName = async (name) => {
@@ -127,9 +150,12 @@ const HrBoardPage = () => {
 									setShowCreateTaskForm(true)
 								}}
 								selectColumnFunc={setSelectedColumn}
+								selectTaskFunc={setSelectedTask}
 								onRefresh={() => fetchBoard()}
 								onHover={setBackColumn}
+								onTaskHover={setBackTask}
 								onDrop={handleMoveColumn}
+								onTaskDrop={handleMoveTask}
 							/>
 							<HrNewColumnButton
 								onClick={() => {

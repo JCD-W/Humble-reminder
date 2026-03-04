@@ -15,7 +15,19 @@ const updateTask = async (taskId, name, desc, type, deadline) => {
 	})
 }
 
+const moveTaskColumn = async (boardId, taskId, columnId) => {
+	await axiosInstance.put(`/task/${boardId}/${taskId}/move`, {
+		column: columnId
+	})
+}
+
+const moveTask = async (taskId, position) => {
+	await axiosInstance.put(`/task/move/${taskId}`, {position})
+}
+
 export {
 	createTask,
-	updateTask
+	updateTask,
+	moveTaskColumn,
+	moveTask
 }
