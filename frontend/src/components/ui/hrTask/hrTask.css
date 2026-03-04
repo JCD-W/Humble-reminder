@@ -9,7 +9,7 @@
 	flex-direction: column;
 }
 
-.task-expired {
+.task-message {
 	font-weight: bold;
 	text-align: center;
 	margin-top: 5px;
@@ -181,4 +181,28 @@
 
 .task-dragging {
 	filter: brightness(1.5);
+}
+
+.delivery-container {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	margin-top: 10px;
+	align-items: center;
+}
+
+.delivery-url {
+	color: var(--teriary-color);
+	font-weight: bold;
+	width: 90%;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	overflow: hidden;
+}
+
+.delivery-button {
+	color: var(--clear-color);
+	background-color: transparent;
+	border: none;
+	font-size: 18px;
 }

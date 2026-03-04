@@ -136,7 +136,8 @@ export default class taskRoutes {
 				if (!req.body.url)
 					return res.status(400).send({message: "Delivered URL not provided"})
 				await this.taskController.update(taskId, {
-					task_deliver: req.body.url
+					task_deliver: req.body.url,
+					task_delivered: new Date()
 				})
 				break
 			case "deliver_file":

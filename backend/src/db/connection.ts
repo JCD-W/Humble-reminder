@@ -20,11 +20,11 @@ export default class db {
 	}
 
 	async update (table: string, newData: Map<string, any>, id: any, idName: string) {
-		const fields = Object.keys(newData).filter((key) => newData[key] != undefined)
+		const fields = Object.keys(newData).filter((key) => newData[key] != undefined || newData[key] === null)
 		let changes = ""
 		let values = []
 
-		console.log(fields)
+		//console.log(fields)
 
 		for (let i = 0; i < fields.length; i++) {
 			const field = fields[i]

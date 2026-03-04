@@ -2,9 +2,10 @@ import "../hrTask.css"
 
 import { FaArchive, FaPen, FaTrash } from "react-icons/fa"
 import { useContext, useState } from "react"
+import { Link } from "react-router-dom"
 
 import { ERROR_MESSAGE, MessageContext, NORMAL_MESSAGE } from "../../../../context/messageContext"
-import { archiveTask, updateTask } from "../../../../api/taskApi"
+import { archiveTask, deleteDeliver, deliverUrlTask, updateTask } from "../../../../api/taskApi"
 
 const HrTaskData = ({ data, onClose, onRefresh }) => {
 	const { showMessage, showQuestion } = useContext(MessageContext)
@@ -15,6 +16,8 @@ const HrTaskData = ({ data, onClose, onRefresh }) => {
 	const [newDescription, setNewDescription] = useState(data.description)
 	const [newType, setNewType] = useState(data.type)
 	const [newDeadline, setNewDeadline] = useState(data.deadline)
+	const [deliveryUrl, setDeliveryUrl] = useState(data.deliver_url)
+	const [newDeliveryUrl, setNewDeliveryUrl] = useState(data.deliver_url)
 
 	const creationDate = new Date(data.creation)
 	const deadlineDate = new Date(data.deadline)
@@ -36,6 +39,28 @@ const HrTaskData = ({ data, onClose, onRefresh }) => {
 				onClose()
 				onRefresh()
 				showMessage("Task archived", NORMAL_MESSAGE)
+			} catch (err) {
+				showMessage(err.response.data.message, ERROR_MESSAGE)
+			}
+		})
+	}
+
+	const handleDeliver = async () => {
+		try {
+			await deliverUrlTask(data.id, newDeliveryUrl)
+			onClose()
+			onRefresh()
+			showMessage("Task delivered!", NORMAL_MESSAGE)
+		} catch (err) {
+			showMessage(err.response.data.message, ERROR_MESSAGE)
+		}
+	}
+	
+	const handleDeleteDeliver = () => {
+		showQuestion("Are you sure you want to delete this delivery?", async () => {
+			try {
+				await deleteDeliver(data.id)
+				setDeliveryUrl(null)
 			} catch (err) {
 				showMessage(err.response.data.message, ERROR_MESSAGE)
 			}
@@ -117,24 +142,43 @@ const HrTaskData = ({ data, onClose, onRefresh }) => {
 			:
 				<>
 					<div>
-						{data.type === "deliver_url" && (
-							<input className="task-deliver-url"/>
-						)}
-						
-						{data.type === "deliver_file" && <>
-							<input type="file" className="hidden-input" name="deliver-file" id="deliver-file"/>
-							<label htmlFor="deliver-file" className="task-deliver-file">Upload file</label>
-						</>}
-
-						{data.deliver_url &&
-							<button>
-								<FaTrash/>
-							</button>
+						{deliveryUrl ?
+							<div className="delivery-container">
+								<Link
+									target="_blank"
+									className="delivery-url"
+									to={deliveryUrl}
+								>{newType === "deliver_url" ? deliveryUrl : "Open file"}</Link>
+								<button
+									className="delivery-button"
+									onClick={handleDeleteDeliver}
+								>
+									<FaTrash/>
+								</button>
+							</div>
+						:
+							<>
+								{data.type === "deliver_url" && (
+									<input
+										className="task-deliver-url"
+										onBlur={(e) => setNewDeliveryUrl(e.target.value)}
+									/>
+								)}
+								{data.type === "deliver_file" && (
+									<>
+										<input type="file" className="hidden-input" name="deliver-file" id="deliver-file"/>
+										<label htmlFor="deliver-file" className="task-deliver-file">Upload file</label>
+									</>
+								)}
+							</>
 						}
 					</div>
 
-					{data.type !== "normal" && (
-						<button className="task-deliver-button">DELIVER</button>
+					{(data.type !== "normal" && !deliveryUrl) && (
+						<button
+							className="task-deliver-button"
+							onClick={handleDeliver}
+						>DELIVER</button>
 					)}
 					<div className="task-data-date-container">
 						<span>Created</span>

@@ -30,10 +30,20 @@ const archiveTask = async (taskId) => {
 	await axiosInstance.delete(`/task/${taskId}`)
 }
 
+const deliverUrlTask = async (taskId, url) => {
+	await axiosInstance.post(`/task/deliver/${taskId}`, {url})
+}
+
+const deleteDeliver = async (taskId) => {
+	await axiosInstance.delete(`/task/deliver/${taskId}`)
+}
+
 export {
 	createTask,
 	updateTask,
 	moveTaskColumn,
 	moveTask,
-	archiveTask
+	archiveTask,
+	deliverUrlTask,
+	deleteDeliver
 }

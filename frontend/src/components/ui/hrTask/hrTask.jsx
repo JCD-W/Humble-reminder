@@ -7,7 +7,9 @@ const HrTask = ({ data, onRefresh, selectTaskFunc, onDrop, column, onHover }) =>
 	const [dragging, setDragging] = useState(false)
 
 	const deadlineDate = new Date(data.deadline)
+	const deliveryDate = new Date(data.delivery_date)
 	const pastDeadline = deadlineDate < Date.now() && data.deadline
+	const deliveryUrl = data.deliver_url
 
 	const showTask = () => {
 		setShowingTask(true)
@@ -40,8 +42,11 @@ const HrTask = ({ data, onRefresh, selectTaskFunc, onDrop, column, onHover }) =>
 				})}
 			>
 				<span>{data.name}</span>
-				{(pastDeadline) &&
-					<span className="task-expired">PAST DEADLINE</span>
+				{(pastDeadline && !deliveryUrl) &&
+					<span className="task-message">PAST DEADLINE</span>
+				}
+				{deliveryUrl &&
+					<span className="task-message">DELIVERED {deliveryDate.toLocaleDateString()}</span>
 				}
 			</div>
 			{showingTask &&
