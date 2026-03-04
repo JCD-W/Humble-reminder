@@ -1,3 +1,4 @@
+import axios from "axios"
 import { axiosInstance } from "../utils/axiosInstance"
 
 const createTask = async (columnId, boardId, name, description, hasDeadline, deadline, type) => {
@@ -25,9 +26,14 @@ const moveTask = async (taskId, position) => {
 	await axiosInstance.put(`/task/move/${taskId}`, {position})
 }
 
+const archiveTask = async (taskId) => {
+	await axiosInstance.delete(`/task/${taskId}`)
+}
+
 export {
 	createTask,
 	updateTask,
 	moveTaskColumn,
-	moveTask
+	moveTask,
+	archiveTask
 }

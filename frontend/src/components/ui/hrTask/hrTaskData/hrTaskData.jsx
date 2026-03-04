@@ -3,11 +3,11 @@ import "../hrTask.css"
 import { FaArchive, FaPen, FaTrash } from "react-icons/fa"
 import { useContext, useState } from "react"
 
-import { ERROR_MESSAGE, MessageContext } from "../../../../context/messageContext"
-import { updateTask } from "../../../../api/taskApi"
+import { ERROR_MESSAGE, MessageContext, NORMAL_MESSAGE } from "../../../../context/messageContext"
+import { archiveTask, updateTask } from "../../../../api/taskApi"
 
 const HrTaskData = ({ data, onClose, onRefresh }) => {
-	const { showMessage } = useContext(MessageContext)
+	const { showMessage, showQuestion } = useContext(MessageContext)
 
 	const [isEditing, setIsEditing] = useState(false)
 	const [hasDeadline, setHasDeadline] = useState(data.deadline)
@@ -29,6 +29,19 @@ const HrTaskData = ({ data, onClose, onRefresh }) => {
 		}
 	}
 
+	const handleArchive = () => {
+		showQuestion("Are you sure you want to archive this task?", async () => {
+			try {
+				await archiveTask(data.id)
+				onClose()
+				onRefresh()
+				showMessage("Task archived", NORMAL_MESSAGE)
+			} catch (err) {
+				showMessage(err.response.data.message, ERROR_MESSAGE)
+			}
+		})
+	}
+
 	return (
 		<div className="flying task-data-container">
 			<div className="task-data-header">
@@ -45,8 +58,14 @@ const HrTaskData = ({ data, onClose, onRefresh }) => {
 					className="task-header-button"
 					onClick={() => setIsEditing(!isEditing)}
 				><FaPen/></button>
-				<button className="task-header-button"><FaArchive/></button>
-				<button className="task-data-close" onClick={onClose}>X</button>
+				<button
+					className="task-header-button"
+					onClick={handleArchive}
+				><FaArchive/></button>
+				<button
+					className="task-data-close"
+					onClick={onClose}
+				>X</button>
 			</div>
 			{isEditing ?
 				<textarea

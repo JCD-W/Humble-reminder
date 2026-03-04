@@ -14,7 +14,3 @@ HEALTHCHECK --interval=30s CMD node healthcheck.ts
 COPY . /src/
 
 CMD ["npm", "start"]
-
-FROM backend AS backend-test
-
-CMD ["npm", "test"]

@@ -10,7 +10,3 @@ RUN npm ci
 COPY . /src/
 
 CMD ["npm", "start"]
-
-FROM frontend AS frontend-test
-
-CMD ["npm", "test"]
