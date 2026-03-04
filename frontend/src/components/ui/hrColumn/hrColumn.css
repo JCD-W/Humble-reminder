@@ -57,3 +57,7 @@
 	border: none;
 	color: var(--clear-color);
 }
+
+.column-dragging {
+	filter: brightness(1.5);
+}

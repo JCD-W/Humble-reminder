@@ -22,9 +22,16 @@ const updateColumn = async (columnId, title) => {
 	})
 }
 
+const moveColumn = async (boardId, columnId, position) => {
+	await axiosInstance.put(`/column/move/${boardId}/${columnId}`, {
+		position
+	})
+}
+
 export {
 	getColumns,
 	createColumn,
 	archiveColumn,
-	updateColumn
+	updateColumn,
+	moveColumn
 }

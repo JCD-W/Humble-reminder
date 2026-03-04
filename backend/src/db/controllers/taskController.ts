@@ -41,7 +41,10 @@ export default class taskController {
 	}
 
 	async moveTask (taskId: number, columnId: number, position: number) {
-		await this.db.query("UPDATE column_has_task SET task_position = task_position + 1 WHERE task_position >= ? AND column_id = ?", [position, columnId])
+		const res = await this.db.query(`SELECT task_position FROM column_has_task WHERE column_id = ?`, [columnId])
+		const originalPosition = parseInt(res[0].task_position)
+		await this.db.query("UPDATE column_has_task SET task_position = task_position - 1 WHERE task_position > ? AND task_position <= ? AND column_id = ?", [originalPosition, position, columnId])
+		await this.db.query("UPDATE column_has_task SET task_position = task_position + 1 WHERE task_position < ? AND task_position >= ? AND column_id = ?", [originalPosition, position, columnId])
 		await this.db.query("UPDATE column_has_task SET task_position = ? WHERE task_id = ?", [position, taskId])
 	}
 

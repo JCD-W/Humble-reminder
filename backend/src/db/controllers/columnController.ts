@@ -39,7 +39,10 @@ export default class columnController {
 	}
 
 	async move (columnId: number, boardId: Buffer, position: number) {
-		await this.db.query("UPDATE board_has_column SET column_position = column_position + 1 WHERE column_position >= ? AND board_id = ?", [position, boardId])
+		const res = await this.db.query(`SELECT column_position FROM board_has_column WHERE column_id = ?`, [columnId])
+		const originalPosition = parseInt(res[0].column_position)
+		await this.db.query("UPDATE board_has_column SET column_position = column_position - 1 WHERE column_position > ? AND column_position <= ? AND board_id = ?", [originalPosition, position, boardId])
+		await this.db.query("UPDATE board_has_column SET column_position = column_position + 1 WHERE column_position < ? AND column_position >= ? AND board_id = ?", [originalPosition, position, boardId])
 		await this.db.query("UPDATE board_has_column SET column_position = ? WHERE board_id = ? AND column_id = ?", [position, boardId, columnId])
 	}
 }

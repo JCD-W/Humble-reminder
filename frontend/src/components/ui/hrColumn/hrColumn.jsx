@@ -1,16 +1,17 @@
 import "./hrColumn.css"
 
 import HrTask from "../hrTask/hrTask"
-import { FaArchive, FaPlusCircle } from "react-icons/fa"
+import { FaArchive, FaArrowsAlt, FaPlusCircle } from "react-icons/fa"
 import { useContext, useState } from "react"
 import { ERROR_MESSAGE, MessageContext, NORMAL_MESSAGE } from "../../../context/messageContext"
 import { archiveColumn, updateColumn } from "../../../api/columnApi"
 
-const HrColumn = ({ data, onCreate, selectColumnFunc, onRefresh }) => {
+const HrColumn = ({ data, onCreate, selectColumnFunc, onRefresh, onHover, onDrop }) => {
 	const { showMessage, showQuestion } = useContext(MessageContext)
 
 	const [hoveringHeader, setHoveringHeader] = useState(false)
 	const [editingColumn, setEditingColumn] = useState(false)
+	const [dragging, setDragging] = useState(false)
 
 	const handleArchiveColumn = () => {
 		showQuestion("Are you sure you want to archive this column?", async () => {
@@ -33,13 +34,37 @@ const HrColumn = ({ data, onCreate, selectColumnFunc, onRefresh }) => {
 		}
 	}
 
+	const startDragging = () => {
+		selectColumnFunc(data.id)
+		setDragging(true)
+	}
+
+	const stopDragging = () => {
+		setDragging(false)
+		onDrop()
+	}
+
 	return (
-		<div className="column">
+		<div className={`column ${dragging && "column-dragging"}`}>
 			<div
 				className="column-header" 
 				onMouseEnter={() => setHoveringHeader(true)}
 				onMouseLeave={() => setHoveringHeader(false)}
+				onDragStart={startDragging}
+				onDragEnd={stopDragging}
+				onDragOver={() => onHover({
+					id: data.id,
+					position: data.order - 1
+				})}
+				draggable={true}
 			>
+				{(hoveringHeader && !editingColumn) &&
+					<button
+						className="archive-column-button"
+					>
+						<FaArrowsAlt/>
+					</button>
+				}
 				{editingColumn ?
 					<input
 						className="column-title" 
@@ -55,7 +80,7 @@ const HrColumn = ({ data, onCreate, selectColumnFunc, onRefresh }) => {
 						onClick={() => setEditingColumn(true)}
 					>{data.title}</span>
 				}
-				{hoveringHeader &&
+				{(hoveringHeader && !editingColumn) &&
 					<button 
 						className="archive-column-button"
 						onClick={() => handleArchiveColumn()}	

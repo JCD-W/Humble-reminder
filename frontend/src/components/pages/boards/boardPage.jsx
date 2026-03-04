@@ -4,7 +4,7 @@ import { useNavigate, useParams } from "react-router-dom"
 import { getBoard, updateBoard } from "../../../api/boardApi"
 import HrHeader from "../../layout/header"
 import { ERROR_MESSAGE, MessageContext, NORMAL_MESSAGE } from "../../../context/messageContext"
-import { createColumn, getColumns } from "../../../api/columnApi"
+import { createColumn, getColumns, moveColumn } from "../../../api/columnApi"
 import HrColumn from "../../ui/hrColumn/hrColumn"
 import { checkConnection } from "../../../api/authApi"
 import HrCreateColumnForm from "../../ui/hrCreateColumnForm/hrCreateColumnForm"
@@ -31,6 +31,7 @@ const HrBoardPage = () => {
 	const [columns, setColumns] = useState([])
 	const [newColumnPosition, setNewColumnPosition] = useState(1)
 	const [selectedColumn, setSelectedColumn] = useState(0)
+	const [backColumn, setBackColumn] = useState({})
 	
 	const fetchBoard = async () => {
 		if (!(await checkConnection()))
@@ -72,8 +73,21 @@ const HrBoardPage = () => {
 		setShowCreateTaskForm(false)
 	}
 
+	const handleMoveColumn = async () => {
+		try {
+			await moveColumn(id, selectedColumn, backColumn.position + 1)
+		} catch (err) {
+			showMessage(err.response.data.message, ERROR_MESSAGE)
+		}
+		fetchBoard()
+	}
+
 	const changeBoardName = async (name) => {
-		await updateBoard(id, name)
+		try {
+			await updateBoard(id, name)
+		} catch (err) {
+			showMessage(err.response.data.message, ERROR_MESSAGE)
+		}
 		fetchBoard()
 	}
 
@@ -114,7 +128,9 @@ const HrBoardPage = () => {
 								}}
 								selectColumnFunc={setSelectedColumn}
 								onRefresh={() => fetchBoard()}
-							/>							
+								onHover={setBackColumn}
+								onDrop={handleMoveColumn}
+							/>
 							<HrNewColumnButton
 								onClick={() => {
 									setShowCreateColumnForm(true)
