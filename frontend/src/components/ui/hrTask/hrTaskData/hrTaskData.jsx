@@ -5,7 +5,8 @@ import { useContext, useState } from "react"
 import { Link } from "react-router-dom"
 
 import { ERROR_MESSAGE, MessageContext, NORMAL_MESSAGE } from "../../../../context/messageContext"
-import { archiveTask, deleteDeliver, deliverUrlTask, updateTask } from "../../../../api/taskApi"
+import { archiveTask, deleteDeliver, deliverFile, deliverUrlTask, updateTask } from "../../../../api/taskApi"
+import { BACKEND_URI } from "../../../../utils/constants"
 
 const HrTaskData = ({ data, onClose, onRefresh }) => {
 	const { showMessage, showQuestion } = useContext(MessageContext)
@@ -18,6 +19,7 @@ const HrTaskData = ({ data, onClose, onRefresh }) => {
 	const [newDeadline, setNewDeadline] = useState(data.deadline)
 	const [deliveryUrl, setDeliveryUrl] = useState(data.deliver_url)
 	const [newDeliveryUrl, setNewDeliveryUrl] = useState(data.deliver_url)
+	const [deliveryFile, setDeliveryFile] = useState()
 
 	const creationDate = new Date(data.creation)
 	const deadlineDate = new Date(data.deadline)
@@ -47,11 +49,24 @@ const HrTaskData = ({ data, onClose, onRefresh }) => {
 
 	const handleDeliver = async () => {
 		try {
-			await deliverUrlTask(data.id, newDeliveryUrl)
+			switch (newType) {
+				case "deliver_url":
+					await deliverUrlTask(data.id, newDeliveryUrl)
+					break
+				case "deliver_file":
+					if (!deliveryFile)
+						showMessage("Pick a file first.", ERROR_MESSAGE)
+					await deliverFile(data.id, deliveryFile)
+					break
+			}
 			onClose()
 			onRefresh()
 			showMessage("Task delivered!", NORMAL_MESSAGE)
 		} catch (err) {
+			if (!err.response) {
+				console.error(err)
+				return
+			}
 			showMessage(err.response.data.message, ERROR_MESSAGE)
 		}
 	}
@@ -147,7 +162,7 @@ const HrTaskData = ({ data, onClose, onRefresh }) => {
 								<Link
 									target="_blank"
 									className="delivery-url"
-									to={deliveryUrl}
+									to={newType === "deliver_url" ? deliveryUrl : `${BACKEND_URI}/delivers/${deliveryUrl}`}
 								>{newType === "deliver_url" ? deliveryUrl : "Open file"}</Link>
 								<button
 									className="delivery-button"
@@ -166,8 +181,17 @@ const HrTaskData = ({ data, onClose, onRefresh }) => {
 								)}
 								{data.type === "deliver_file" && (
 									<>
-										<input type="file" className="hidden-input" name="deliver-file" id="deliver-file"/>
-										<label htmlFor="deliver-file" className="task-deliver-file">Upload file</label>
+										<input 
+											type="file" 
+											className="hidden-input" 
+											name="deliver-file" 
+											id="deliver-file"
+											onChange={(e) => setDeliveryFile(e.target.files[0])}
+										/>
+										<label 
+											htmlFor="deliver-file" 
+											className="task-deliver-file"
+										>Upload file</label>
 									</>
 								)}
 							</>

@@ -1,7 +1,6 @@
 import Axios from "axios"
 import { refreshToken } from "../api/authApi"
-
-const BACKEND_URI = process.env.BACKEND_URI || "http://localhost:3000"
+import { BACKEND_URI } from "./constants"
 
 const axiosInstance = Axios.create({
 	baseURL: BACKEND_URI,

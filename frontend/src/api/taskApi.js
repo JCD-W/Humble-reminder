@@ -34,6 +34,11 @@ const deliverUrlTask = async (taskId, url) => {
 	await axiosInstance.post(`/task/deliver/${taskId}`, {url})
 }
 
+const deliverFile = async (taskId, file) => {
+	console.log(file)
+	await axiosInstance.postForm(`/task/deliver/${taskId}`, {file})
+}
+
 const deleteDeliver = async (taskId) => {
 	await axiosInstance.delete(`/task/deliver/${taskId}`)
 }
@@ -45,5 +50,6 @@ export {
 	moveTask,
 	archiveTask,
 	deliverUrlTask,
-	deleteDeliver
+	deleteDeliver,
+	deliverFile
 }

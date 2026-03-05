@@ -102,7 +102,6 @@ const HrBoardPage = () => {
 		} catch (err) {
 			showMessage(err.response.data.message, ERROR_MESSAGE)
 		}
-		console.log(backColumn, selectedTask)
 	}
 
 	const changeBoardName = async (name) => {

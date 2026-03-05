@@ -32,7 +32,7 @@ export default class db {
 			values.push(newData[field])
 		}
 
-		console.log(changes, values)
+		//console.log(changes, values)
 		await this.query(`UPDATE ${table} SET ${changes} WHERE ${idName} = ?`, [...values, id])
 	}
 	
