@@ -30,11 +30,21 @@
 		max-height: 79.5vh;
 		min-height: 79.5vh;
 	}
+
+	.main-boards-container {
+		height: 84vh;
+	}
 }
 
 @media only screen and (max-width: 600px) {
 	.boards-container {
 		flex-wrap: nowrap;
 		flex-direction: column;
+		padding-top: 0px;
+		max-width: 100vw;
+	}
+
+	.main-boards-container {
+		height: auto;
 	}
 }

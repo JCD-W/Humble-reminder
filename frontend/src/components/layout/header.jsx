@@ -92,7 +92,10 @@ const HrHeader = ({ title, back, editable, onEdit, onOpenArchive }) => {
 
 					<button 
 						className="hr-header-button hr-header-menu-button"
-						onClick={onOpenArchive}
+						onClick={() => {
+							setShowMenu(false)
+							onOpenArchive()
+						}}
 					>
 						<FaArchive/>
 						<span className="hr-header-mobile hr-header-label">Archive</span>
