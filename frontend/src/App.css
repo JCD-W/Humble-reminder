@@ -85,3 +85,29 @@ button:hover, input[type="submit"]:hover {
 	height: 0px;
 	filter: opacity(0);
 }
+
+.restore-buttons {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	margin-top: 10px;
+	align-items: center;
+}
+
+.restore-button {
+	padding: 5px;
+	padding-left: 10px;
+	padding-right: 10px;
+	background-color: var(--clear-color);
+	color: var(--primary-color);
+	border: none;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border-radius: 7px;
+	font-weight: bold;
+}
+
+.restore-button-icon {
+	margin-right: 5px;
+}
