@@ -17,6 +17,7 @@ export default class archiveRoutes {
 
 		this.routes.get("/", this.getBoardArchives)
 		this.routes.get("/column/:board", this.getColumnArchive)
+		this.routes.get("/task/:board", this.getTaskArchive)
 		this.routes.post("/board/:id", this.restoreBoard)
 		this.routes.post("/column/:id", this.restoreColumn)
 		this.routes.post("/task/:id", this.restoreTask)
@@ -56,6 +57,20 @@ export default class archiveRoutes {
 		const columns = await this.columnController.getColumns(boardId, "archived")
 
 		return res.status(200).send(columns)
+	}
+
+	getTaskArchive = async (req: Request, res: Response) => {
+		if (!req.params.board)
+			return res.status(400).send({message: "Board not specified"})
+		const boardId = Buffer.from(req.params.board, "hex")
+
+		const board = await this.boardController.getBoardById(boardId)
+		if (!board)
+			return res.status(404).send({message: "Board not found"})
+
+		const tasks = await this.taskController.getTasks(boardId, "archived")
+
+		return res.status(200).send(tasks)
 	}
 
 	restoreBoard = async (req: Request, res: Response) => {

@@ -11,6 +11,7 @@ import HrCreateColumnForm from "../../ui/hrCreateColumnForm/hrCreateColumnForm"
 import HrNewColumnButton from "../../ui/hrColumn/hrNewColumnButton/hrNewColumnButton"
 import HrCreateTaskForm from "../../ui/hrCreateTaskForm/hrCreateTaskForm"
 import { createTask, moveTask, moveTaskColumn } from "../../../api/taskApi"
+import HrArchive from "../../ui/hrArchive/hrArchive"
 
 const HrBoardPage = () => {
 	const { id } = useParams()
@@ -28,6 +29,7 @@ const HrBoardPage = () => {
 	const [finishedFetching, setFinishedFetching] = useState(false)
 	const [showCreateColumnForm, setShowCreateColumnForm] = useState(false)
 	const [showCreateTaskForm, setShowCreateTaskForm] = useState(false)
+	const [showArchive, setShowArchive] = useState(false)
 	const [columns, setColumns] = useState([])
 	const [newColumnPosition, setNewColumnPosition] = useState(1)
 	const [selectedColumn, setSelectedColumn] = useState(0)
@@ -131,6 +133,7 @@ const HrBoardPage = () => {
 				back="/boards"
 				editable={true}
 				onEdit={changeBoardName}
+				onOpenArchive={() => setShowArchive(!showArchive)}
 			/>
 			{finishedFetching ?
 				<div className="column-container">
@@ -180,6 +183,7 @@ const HrBoardPage = () => {
 					onSubmit={createNewTask}
 				/>
 			}
+			{showArchive && <HrArchive onRefresh={() => fetchBoard()}/>}
 		</div>
 	)
 }

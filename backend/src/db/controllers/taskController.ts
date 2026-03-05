@@ -24,6 +24,15 @@ export default class taskController {
 		)
 	}
 
+	async getTasks (boardId: number, state: string = "active") {
+		return await this.db.query(
+			"SELECT t.task_id AS id, t.task_name AS name, t.task_desc AS task_description, cht.column_id FROM task t "+
+			"JOIN column_has_task cht ON cht.task_id = t.task_id JOIN board_has_column bhc ON bhc.column_id = cht.column_id "+
+			"WHERE t.task_state = ? AND bhc.board_id = ?",
+			[state, boardId]
+		)
+	}
+
 	async getTaskById (taskId: number) {
 		const [res] = await this.db.query(
 			"SELECT t.task_id AS id, t.task_name AS name, t.task_desc AS description, t.task_state AS state,"+
