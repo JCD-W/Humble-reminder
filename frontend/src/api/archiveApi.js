@@ -5,6 +5,16 @@ const getBoardArchive = async (page) => {
 	return res.data
 }
 
+const restoreBoard = async (board) => {
+	await axiosInstance.post(`/archive/board/${board}`)
+}
+
+const deleteBoard = async (board) => {
+	await axiosInstance.delete(`/archive/board/${board}`)
+}
+
 export {
-	getBoardArchive
+	getBoardArchive,
+	restoreBoard,
+	deleteBoard
 }

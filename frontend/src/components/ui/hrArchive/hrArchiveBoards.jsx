@@ -31,7 +31,10 @@ const HrArchiveBoards = ({ onRefresh }) => {
 					{boards.map((board) => 
 						<HrBoardArchive
 							board={board}
-							onRefresh={onRefresh}
+							onRefresh={() => {
+								onRefresh()
+								fetchArchives()
+							}}
 						/>
 					)}
 					{(pages > 1) &&
