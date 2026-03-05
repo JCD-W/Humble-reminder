@@ -1,6 +1,7 @@
 import { getColumnArchive, getTaskArchive } from "../../../api/archiveApi"
 import { ERROR_MESSAGE, MessageContext } from "../../../context/messageContext"
 import HrColumnArchive from "../hrColumn/hrColumnArchive"
+import HrTaskArchive from "../hrTask/hrTaskArchive"
 import "./hrArchive.css"
 
 import { useContext, useEffect, useState } from "react"
@@ -28,6 +29,12 @@ const HrArchive = ({board, onRefresh}) => {
 		<aside className="archive-container menu-showup">
 			{columns.map((column) => 
 				<HrColumnArchive data={column} onRefresh={() => {
+					onRefresh()
+					fetchArchive()
+				}}/>
+			)}
+			{tasks.map((task) =>
+				<HrTaskArchive data={task} onRefresh={() => {
 					onRefresh()
 					fetchArchive()
 				}}/>

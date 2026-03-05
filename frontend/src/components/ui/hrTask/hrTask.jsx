@@ -1,5 +1,7 @@
-import { useState } from "react"
 import "./hrTask.css"
+
+import { useState } from "react"
+
 import HrTaskData from "./hrTaskData/hrTaskData"
 
 const HrTask = ({ data, onRefresh, selectTaskFunc, onDrop, column, onHover }) => {
