@@ -7,6 +7,7 @@
 	border-radius: 7px;
 	min-width: 20vw;
 	max-width: 20vw;
+	box-shadow: var(--tertiary-color) 0px 0px 5px;
 }
 
 .column-header {

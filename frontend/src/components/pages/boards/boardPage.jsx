@@ -183,7 +183,12 @@ const HrBoardPage = () => {
 					onSubmit={createNewTask}
 				/>
 			}
-			{showArchive && <HrArchive onRefresh={() => fetchBoard()}/>}
+			{showArchive &&
+				<HrArchive 
+					onRefresh={() => fetchBoard()}
+					board={id}
+				/>
+			}
 		</div>
 	)
 }

@@ -1,20 +1,19 @@
-import "./hrBoard.css"
+import "./hrColumn.css"
+import "../hrTask/hrTask.css"
 
 import { FaRedo, FaTrash } from "react-icons/fa"
 import { useContext } from "react"
 
 import { ERROR_MESSAGE, MessageContext } from "../../../context/messageContext"
-import { deleteBoard, restoreBoard } from "../../../api/archiveApi"
+import { deleteColumn, restoreColumn } from "../../../api/archiveApi"
 
-const HrBoardArchive = ({ board, onRefresh }) => {
-	const { showQuestion, showMessage } = useContext(MessageContext)
-
-	const creationDate = new Date(board.creation)
+const HrColumnArchive = ({data, onRefresh}) => {
+	const { showMessage, showQuestion } = useContext(MessageContext)
 
 	const handleRestoreBoard = () => {
-		showQuestion(`Are you sure to restore the board ${board.title}?`, async () => {
+		showQuestion(`Are you sure to restore this column?`, async () => {
 			try {
-				await restoreBoard(board.id)
+				await restoreColumn(data.id)
 				onRefresh()
 			} catch (err) {
 				showMessage(err.respponse.data.message, ERROR_MESSAGE)
@@ -23,9 +22,9 @@ const HrBoardArchive = ({ board, onRefresh }) => {
 	}
 
 	const handleDeleteBoard = () => {
-		showQuestion(`Are you sure you want to permanently delete the board ${board.title}?`, async () => {
+		showQuestion(`Are you sure to delete this column?`, async () => {
 			try {
-				await deleteBoard(board.id)
+				await deleteColumn(data.id)
 				onRefresh()
 			} catch (err) {
 				showMessage(err.respponse.data.message, ERROR_MESSAGE)
@@ -36,17 +35,19 @@ const HrBoardArchive = ({ board, onRefresh }) => {
 	return (
 		<>
 			<div
-				draggable={true}
-				className={`board-container`}
+				className="column"
 				style={{
-					width: "80%"
+					marginTop: "15px"
 				}}
 			>
-				<div className="board-header-container">
-					<span className="board-title">{board.title}</span>
-					<span className="board-date">{creationDate.toLocaleDateString()}</span>
+				<div className="column-header">
+					<span className="column-title">{data.title}</span>
 				</div>
-				<p className="board-description-box">{board.description}</p>
+				<div className="task-container">
+					{data.task.map((task) =>
+						<div className="task">{task.name}</div>
+					)}
+				</div>
 			</div>
 			<div className="restore-buttons">
 				<button
@@ -68,4 +69,4 @@ const HrBoardArchive = ({ board, onRefresh }) => {
 	)
 }
 
-export default HrBoardArchive
+export default HrColumnArchive

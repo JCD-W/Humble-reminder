@@ -21,7 +21,7 @@
 	bottom: 0;
 	right: 0;
 	padding: 15px;
-	width: 30vw;
+	width: 25vw;
 	height: 90vh;
 	max-height: 90vh;
 	overflow-y: auto;
@@ -45,6 +45,8 @@
 	justify-content: space-between;
 	margin-top: 10px;
 	align-items: center;
+	width: 85%;
+	margin-bottom: 10px;
 }
 
 .restore-button {
