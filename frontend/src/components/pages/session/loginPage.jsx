@@ -1,4 +1,4 @@
-import { useContext, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import { login, refreshToken } from "../../../api/authApi"
 import HrForm from "../../ui/hrForm/hrForm"
 import HrStickyNote from "../../ui/hrStickyNote/hrStickyNote"
@@ -29,7 +29,7 @@ const LoginPage = () => {
 		} catch (err) {}
 	}
 
-	useState(() => {
+	useEffect(() => {
 		checkIfLogged()
 	}, [])
 

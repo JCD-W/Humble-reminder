@@ -1,6 +1,6 @@
 import "./boardsStyle.css"
 
-import { useContext, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import { useNavigate, useSearchParams } from "react-router-dom"
 
 import HrHeader from "../../layout/header"
@@ -10,6 +10,7 @@ import HrBoard from "../../ui/hrBoard/hrBoard"
 import HrAddBoard from "../../ui/hrAddBoard/hrAddBoard"
 import HrPageNavigation from "../../ui/hrPageNavigation/HrPageNavigation"
 import { checkConnection } from "../../../api/authApi"
+import HrArchiveBoards from "../../ui/hrArchive/hrArchiveBoards"
 
 const BoardsPage = () => {
 	const navigate = useNavigate()
@@ -20,6 +21,7 @@ const BoardsPage = () => {
 	const [boardQuanity, setBoardQuantity] = useState(0)
 	const [boards, setBoards] = useState([])
 	const [finishedFetching, setFinishedFetching] = useState(false)
+	const [showArchive, setShowArchive] = useState(false)
 
 	const calculatePages = (totalQuantity=boardQuanity) => {
 		return Math.ceil(totalQuantity / 8)
@@ -45,23 +47,24 @@ const BoardsPage = () => {
 		}
 	}
 
-	// It was done this way because the useState wasn't triggering
 	const changePage = (newPage) => {
 		setPage(newPage)
-		fetchBoards(newPage)
 		setParams({
 			page: newPage + 1
 		})
 	}
 
-	useState(() => {
+	useEffect(() => {
 		const paramPage = params.get("page")
 		fetchBoards(paramPage ? paramPage - 1 : page)
 	}, [page, params.get("page")])
 
 	return (
 		<>
-			<HrHeader title={"Boards"}/>
+			<HrHeader
+				title={"Boards"}
+				onOpenArchive={() => setShowArchive(!showArchive)}
+			/>
 			<HrPageNavigation 
 				isForMobile
 				page={page + 1}
@@ -97,6 +100,7 @@ const BoardsPage = () => {
 				pages={calculatePages()}
 				onPageChange={changePage}
 			/>
+			{showArchive && <HrArchiveBoards/>}
 		</>
 	)
 }

@@ -1,4 +1,4 @@
-import { useContext, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import { useNavigate, useParams } from "react-router-dom"
 
 import { getBoard, updateBoard } from "../../../api/boardApi"
@@ -113,7 +113,7 @@ const HrBoardPage = () => {
 		fetchBoard()
 	}
 
-	useState(() => {
+	useEffect(() => {
 		fetchBoard()
 	}, [])
 

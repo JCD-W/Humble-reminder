@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import "./errorStyle.css"
 
 import { IoAlertCircle } from "react-icons/io5"
@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom"
 const UnauthorizedPage = () => {
 	const navigate = useNavigate()
 
-	useState(() => {
+	useEffect(() => {
 		setTimeout(() => {
 			navigate("/")
 		}, 2000)

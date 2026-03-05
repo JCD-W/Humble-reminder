@@ -6,7 +6,7 @@ import { FaBars } from "react-icons/fa"
 import { Link, useNavigate } from "react-router-dom"
 import { SessionContext } from "../../context/sessionContext"
 
-const HrHeader = ({ title, back, editable, onEdit }) => {
+const HrHeader = ({ title, back, editable, onEdit, onOpenArchive }) => {
 	const navigate = useNavigate()
 	const { logOff } = useContext(SessionContext)
 
@@ -90,7 +90,10 @@ const HrHeader = ({ title, back, editable, onEdit }) => {
 						</div>
 					)}
 
-					<button className="hr-header-button hr-header-menu-button">
+					<button 
+						className="hr-header-button hr-header-menu-button"
+						onClick={onOpenArchive}
+					>
 						<FaArchive/>
 						<span className="hr-header-mobile hr-header-label">Archive</span>
 					</button>

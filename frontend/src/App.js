@@ -1,7 +1,7 @@
 import "./App.css"
 
 import { BrowserRouter, Route, Routes } from "react-router-dom"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { CookiesProvider } from "react-cookie"
 
 import LoginPage from "./components/pages/session/loginPage"
@@ -25,7 +25,7 @@ const App = () =>  {
 		setFinishedChecking(true)
 	}
 
-	useState(() => {
+	useEffect(() => {
 		if (!finishedChecking) {
 			checks()
 		}

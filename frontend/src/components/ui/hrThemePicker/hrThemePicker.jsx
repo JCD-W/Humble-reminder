@@ -1,6 +1,6 @@
 import "./hrThemePicker.css"
 
-import { useContext, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 
 import { assignTheme, createTheme, getThemes } from "../../../api/themeApi"
 import HrThemeSample from "./hrThemeSample/hrThemeSample"
@@ -62,7 +62,7 @@ const HrThemePicker = ({ board, onClose, refreshFunc }) => {
 		fetchThemes(page)
 	}
 
-	useState(() => {
+	useEffect(() => {
 		fetchThemes()
 	}, [])
 
