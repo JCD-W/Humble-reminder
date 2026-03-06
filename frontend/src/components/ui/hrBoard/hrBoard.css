@@ -87,4 +87,14 @@
 		margin: 0;
 		margin-bottom: 1rem;
 	}
+
+	.board-options-container {
+		width: 100%;
+		margin: -50%;
+		right: 46%;
+	}
+	
+	.board-menu-options-button {
+		font-size: 18px;
+	}
 }
