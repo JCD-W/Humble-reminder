@@ -98,7 +98,11 @@ const BoardsPage = () => {
 				pages={calculatePages()}
 				onPageChange={changePage}
 			/>
-			{showArchive && <HrArchiveBoards onRefresh={() => fetchBoards()}/>}
+			{showArchive && 
+				<HrArchiveBoards 
+					onRefresh={() => fetchBoards()}
+					onClose={() => setShowArchive(false)}
+				/>}
 		</>
 	)
 }

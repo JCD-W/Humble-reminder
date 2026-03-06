@@ -31,6 +31,8 @@
 @media only screen and (max-width: 600px) {
 	.page-navigation-mobile {
 		display: flex;
+		padding-left: 0px;
+		padding-right: 0px;
 	}
 
 	.page-navigation-desktop {

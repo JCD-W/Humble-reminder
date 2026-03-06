@@ -7,11 +7,32 @@
 	}
 }
 
-.archive-label {
+.archive-header {
+	display: flex;
+	align-items: center;
+	justify-content: space-evenly;
+	width: 100%;
 	margin-top: 20px;
-	font-size: 20px;
+}
+
+.archive-go-back {
+	display: none;
+	color: var(--primary-color);
+	background-color: var(--clear-color);
+	padding: 4px;
+	border: none;
+	border-radius: 100%;
+}
+
+.archive-label {
+	font-size: 24px;
 	font-weight: bold;
 	color: var(--tertiary-color);
+}
+
+.archive-go-back-flying {
+	margin-right: auto;
+	margin-top: 10px;
 }
 
 .archive-container {
@@ -65,4 +86,19 @@
 
 .restore-button-icon {
 	margin-right: 5px;
+}
+
+@media only screen and (max-width: 600px) {
+	.archive-container {
+		width: stretch;
+	}
+
+	.archive-go-back {
+		display: block;
+	}
+
+	.archive-header {
+		margin-top: 20px;
+		margin-bottom: 20px;
+	}
 }

@@ -187,6 +187,7 @@ const HrBoardPage = () => {
 				<HrArchive 
 					onRefresh={() => fetchBoard()}
 					board={id}
+					onClose={() => setShowArchive(false)}
 				/>
 			}
 		</div>

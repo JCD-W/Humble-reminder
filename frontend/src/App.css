@@ -54,14 +54,14 @@ button:hover, input[type="submit"]:hover {
 }
 
 .absolute-centered {
-	position: absolute;
+	position: fixed;
 	top: 0px;
 	left: 0px;
-	width: 100%;
+	width: 100vw;
 }
 
 .flying {
-	position: absolute;
+	position: fixed;
 	transform: translate(-50%, -50%);
 	top: 50%;
 	left: 50%;
@@ -69,7 +69,7 @@ button:hover, input[type="submit"]:hover {
 
 .background-modal {
 	width: 100%;
-	position: absolute;
+	position: fixed;
 	top: 0px;
 	left: 0px;
 	filter: opacity(0.95);
