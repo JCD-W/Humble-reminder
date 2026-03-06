@@ -38,7 +38,7 @@
 .archive-container {
 	background-color: var(--primary-color);
 	box-shadow: var(--tertiary-color) 0px 0px 5px;
-	position: absolute;
+	position: fixed;
 	bottom: 0;
 	right: 0;
 	padding: 15px;
@@ -95,6 +95,8 @@
 
 	.archive-go-back {
 		display: block;
+		padding-left: 6px;
+		padding-right: 6px;
 	}
 
 	.archive-header {

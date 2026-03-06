@@ -62,3 +62,16 @@
 .column-dragging {
 	filter: brightness(1.5);
 }
+
+@media only screen and (max-width: 600px) {
+	.column {
+		min-width: 70%;
+		max-width: 70%;
+	}
+
+	.column-container {
+		height: 90vh;
+		padding: 0px;
+		padding-top: 20px;
+	}
+}
