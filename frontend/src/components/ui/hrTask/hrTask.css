@@ -206,3 +206,32 @@
 	border: none;
 	font-size: 18px;
 }
+
+@media only screen and (max-width: 600px) {
+	.task-data-container {
+		width: 75%;
+		font-size: 18px;
+	}
+
+	.task-deliver-button {
+		font-size: 18px;
+		height: 5vh;
+	}
+
+	.task-deliver-file {
+		height: 4vh;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+
+	.task-header-button {
+		font-size: 20px;
+		margin-right: 20px;
+	}
+
+	.task-data-close {
+		height: 26px;
+		width: 26px;
+	}
+}
