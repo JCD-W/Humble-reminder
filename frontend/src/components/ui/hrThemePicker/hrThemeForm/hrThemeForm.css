@@ -16,3 +16,16 @@
 	border-radius: 7px;
 	border: 3px solid var(--tertiary-color);
 }
+
+@media only screen and (max-width: 600px) {
+	.theme-colors-container {
+		flex-direction: column;
+	}
+
+	.theme-color-container {
+		margin-left: 0;
+		width: 100%;
+		margin-top: 10px;
+		height: 13.5vh;
+	}
+}

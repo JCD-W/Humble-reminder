@@ -53,7 +53,7 @@
 
 .theme {
 	margin: 5px;
-	width: 31%;
+	width: 30%;
 	background-color: transparent;
 }
 
@@ -74,5 +74,12 @@
 @media only screen and (max-width: 600px) {
 	.theme-container {
 		width: 90%;
+		min-height: 67vh;
+	}
+
+	.theme-picker-container {
+		min-width: 87%;
+		max-width: 87%;
+		height: 85vh;
 	}
 }
