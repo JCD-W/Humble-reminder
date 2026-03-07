@@ -37,6 +37,10 @@ export default class themeController {
 				[1, "d84727", "D9D9D9", "B5B5B5", "2d3142"]
 			)
 			// https://coolors.co/palette/2d3142-bfc0c0-ffffff-ef8354-4f5d75
+			await this.db.query(
+				"INSERT INTO theme (theme_id, clear_color, primary_color, secondary_color, tertiary_color) VALUES (?, ?, ?, ?, ?)", 
+				[2, "d84727", "404040", "666666", "151929"]
+			)
 		}
 	}
 

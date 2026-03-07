@@ -156,7 +156,7 @@ export default class taskRoutes {
 				}) 
 				break
 			default:
-				return res.status(400).send({message: "This task doesn't expect a deliver"})
+				return res.status(400).send({message: "This task doesn't expect a delivery"})
 		}
 
 		return res.status(200).send({
