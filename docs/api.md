@@ -150,7 +150,7 @@ Inspired by [Alexander Zagniotov's REST API docs](https://gist.github.com/azagni
 | 404 | {message: "Board not found"} | The specified board is not on the database |
 | 500 | {message: "Internal server error"} | An error occured |
 
-</detials>
+</details>
 
 <details>
 <summary><b>POST</b> <code>/archive/board/{id}</code> Restore archived board</summary>
@@ -170,7 +170,7 @@ Inspired by [Alexander Zagniotov's REST API docs](https://gist.github.com/azagni
 | 404 | {message: "Board not found"} | The specified board is not on the database |
 | 500 | {message: "Internal server error"} | An error occured |
 
-</detials>
+</details>
 
 <details>
 <summary><b>POST</b> <code>/archive/column/{id}</code> Restore archived column</summary>
