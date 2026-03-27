@@ -12,7 +12,7 @@ const checkConnection = async () => {
 
 const checkLogin = async () => {
 	try {
-		const resp = await axiosInstance.get("/auth/check")
+		const resp = await axiosInstance.get("/sessions/me")
 		return resp.status === 200
 	} catch (err) {
 		console.log(err)
@@ -21,18 +21,18 @@ const checkLogin = async () => {
 }
 
 const login = async (name, pass) => {
-	return await axiosInstance.post("/auth/login", {
+	return await axiosInstance.post("/sessions/", {
 		name,
 		pass
 	})
 }
 
 const refreshToken = async () => {
-	return await axiosInstance.get("/auth/refresh")
+	return await axiosInstance.post("/sessions/refresh")
 }
 
 const changePassword = async (password) => {
-	return await axiosInstance.put("/auth/password", {
+	return await axiosInstance.put("/sessions/", {
 		password
 	})
 }

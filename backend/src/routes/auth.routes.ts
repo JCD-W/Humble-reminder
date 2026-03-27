@@ -6,7 +6,6 @@ import userController from "../db/controllers/userController.ts"
 import { validateString } from "../utils/validate.ts"
 import { signToken, validateToken } from "../utils/jwt.ts"
 import { loginRequired } from "../middleware/jwtHandling.ts"
-import { sign } from "node:crypto"
 
 export default class authRoutes {
 	routes = Router()
@@ -15,10 +14,10 @@ export default class authRoutes {
 	constructor (uc: userController) {
 		this.userController = uc
 
-		this.routes.post("/login", this.login)
-		this.routes.put("/password", loginRequired, this.changePass)
-		this.routes.get("/refresh", this.refresh)
-		this.routes.get("/check", this.checkToken)
+		this.routes.post("/", this.login)
+		this.routes.put("/", loginRequired, this.changePass)
+		this.routes.post("/refresh", this.refresh)
+		this.routes.get("/me", this.checkToken)
 	}
 
 	login = async (req: Request, res: Response) => {

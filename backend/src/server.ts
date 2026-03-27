@@ -97,7 +97,7 @@ export default class server {
 		this.sv.use(express.static("public"))
 
 		this.sv.use("/", this.myInternalRoutes.routes)
-		this.sv.use("/auth", this.myAuthRoutes.routes)
+		this.sv.use("/sessions", this.myAuthRoutes.routes)
 		this.sv.use("/board", loginRequired, this.myBoardRoutes.routes)
 		this.sv.use("/archive", loginRequired, this.myArchiveRoutes.routes)
 		this.sv.use("/column", loginRequired, this.myColumnRoutes.routes)
