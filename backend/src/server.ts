@@ -98,7 +98,7 @@ export default class server {
 
 		this.sv.use("/", this.myInternalRoutes.routes)
 		this.sv.use("/sessions", this.myAuthRoutes.routes)
-		this.sv.use("/board", loginRequired, this.myBoardRoutes.routes)
+		this.sv.use("/boards", loginRequired, this.myBoardRoutes.routes)
 		this.sv.use("/archive", loginRequired, this.myArchiveRoutes.routes)
 		this.sv.use("/column", loginRequired, this.myColumnRoutes.routes)
 		this.sv.use("/task", loginRequired, this.multer.single("file"), this.myTaskRoutes.routes)

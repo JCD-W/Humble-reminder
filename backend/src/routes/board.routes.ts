@@ -12,7 +12,7 @@ export default class boardRoutes {
 
 		this.routes.post("/", this.create)
 		this.routes.put("/:id", this.updateBoard)
-		this.routes.delete("/:id", this.deleteBoard)
+		this.routes.patch("/:id", this.deleteBoard)
 		this.routes.get("/:id", this.getBoard)
 		this.routes.get("/", this.getBoards)
 	}
@@ -29,7 +29,7 @@ export default class boardRoutes {
 
 		const boardId = await this.boardController.create(title, desc, req.user.id)
 
-		return res.status(200).send({
+		return res.status(201).send({
 			message: `New "${title}" board created`,
 			board: boardId.toString("hex")
 		})
