@@ -17,4 +17,5 @@ instance.get("/")
 	})
 	.catch((err) => {
 		console.log("Not working")
+		process.exit(1)
 	})

@@ -14,7 +14,7 @@ export default class columnRoutes {
 
 		this.routes.post("/:board", this.create)
 		this.routes.put("/:id", this.update)
-		this.routes.put("/move/:board/:id", this.move)
+		this.routes.patch("/:id", this.move)
 		this.routes.delete("/:id", this.delete)
 		this.routes.get("/:board", this.getBoardColumns)
 	}
@@ -101,12 +101,12 @@ export default class columnRoutes {
 	move = async (req: Request, res: Response) => {
 		if (!req.body.position)
 			return res.status(400).send({message: "New position not specified"})
-		if (!req.params.board)
+		if (!req.body.board)
 			return res.status(400).send({message: "Board not specified"})
 		if (!req.params.id)
 			return res.status(400).send({message: "Column not specified"})	
 
-		const boardId = Buffer.from(req.params.board, "hex")
+		const boardId = Buffer.from(req.body.board, "hex")
 		const board = await this.boardController.getBoardById(boardId)
 		if (!board)
 			return res.status(404).send({message: "Board not found"})
