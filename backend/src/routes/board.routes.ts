@@ -16,7 +16,7 @@ export default class boardRoutes {
 		this.routes.get("/:id", this.getBoard)
 		this.routes.get("/", this.getBoards)
 		//this.routes.get("/:id/columns")
-		//this.routes.post("/:id/theme")
+		//this.routes.patch("/:id/theme")
 	}
 
 	create = async (req: Request, res: Response) => {
