@@ -7,12 +7,13 @@ const instance = Axios.create({
 	baseURL: `${URL}:${PORT}`
 })
 
-instance.get("/")
+fetch(`${URL}:${PORT}/`)
 	.then((resp) => {
-		if (resp.data == "Working." && resp.status == 200)
+		if (resp.status == 200)
 			console.log("Working")
-		else
-			throw resp
+		else {
+			process.exit(1)
+		}
 		process.exit(0)
 	})
 	.catch((err) => {
