@@ -1,5 +1,8 @@
 .htmwb
 
+# Testing
+cypress/cypress/screenshots
+
 # Backend
 backend/node_modules
 backend/public/delivers/

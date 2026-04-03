@@ -44,18 +44,21 @@ const HrForm = ({ title, fields, buttons, onSubmit = ()=>{}, onClose, submitText
 									<textarea
 										className="form-input form-textarea"
 										{...register(field.name, options)}	
+										id={field.name}
 									></textarea>
 								: field.type === "button" ?
 									<button
 										type="button"
 										className="form-button"
 										onClick={() => field.onClick()}
+										id={field.name}
 									>{field.text}</button>
 								: field.type === "select" ?
 									<select
 										className="form-select"
 										name={field.name}
 										{...register(field.name, options)}
+										id={field.name}
 									>
 										{field.options.map((option) => 
 											<option value={option.value}>{option.label}</option>
@@ -70,12 +73,14 @@ const HrForm = ({ title, fields, buttons, onSubmit = ()=>{}, onClose, submitText
 										registerFunc={register}
 										options={options}
 										control={control}
+										id={field.name}
 									/>
 								:
 									<input
 										className="form-input" 
 										name={field.name}
 										type={field.type}
+										id={field.name}
 										{...register(field.name, options)}	
 									/>
 							}
@@ -95,7 +100,7 @@ const HrForm = ({ title, fields, buttons, onSubmit = ()=>{}, onClose, submitText
 								type="button"
 							>CANCEL</button>
 						}
-						<input className="form-submit" type="submit" value={submitText ?? "SUBMIT"}/>
+						<input className="form-submit" id={`${title}-submit-button`} type="submit" value={submitText ?? "SUBMIT"}/>
 					</div>
 				}
 			</form>

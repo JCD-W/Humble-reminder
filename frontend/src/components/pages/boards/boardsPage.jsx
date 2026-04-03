@@ -71,7 +71,7 @@ const BoardsPage = () => {
 				pages={calculatePages()}
 				onPageChange={changePage}
 			/>
-			<main className="screen-centered main-boards-container">
+			<main className="screen-centered main-boards-container" id="boards-container">
 				{finishedFetching ?
 					boards.length < 1 ?
 						<>

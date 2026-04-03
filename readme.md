@@ -13,7 +13,7 @@ This simple project took me a total of **32 days** to develope.
 git clone https://github.com/JCD-W/Humble-reminder.git
 cd Humble-reminder
 # Build the images and run
-docker compose build
+docker compose --profile (dev or prod) build
 docker compose --profile (dev or prod) up -d
 # Stop
 docker compose --profile (dev or prod) down
