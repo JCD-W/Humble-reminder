@@ -54,6 +54,7 @@ services:
     environment:
       - CHOKIDAR_USEPOLLING=true
       - WATCHPACK_POLLING=true
+      - BACKEND_URI=http://host.docker.internal:3000
     depends_on:
       - backend
   frontend:
@@ -67,18 +68,5 @@ services:
       - 4000:4000
     depends_on:
       - backend
-  cypress:
-    image: cypress/included:latest
-    depends_on:
-      - backend
-      - frontend-dev
-    environment:
-      - CYPRESS_BASE_URL=http://host.docker.internal:4000
-    profiles:
-      - prod
-      - dev
-    volumes:
-      - ./cypress:/cypress
-    working_dir: /cypress
 volumes:
   database:

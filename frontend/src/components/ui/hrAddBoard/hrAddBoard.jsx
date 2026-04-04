@@ -12,6 +12,7 @@ const HrAddBoard = () => {
 		<>
 			<button 
 				className="add-board-container"
+				id="add-board-button"
 				title="Create new board"
 				onClick={() => setShowCreateBoardForm(true)}
 			>

@@ -67,6 +67,7 @@ const HrHeader = ({ title, back, editable, onEdit, onOpenArchive }) => {
 				}`}>
 					<button 
 						className="hr-header-button hr-header-menu-button"
+						id="header-session-menu"
 						onClick={() => setShowUserMenu(!showUserMenu)}
 					>
 						<FaRegUser/>
@@ -84,6 +85,7 @@ const HrHeader = ({ title, back, editable, onEdit, onOpenArchive }) => {
 							<button 
 								className="hr-header-submenu-button hr-header-menu-button"
 								onClick={() => closeSession()}
+								id="header-close-session"
 							>
 								<span className="hr-header-label">Close session</span>
 							</button>
