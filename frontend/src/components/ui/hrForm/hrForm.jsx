@@ -100,7 +100,12 @@ const HrForm = ({ title, fields, buttons, onSubmit = ()=>{}, onClose, submitText
 								type="button"
 							>CANCEL</button>
 						}
-						<input className="form-submit" id={`${title}-submit-button`} type="submit" value={submitText ?? "SUBMIT"}/>
+						<input 
+							className="form-submit" 
+							id={`${title.replaceAll(" ", "-")}-submit-button`} 
+							type="submit" 
+							value={submitText ?? "SUBMIT"}
+						/>
 					</div>
 				}
 			</form>

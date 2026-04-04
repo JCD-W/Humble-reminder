@@ -37,7 +37,7 @@ const HrHeader = ({ title, back, editable, onEdit, onOpenArchive }) => {
 	return (
 		<header className="hr-header">
 			{back && 
-				<Link className="hr-header-back" to={back}>
+				<Link className="hr-header-back" to={back} id="header-back-button">
 					<FaAngleLeft size={24}/>
 				</Link>
 			}
