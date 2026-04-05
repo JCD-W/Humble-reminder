@@ -94,6 +94,7 @@ const HrHeader = ({ title, back, editable, onEdit, onOpenArchive }) => {
 
 					<button 
 						className="hr-header-button hr-header-menu-button"
+						id="header-open-archive-button"
 						onClick={() => {
 							setShowMenu(false)
 							onOpenArchive()

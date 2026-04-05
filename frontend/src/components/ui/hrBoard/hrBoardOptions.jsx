@@ -7,6 +7,7 @@ const HrBoardOptions = ({ onArchive, onEdit }) => {
 		<div className="board-options-container">
 			<button
 				className="board-menu-options-button"
+				id="board-menu-edit-button"
 				onClick={onEdit}
 			>
 				<label>Edit</label>
@@ -14,6 +15,7 @@ const HrBoardOptions = ({ onArchive, onEdit }) => {
 			</button>
 			<button
 				className="board-menu-options-button"
+				id="board-menu-archive-button"
 				onClick={onArchive}
 			>
 				<label>Archive</label>

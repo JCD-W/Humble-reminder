@@ -68,7 +68,7 @@ const HrBoard = ({ data, refreshFunc }) => {
 					}
 				</div>
 				<p className="board-description-box">{data.description}</p>
-				<span className="board-date" id="last-viewed">Last viewed {lastViewedDate.toLocaleString()}</span>
+				<span className="board-date last-viewed">Last viewed {lastViewedDate.toLocaleString()}</span>
 			</div>
 			{showEditForm && <HrEditBoardForm
 				onClose={() => setShowEditForm(false)}

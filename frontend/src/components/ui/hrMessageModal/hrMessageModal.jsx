@@ -14,6 +14,7 @@ const HrMessageModal = () => {
 			{type === QUESTION_MESSAGE ?
 				<div className="message-modal-buttons">
 					<button
+						id="message-question-yes"
 						onClick={() => {
 							onAccepted()
 							hideMessage()
@@ -21,6 +22,7 @@ const HrMessageModal = () => {
 						className="message-modal-button" 
 					>YES</button>
 					<button
+						id="message-question-no"
 						onClick={() => hideMessage()}
 						className="message-modal-button" 
 					>NO</button>

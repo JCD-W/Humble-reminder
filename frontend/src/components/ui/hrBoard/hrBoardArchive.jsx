@@ -43,21 +43,21 @@ const HrBoardArchive = ({ board, onRefresh }) => {
 				}}
 			>
 				<div className="board-header-container">
-					<span className="board-title">{board.title}</span>
+					<span className="board-title board-archive-title">{board.title}</span>
 					<span className="board-date">{creationDate.toLocaleDateString()}</span>
 				</div>
 				<p className="board-description-box">{board.description}</p>
 			</div>
 			<div className="restore-buttons">
 				<button
-					className="restore-button"
+					className="restore-button archive-restore-button"
 					onClick={handleRestoreBoard}
 				>
 					<FaRedo className="restore-button-icon"/>
 					<span>RESTORE</span>
 				</button>
 				<button
-					className="restore-button"
+					className="restore-button archive-delete-button"
 					onClick={handleDeleteBoard}
 				>
 					<FaTrash className="restore-button-icon"/>
